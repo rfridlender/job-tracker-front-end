@@ -1,6 +1,40 @@
+import { Category, Status } from './enums';
+import { Contractor } from './models';
+
 /* ---------==== custom forms ====--------- */
 
+export interface ContractorFormData {
+  companyName: string;
+  contactName: string;
+  phoneNumber: string;
+  email: string;
+}
 
+export interface JobFormData {
+    address: string;
+    status: Status;
+    lockStatus: string;
+    shelvingStatus: string;
+    showerStatus: string;
+    mirrorStatus: string;
+    contractor: Contractor;
+    jobSiteAccess: string;
+}
+
+export interface PhotoFormData {
+  photo: File | null;
+}
+
+export interface WorkLogFormData {
+  category: Category;
+  workDate: Date;
+  startTime: number;
+  endTime: number;
+  workCompleted: string;
+  completed: boolean;
+  incompleteItems: string;
+  keyNumber: string;
+}
 
 /* ---------===== auth forms =====--------- */
 
@@ -20,8 +54,4 @@ export interface ChangePasswordFormData {
   oldPassword: string;
   newPassword: string;
   newPasswordConf: string;
-}
-
-export interface PhotoFormData {
-  photo: File | null;
 }

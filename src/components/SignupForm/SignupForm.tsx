@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import * as authService from '../../services/authService';
 import styles from './SignupForm.module.scss';
 import { AuthFormProps } from '../../types/props';
-import { SignupFormData, PhotoFormData } from '../../types/forms';
+import { SignupFormData } from '../../types/forms';
 import { handleErrMsg } from '../../types/validators';
 
 const SignupForm = (props: AuthFormProps): JSX.Element => {
@@ -17,18 +17,11 @@ const SignupForm = (props: AuthFormProps): JSX.Element => {
     password: '',
     passwordConf: '',
   });
-  // const [photoData, setPhotoData] = useState<PhotoFormData>({
-  //   photo: null
-  // });
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     updateMessage('');
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
   }
-
-  // const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
-  //   if (evt.target.files) setPhotoData({ photo: evt.target.files.item(0) });
-  // }
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
@@ -103,17 +96,6 @@ const SignupForm = (props: AuthFormProps): JSX.Element => {
           onChange={handleChange}
         />
       </div>
-      {/* <div className={styles.inputContainer}>
-        <label htmlFor="photo-upload" className={styles.label}>
-          Upload Photo
-        </label>
-        <input
-          type="file"
-          id="photo-upload"
-          name="photo"
-          onChange={handleChangePhoto}
-        />
-      </div> */}
       <div className={styles.inputContainer}>
         <button 
           disabled={isFormInvalid() || isSubmitted} 

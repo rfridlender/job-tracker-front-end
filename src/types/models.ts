@@ -1,4 +1,7 @@
+import { Category, Status } from './enums';
+
 /* ---------===== custom props ====--------- */
+
 
 
 
@@ -40,14 +43,6 @@ export interface Job {
   createdAt: Date;
 }
 
-enum Status {
-  UPCOMING,
-  INCOMPLETE,
-  COMPLETE,
-  INVOICED,
-  PAID
-}
-
 export interface WorkLog {
   id: number;
   submittedAt: Date;
@@ -61,12 +56,4 @@ export interface WorkLog {
   completed: boolean;
   incompleteItems: string;
   keyNumber: string;
-}
-
-enum Category {
-  LOCKS_AND_HARDWARE,
-  SHELVING,
-  SHOWER_ENCLOSURES,
-  MIRRORS,
-  OTHER
 }

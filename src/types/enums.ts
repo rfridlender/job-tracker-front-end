@@ -1,0 +1,15 @@
+export enum Status {
+  UPCOMING,
+  INCOMPLETE,
+  COMPLETE,
+  INVOICED,
+  PAID
+}
+
+export enum Category {
+  LOCKS_AND_HARDWARE,
+  SHELVING,
+  SHOWER_ENCLOSURES,
+  MIRRORS,
+  OTHER
+}

@@ -1,8 +1,6 @@
-// npm modules
-import { NavLink } from 'react-router-dom'
-
-// types
-import { User } from '../../types/models'
+import { NavLink } from 'react-router-dom';
+import { User } from '../../types/models';
+import styles from './NavBar.module.scss';
 
 interface NavBarProps {
   user: User | null;
@@ -10,25 +8,23 @@ interface NavBarProps {
 }
 
 const NavBar = (props: NavBarProps): JSX.Element => {
-  const { user, handleLogout } = props
+  const { user, handleLogout } = props;
   
   return (
-    <nav>
+    <nav className={styles.container}>
       {user ?
-        <ul>
-          <li>Welcome, {user.name}</li>
-          <li><NavLink to="/profiles">Profiles</NavLink></li>
-          <li><NavLink to="/change-password">Change Password</NavLink></li>
-          <li><NavLink to="" onClick={handleLogout}>LOG OUT</NavLink></li>
-        </ul>
+        <div>
+          <NavLink to="/change-password">Change Password</NavLink>
+          <NavLink to="" onClick={handleLogout}>LOG OUT</NavLink>
+        </div>
       :
-        <ul>
-          <li><NavLink to="/login">Log In</NavLink></li>
-          <li><NavLink to="/signup">Sign Up</NavLink></li>
-        </ul>
+        <div>
+          <NavLink to="/login">Log In</NavLink>
+          <NavLink to="/signup">Sign Up</NavLink>
+        </div>
       }
     </nav>
-  )
+  );
 }
 
-export default NavBar
+export default NavBar;

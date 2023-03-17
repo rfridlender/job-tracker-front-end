@@ -1,48 +1,41 @@
-// npm modules
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-
-// services
-import styles from './LoginForm.module.css'
-
-// stylesheets
-import * as authService from '../../services/authService'
-
-// types
-import { AuthFormProps } from '../../types/props'
-import { LoginFormData } from '../../types/forms'
-import { handleErrMsg } from '../../types/validators'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import styles from './LoginForm.module.scss';
+import * as authService from '../../services/authService';
+import { AuthFormProps } from '../../types/props';
+import { LoginFormData } from '../../types/forms';
+import { handleErrMsg } from '../../types/validators';
 
 const LoginForm = (props: AuthFormProps): JSX.Element => {
-  const {updateMessage, handleAuthEvt} = props
-  const navigate = useNavigate()
+  const { updateMessage, handleAuthEvt } = props;
+  const navigate = useNavigate();
 
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
-  })
+  });
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
-    updateMessage('')
-    setFormData({ ...formData, [evt.target.name]: evt.target.value })
+    updateMessage('');
+    setFormData({ ...formData, [evt.target.name]: evt.target.value });
   }
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
-    evt.preventDefault()
+    evt.preventDefault();
     try {
-      await authService.login(formData)
-      handleAuthEvt()
-      navigate('/')
+      await authService.login(formData);
+      handleAuthEvt();
+      navigate('/jobs');
     } catch (err) {
-      console.log(err)
-      handleErrMsg(err, updateMessage)
+      console.log(err);
+      handleErrMsg(err, updateMessage);
     }
   }
 
   const { email, password } = formData
 
   const isFormInvalid = (): boolean => {
-    return !(email && password)
+    return !(email && password);
   }
 
   return (
@@ -80,7 +73,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
         </Link>
       </div>
     </form>
-  )
+  );
 }
 
-export default LoginForm
+export default LoginForm;

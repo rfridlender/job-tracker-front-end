@@ -4,19 +4,69 @@
 
 /* ---------===== auth models =====--------- */
 
-export interface Profile {
-  name: string;
-  photo?: string;
-  id: number;
-  createdAt: string;
-  updatedAt: string;
-}
-
 export interface User {
+  id: number;
   name: string;
   email: string;
-  profile: { id: number };
+  role: Role;
+}
+
+enum Role {
+  USER,
+  ADMIN
+}
+
+export interface Contractor {
   id: number;
-  createdAt: string;
-  updatedAt: string;
+  companyName: string;
+  contactName: string;
+  phoneNumber: string;
+  email: string;
+}
+
+export interface Job {
+  id: number;
+  address: string;
+  status: Status;
+  lockStatus: string;
+  shelvingStatus: string;
+  showerStatus: string;
+  mirrorStatus: string;
+  workLogs: WorkLog[];
+  contractor: Contractor;
+  takeoff: string;
+  jobSiteAccess: string;
+  createdBy: string;
+  createdAt: Date;
+}
+
+enum Status {
+  UPCOMING,
+  INCOMPLETE,
+  COMPLETE,
+  INVOICED,
+  PAID
+}
+
+export interface WorkLog {
+  id: number;
+  submittedAt: Date;
+  employeeName: string;
+  category: Category;
+  workDate: Date;
+  startTime: Date;
+  endTime: Date;
+  hourDifference: number;
+  workCompleted: string;
+  completed: boolean;
+  incompleteItems: string;
+  keyNumber: string;
+}
+
+enum Category {
+  LOCKS_AND_HARDWARE,
+  SHELVING,
+  SHOWER_ENCLOSURES,
+  MIRRORS,
+  OTHER
 }

@@ -1,21 +1,15 @@
-// npm modules
-import { useState } from 'react'
+import { useState } from 'react';
+import ChangePasswordForm from '../../components/ChangePasswordForm/ChangePasswordForm';
+import styles from './ChangePassword.module.scss';
 
-// components
-import ChangePasswordForm from '../../components/ChangePasswordForm/ChangePasswordForm'
-
-// stylesheets
-import styles from './ChangePassword.module.css'
-
-// types
 interface ChangePasswordProps {
   handleAuthEvt: () => void;
 }
 
 const ChangePassword = (props: ChangePasswordProps): JSX.Element => {
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
 
-  const updateMessage = (msg: string): void => setMessage(msg)
+  const updateMessage = (msg: string): void => setMessage(msg);
 
   return (
     <main className={styles.container}>
@@ -23,7 +17,7 @@ const ChangePassword = (props: ChangePasswordProps): JSX.Element => {
       <p>{message}</p>
       <ChangePasswordForm {...props} updateMessage={updateMessage} />
     </main>
-  )
+  );
 }
 
-export default ChangePassword
+export default ChangePassword;

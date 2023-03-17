@@ -1,61 +1,54 @@
-// npm modules
-import { useState } from 'react'
-import { Link, useNavigate } from 'react-router-dom'
-
-// services
-import * as authService from '../../services/authService'
-
-// stylesheets
-import styles from './SignupForm.module.css'
-
-// types
-import { AuthFormProps } from '../../types/props'
-import { SignupFormData, PhotoFormData } from '../../types/forms'
-import { handleErrMsg } from '../../types/validators'
+import { useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import * as authService from '../../services/authService';
+import styles from './SignupForm.module.scss';
+import { AuthFormProps } from '../../types/props';
+import { SignupFormData, PhotoFormData } from '../../types/forms';
+import { handleErrMsg } from '../../types/validators';
 
 const SignupForm = (props: AuthFormProps): JSX.Element => {
-  const {updateMessage, handleAuthEvt} = props
-  const navigate = useNavigate()
+  const { updateMessage, handleAuthEvt } = props;
+  const navigate = useNavigate();
 
-  const [isSubmitted, setIsSubmitted] = useState(false)
+  const [isSubmitted, setIsSubmitted] = useState(false);
   const [formData, setFormData] = useState<SignupFormData>({
     name: '',
     email: '',
     password: '',
     passwordConf: '',
-  })
-  const [photoData, setPhotoData] = useState<PhotoFormData>({
-    photo: null
-  })
+  });
+  // const [photoData, setPhotoData] = useState<PhotoFormData>({
+  //   photo: null
+  // });
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    updateMessage('')
-    setFormData({ ...formData, [evt.target.name]: evt.target.value })
+    updateMessage('');
+    setFormData({ ...formData, [evt.target.name]: evt.target.value });
   }
 
-  const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    if (evt.target.files) setPhotoData({ photo: evt.target.files.item(0) })
-  }
+  // const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
+  //   if (evt.target.files) setPhotoData({ photo: evt.target.files.item(0) });
+  // }
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
-    evt.preventDefault()
-    if(isSubmitted) return
+    evt.preventDefault();
+    if(isSubmitted) return;
     try {
-      setIsSubmitted(true)
-      await authService.signup(formData, photoData)
-      handleAuthEvt()
-      navigate('/')
+      setIsSubmitted(true);
+      await authService.signup(formData);
+      handleAuthEvt();
+      navigate('/jobs');
     } catch (err) {
-      console.log(err)
-      handleErrMsg(err, updateMessage)
-      setIsSubmitted(false)
+      console.log(err);
+      handleErrMsg(err, updateMessage);
+      setIsSubmitted(false);
     }
   }
 
-  const { name, email, password, passwordConf } = formData
+  const { name, email, password, passwordConf } = formData;
 
   const isFormInvalid = (): boolean => {
-    return !(name && email && password && password === passwordConf)
+    return !(name && email && password && password === passwordConf);
   }
 
   return (
@@ -110,7 +103,7 @@ const SignupForm = (props: AuthFormProps): JSX.Element => {
           onChange={handleChange}
         />
       </div>
-      <div className={styles.inputContainer}>
+      {/* <div className={styles.inputContainer}>
         <label htmlFor="photo-upload" className={styles.label}>
           Upload Photo
         </label>
@@ -120,7 +113,7 @@ const SignupForm = (props: AuthFormProps): JSX.Element => {
           name="photo"
           onChange={handleChangePhoto}
         />
-      </div>
+      </div> */}
       <div className={styles.inputContainer}>
         <button 
           disabled={isFormInvalid() || isSubmitted} 
@@ -133,7 +126,7 @@ const SignupForm = (props: AuthFormProps): JSX.Element => {
         </Link>
       </div>
     </form>
-  )
+  );
 }
 
-export default SignupForm
+export default SignupForm;

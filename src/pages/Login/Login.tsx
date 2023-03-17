@@ -1,21 +1,15 @@
-// npm modules
-import { useState } from 'react'
+import { useState } from 'react';
+import LoginForm from '../../components/LoginForm/LoginForm';
+import styles from './Login.module.scss';
 
-// components
-import LoginForm from '../../components/LoginForm/LoginForm'
-
-// stylesheets
-import styles from './Login.module.css'
-
-// types
 interface LoginPageProps {
   handleAuthEvt: () => void;
 } 
 
 const LoginPage = (props: LoginPageProps): JSX.Element => {
-  const [message, setMessage] = useState('')
+  const [message, setMessage] = useState('');
 
-  const updateMessage = (msg: string): void => setMessage(msg)
+  const updateMessage = (msg: string): void => setMessage(msg);
 
   return (
     <main className={styles.container}>
@@ -23,7 +17,7 @@ const LoginPage = (props: LoginPageProps): JSX.Element => {
       <p>{message}</p>
       <LoginForm {...props} updateMessage={updateMessage} />
     </main>
-  )
+  );
 }
 
-export default LoginPage
+export default LoginPage;

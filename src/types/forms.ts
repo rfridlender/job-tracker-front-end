@@ -17,7 +17,7 @@ export interface JobFormData {
     shelvingStatus: string;
     showerStatus: string;
     mirrorStatus: string;
-    contractor: Contractor;
+    contractor: Contractor | null;
     jobSiteAccess: string;
 }
 

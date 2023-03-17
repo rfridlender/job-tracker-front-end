@@ -32,7 +32,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
     }
   }
 
-  const { email, password } = formData
+  const { email, password } = formData;
 
   const isFormInvalid = (): boolean => {
     return !(email && password);

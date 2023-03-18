@@ -23,12 +23,17 @@
       flex-flow: column;
       justify-content: flex-start;
       align-items: center;
+      background-color: black;
       > main {
+        background-color: white;
         width: 100%;
+        max-width: 1440px;
         height: calc(100% - 4rem);
         display: flex;
-        justify-content: center;
-        align-items: flex-start;
+        flex-flow: column;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 1rem;
       }
     }
   }

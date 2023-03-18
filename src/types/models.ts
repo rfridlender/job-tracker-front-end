@@ -1,4 +1,4 @@
-import { Category, Status } from './enums';
+import { Category, Role, Status } from './enums';
 
 /* ---------===== custom props ====--------- */
 
@@ -14,17 +14,13 @@ export interface User {
   role: Role;
 }
 
-enum Role {
-  USER,
-  ADMIN
-}
-
 export interface Contractor {
   id: number;
   companyName: string;
   contactName: string;
   phoneNumber: string;
   email: string;
+  createdAt: Date;
 }
 
 export interface Job {
@@ -56,4 +52,5 @@ export interface WorkLog {
   completed: boolean;
   incompleteItems: string;
   keyNumber: string;
+  createdAt: Date;
 }

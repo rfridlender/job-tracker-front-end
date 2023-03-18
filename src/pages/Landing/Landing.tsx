@@ -1,5 +1,4 @@
 import styles from './Landing.module.scss';
-import { User } from '../../types/models';
 
 interface LandingProps {
 

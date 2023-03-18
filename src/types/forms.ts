@@ -4,6 +4,7 @@ import { Contractor } from './models';
 /* ---------==== custom forms ====--------- */
 
 export interface ContractorFormData {
+  id: number;
   companyName: string;
   contactName: string;
   phoneNumber: string;

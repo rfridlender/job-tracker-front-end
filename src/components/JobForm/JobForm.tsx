@@ -47,87 +47,47 @@ const JobForm = (): JSX.Element => {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <div className={styles.inputContainer}>
-        <label htmlFor="address" className={styles.label}>Address</label>
-        <input
-          type="text"
-          id="address"
-          value={address}
-          name="address"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor="status">Status</label>
-        <select name="status" id="status" onChange={handleChange} required>
-          {Object.values(Status).map((status, idx) => (
-            <option key={idx} value={status}>{idx + 1}. {status}</option>
-          ))}
-        </select>
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor="lockStatus" className={styles.label}>Lock Status</label>
-        <input
-          type="text"
-          id="lockStatus"
-          value={lockStatus}
-          name="lockStatus"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor="shelvingStatus" className={styles.label}>Shelving Status</label>
-        <input
-          type="text"
-          id="shelvingStatus"
-          value={shelvingStatus}
-          name="shelvingStatus"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor="showerStatus" className={styles.label}>Shower Status</label>
-        <input
-          type="text"
-          id="showerStatus"
-          value={showerStatus}
-          name="showerStatus"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor="mirrorStatus" className={styles.label}>Mirror Status</label>
-        <input
-          type="text"
-          id="mirrorStatus"
-          value={mirrorStatus}
-          name="mirrorStatus"
-          onChange={handleChange}
-        />
-      </div>
-      {/* <div className={styles.inputContainer}>
-        <label htmlFor="contractor">contractor</label>
-        <select name="contractor" id="contractor" onChange={handleChange} required>
-          {.map((contractor, idx) => (
-            <option key={contractor} value={contractor}>{contractor.companyName}</option>
-          ))}
-        </select>
-      </div> */}
-      <div className={styles.inputContainer}>
-        <label htmlFor="jobSiteAccess" className={styles.label}>Job Site Access</label>
-        <input
-          type="text"
-          id="jobSiteAccess"
-          value={jobSiteAccess}
-          name="jobSiteAccess"
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <button disabled={isFormInvalid() || isSubmitted} className={styles.button}>
-          Plus Icon
-        </button>
-      </div>
+      <input
+        className={styles.inputContainer} type="text" id="address" value={address} name="address" onChange={handleChange} placeholder="Address"
+      />
+      <select className={styles.inputContainer} name="status" id="status" onChange={handleChange} required>
+        {Object.values(Status).map((status, idx) => (
+          <option key={status} value={status}>{idx + 1}. {status}</option>
+        ))}
+      </select>
+      <input
+        className={styles.inputContainer} type="text" id="lockStatus" 
+        value={lockStatus} name="lockStatus" onChange={handleChange} 
+        placeholder="Lock Status"
+      />
+      <input
+        className={styles.inputContainer} type="text" id="shelvingStatus" 
+        value={shelvingStatus} name="shelvingStatus" onChange={handleChange} 
+        placeholder="Shelving Status"
+      />
+      <input
+        className={styles.inputContainer} type="text" id="showerStatus" 
+        value={showerStatus} name="showerStatus" onChange={handleChange} 
+        placeholder="Shower Status"
+      />
+      <input
+        className={styles.inputContainer} type="text" id="mirrorStatus" 
+        value={mirrorStatus} name="mirrorStatus" onChange={handleChange} 
+        placeholder="Mirror Status"
+      />
+      {/* <select className={styles.inputContainer} name="contractor" id="contractor" onChange={handleChange} required>
+        {.map((contractor, idx) => (
+          <option key={contractor} value={contractor}>{contractor.companyName}</option>
+        ))}
+      </select> */}
+      <input
+        className={styles.inputContainer} type="text" id="jobSiteAccess" 
+        value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
+        placeholder="Job Site Access"
+      />
+      <button disabled={isFormInvalid() || isSubmitted} className={styles.button}>
+        Plus Icon
+      </button>
     </form>
   );
 }

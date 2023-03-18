@@ -8,7 +8,9 @@ import NavBar from './components/NavBar/NavBar';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
 import * as authService from './services/authService';
 import { User } from './types/models';
-import JobsIndex from './pages/JobsIndex/JobsIndex';
+import JobsIndex from './pages/JobList/JobList';
+import { Role } from './types/enums';
+import Admin from './pages/Admin/Admin';
 
 const App = (): JSX.Element => {
   const navigate = useNavigate();
@@ -46,6 +48,14 @@ const App = (): JSX.Element => {
           element={
             <ProtectedRoute user={user}>
               {user && <JobsIndex user={user} />}
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <ProtectedRoute user={user}>
+              {user?.role === Role.ADMIN && <Admin user={user} />}
             </ProtectedRoute>
           }
         />

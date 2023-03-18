@@ -12,14 +12,15 @@ export interface ContractorFormData {
 }
 
 export interface JobFormData {
-    address: string;
-    status: Status;
-    lockStatus: string;
-    shelvingStatus: string;
-    showerStatus: string;
-    mirrorStatus: string;
-    contractor: Contractor | null;
-    jobSiteAccess: string;
+  id: number;
+  address: string;
+  status: Status;
+  lockStatus: string;
+  shelvingStatus: string;
+  showerStatus: string;
+  mirrorStatus: string;
+  contractor: Contractor | undefined;
+  jobSiteAccess: string;
 }
 
 export interface PhotoFormData {
@@ -27,6 +28,7 @@ export interface PhotoFormData {
 }
 
 export interface WorkLogFormData {
+  id: number;
   category: Category;
   workDate: Date;
   startTime: number;

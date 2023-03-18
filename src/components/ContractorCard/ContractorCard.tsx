@@ -11,6 +11,7 @@ interface ContractorCardProps {
 
 const ContractorCard = (props: ContractorCardProps) => {
   const { contractor } = props;
+  
   const queryClient = useQueryClient();
 
   const [isBeingEdited, setIsBeingEdited] = useState(false);

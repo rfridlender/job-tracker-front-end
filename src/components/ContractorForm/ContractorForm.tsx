@@ -9,7 +9,7 @@ const ContractorForm = (): JSX.Element => {
   const queryClient = useQueryClient();
 
   const createContractor = useMutation({
-    mutationFn: contractorService.create,
+    mutationFn: () => contractorService.create(formData),
     onMutate: async (newContractor: ContractorFormData) => {
       await queryClient.cancelQueries(['contractors']);
       const previousContractors = queryClient.getQueryData<Contractor[]>(['contractors']);
@@ -69,12 +69,13 @@ const ContractorForm = (): JSX.Element => {
         autoComplete="off" placeholder="Contact Name" disabled={isSubmitted}
       />
       <input 
-        className={styles.inputContainer} type="text" id="phoneNumber" 
+        className={styles.inputContainer} type="tel" id="phoneNumber" 
         value={phoneNumber} name="phoneNumber" onChange={handleChange} 
-        autoComplete="off" placeholder="Phone Number" disabled={isSubmitted}
+        autoComplete="off" placeholder="000.000.0000" disabled={isSubmitted}
+        pattern="[0-9]{3}.[0-9]{3}.[0-9]{4}"
       />
       <input 
-        className={styles.inputContainer} type="text" id="email" 
+        className={styles.inputContainer} type="email" id="email" 
         value={email} name="email" onChange={handleChange} 
         autoComplete="off" placeholder="Email" disabled={isSubmitted}
       />

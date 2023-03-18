@@ -65,7 +65,7 @@ const SignupForm = (props: AuthFormProps): JSX.Element => {
           Email
         </label>
         <input
-          type="text"
+          type="email"
           id="email"
           value={email}
           name="email"

@@ -24,7 +24,7 @@ const ContractorCard = (props: ContractorCardProps) => {
   });
 
   const updateContractor = useMutation({
-    mutationFn: (formData: ContractorFormData) => contractorService.update(contractor.id, formData),
+    mutationFn: () => contractorService.update(contractor.id, formData),
     onMutate: async (updatedContractor: ContractorFormData) => {
       await queryClient.cancelQueries(['contractors']);
       const previousContractors = queryClient.getQueryData<Contractor[]>(['contractors']);

@@ -4,16 +4,47 @@ import * as jobService from '../../services/jobService';
 import * as contractorService from '../../services/contractorService';
 import { JobFormData, PhotoFormData } from '../../types/forms';
 import { Status } from '../../types/enums';
-import { Contractor } from '../../types/models';
-import { useQuery, useQueryClient } from '@tanstack/react-query';
+import { Contractor, Job } from '../../types/models';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
-const JobForm = (): JSX.Element => {
+interface JobFormProps {
+  contractors: Contractor[] | undefined;
+}
+
+const JobForm = (props: JobFormProps): JSX.Element => {
+  const { contractors } = props;
+
   const queryClient = useQueryClient();
-  
-  const { data, isLoading } = useQuery(['contractors'], contractorService.index);
-  
-  const contractors = data;
-  
+
+  const createJob = useMutation({
+    mutationFn: () => jobService.create(formData, photoData),
+    onMutate: async (newJob: JobFormData) => {
+      await queryClient.cancelQueries(['jobs']);
+      const previousJobs = queryClient.getQueryData<Job[]>(['jobs']);
+      previousJobs && queryClient.setQueryData(['jobs'], [newJob, ...previousJobs]);
+      return previousJobs;
+    },
+    onError: (err, newJob, context) => {
+      queryClient.setQueryData(['jobs'], context);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['jobs']);
+      setFormData({ 
+        id: 0,
+        address: '',
+        status: Status.UPCOMING,
+        lockStatus: '',
+        shelvingStatus: '',
+        showerStatus: '',
+        mirrorStatus: '',
+        contractor: undefined,
+        jobSiteAccess: '', 
+      });
+      setContractorFormData('');
+      setIsSubmitted(false);
+    },
+  });
+
   const [photoData, setPhotoData] = useState<PhotoFormData>({ photo: null });
   const [photoPreview, setPhotoPreview] = useState<string>('');
   const [formData, setFormData] = useState<JobFormData>({
@@ -27,12 +58,14 @@ const JobForm = (): JSX.Element => {
     contractor: undefined,
     jobSiteAccess: '',
   });
+  const [contractorFormData, setContractorFormData] = useState<string>('');
   const [isSubmitted, setIsSubmitted] = useState(false);
   
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     if (evt.target.name !== 'contractor') {
       setFormData({ ...formData, [evt.target.name]: evt.target.value });
     } else {
+      setContractorFormData(evt.target.value);
       setFormData({ ...formData, contractor: contractors?.find(contractor => contractor.id === parseInt(evt.target.value)) });
     }
   }
@@ -42,8 +75,7 @@ const JobForm = (): JSX.Element => {
     if(isSubmitted) return;
     try {
       setIsSubmitted(true);
-      console.log(formData);
-      await jobService.create(formData, photoData);
+      createJob.mutate(formData);
     } catch (err) {
       console.log(err);
     }
@@ -62,35 +94,35 @@ const JobForm = (): JSX.Element => {
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
       <input
-        className={styles.inputContainer} type="text" id="address" value={address} name="address" onChange={handleChange} placeholder="Address"
+        className={styles.inputContainer} type="text" id="address" value={address} name="address" onChange={handleChange} placeholder="Address" disabled={isSubmitted}
       />
-      <select className={styles.inputContainer} name="status" id="status" onChange={handleChange} required>
-        {Object.values(Status).map((status, idx) => (
+      <select className={styles.inputContainer} name="status" id="status" onChange={handleChange} value={status} disabled={isSubmitted}>
+        {Object.values(Status).map((status, idx, statuses) => (
           <option key={status} value={status}>{idx + 1}. {status}</option>
         ))}
       </select>
       <input
         className={styles.inputContainer} type="text" id="lockStatus" 
         value={lockStatus} name="lockStatus" onChange={handleChange} 
-        placeholder="Lock Status"
+        placeholder="Lock Status" disabled={isSubmitted}
       />
       <input
         className={styles.inputContainer} type="text" id="shelvingStatus" 
         value={shelvingStatus} name="shelvingStatus" onChange={handleChange} 
-        placeholder="Shelving Status"
+        placeholder="Shelving Status" disabled={isSubmitted}
       />
       <input
         className={styles.inputContainer} type="text" id="showerStatus" 
         value={showerStatus} name="showerStatus" onChange={handleChange} 
-        placeholder="Shower Status"
+        placeholder="Shower Status" disabled={isSubmitted}
       />
       <input
         className={styles.inputContainer} type="text" id="mirrorStatus" 
         value={mirrorStatus} name="mirrorStatus" onChange={handleChange} 
-        placeholder="Mirror Status"
+        placeholder="Mirror Status" disabled={isSubmitted}
       />
-      <select className={styles.inputContainer} name="contractor" id="contractor" onChange={handleChange} required>
-      <option defaultValue={undefined}>Builder</option>
+      <select className={styles.inputContainer} name="contractor" id="contractor" onChange={handleChange} value={contractorFormData} disabled={isSubmitted}>
+          <option value="">Builder</option>
         {contractors?.map(contractor => (
           <option key={contractor.id} value={contractor.id}>{contractor.companyName}</option>
         ))}
@@ -98,8 +130,13 @@ const JobForm = (): JSX.Element => {
       <input
         className={styles.inputContainer} type="text" id="jobSiteAccess" 
         value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
-        placeholder="Job Site Access"
+        placeholder="Job Site Access" disabled={isSubmitted}
       />
+
+
+      <div />
+
+      
       <button disabled={isFormInvalid() || isSubmitted} className={styles.button}>
         Plus Icon
       </button>

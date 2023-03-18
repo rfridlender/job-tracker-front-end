@@ -47,7 +47,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
       <div className={styles.inputContainer}>
         <label htmlFor="email" className={styles.label}>Email</label>
         <input
-          type="text"
+          type="email"
           id="email"
           value={formData.email}
           name="email"

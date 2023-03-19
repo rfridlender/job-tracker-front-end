@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import styles from './JobForm.module.scss';
 import * as jobService from '../../services/jobService';
-import * as contractorService from '../../services/contractorService';
 import { JobFormData, PhotoFormData } from '../../types/forms';
 import { Status } from '../../types/enums';
 import { Contractor, Job } from '../../types/models';
@@ -41,12 +40,11 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         jobSiteAccess: '', 
       });
       setContractorFormData('');
+      setPhotoData({ photo: null });
       setIsSubmitted(false);
     },
   });
 
-  const [photoData, setPhotoData] = useState<PhotoFormData>({ photo: null });
-  const [photoPreview, setPhotoPreview] = useState<string>('');
   const [formData, setFormData] = useState<JobFormData>({
     id: 0,
     address: '',
@@ -59,6 +57,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
     jobSiteAccess: '',
   });
   const [contractorFormData, setContractorFormData] = useState<string>('');
+  const [photoData, setPhotoData] = useState<PhotoFormData>({ photo: null });
   const [isSubmitted, setIsSubmitted] = useState(false);
   
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
@@ -68,6 +67,10 @@ const JobForm = (props: JobFormProps): JSX.Element => {
       setContractorFormData(evt.target.value);
       setFormData({ ...formData, contractor: contractors?.find(contractor => contractor.id === parseInt(evt.target.value)) });
     }
+  }
+
+  const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    evt.target.files && setPhotoData({ photo: evt.target.files.item(0) })
   }
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
@@ -93,14 +96,23 @@ const JobForm = (props: JobFormProps): JSX.Element => {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <input
-        className={styles.inputContainer} type="text" id="address" value={address} name="address" onChange={handleChange} placeholder="Address" disabled={isSubmitted}
-      />
       <select className={styles.inputContainer} name="status" id="status" onChange={handleChange} value={status} disabled={isSubmitted}>
         {Object.values(Status).map((status, idx, statuses) => (
           <option key={status} value={status}>{idx + 1}. {status}</option>
         ))}
       </select>
+      <input
+        className={styles.inputContainer} type="text" id="address" value={address} name="address" onChange={handleChange} placeholder="Address" disabled={isSubmitted}
+      />
+      <div className={styles.inputContainer} id={styles.photoUpload}>
+        <label htmlFor="photo-upload" className={photoData.photo?.name && styles.active}>{!photoData.photo ? 'Add Takeoff' : photoData.photo.name}</label>
+        <input
+          type="file"
+          id="photo-upload"
+          name="photo"
+          onChange={handleChangePhoto}
+        />
+      </div>
       <input
         className={styles.inputContainer} type="text" id="lockStatus" 
         value={lockStatus} name="lockStatus" onChange={handleChange} 
@@ -132,11 +144,6 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
         placeholder="Job Site Access" disabled={isSubmitted}
       />
-
-
-      <div />
-
-      
       <button disabled={isFormInvalid() || isSubmitted} className={styles.button}>
         Plus Icon
       </button>

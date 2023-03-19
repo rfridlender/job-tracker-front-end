@@ -1,12 +1,5 @@
 import { Category, Role, Status } from './enums';
 
-/* ---------===== custom props ====--------- */
-
-
-
-
-/* ---------===== auth models =====--------- */
-
 export interface User {
   id: number;
   name: string;
@@ -53,4 +46,8 @@ export interface WorkLog {
   incompleteItems: string;
   keyNumber: string;
   createdAt: Date;
+}
+
+export interface PhotoResponse {
+  photo: string;
 }

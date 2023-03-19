@@ -1,5 +1,5 @@
 import * as tokenService from './tokenService';
-import { Job, User } from '../types/models';
+import { Job, PhotoResponse, User } from '../types/models';
 import { JobFormData, PhotoFormData } from '../types/forms';
 
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/jobs`;
@@ -29,9 +29,10 @@ async function create(formData: JobFormData, photoFormData: PhotoFormData): Prom
     });
     const job = await res.json() as Job;
     if (photoFormData.photo) {
-      const photoData = new FormData()
-      photoData.append('photo', photoFormData.photo)
-      job.takeoff = await addPhoto(job.id, photoData)
+      const photoData = new FormData();
+      photoData.append('photo', photoFormData.photo);
+      const res = await addPhoto(job.id, photoData);
+      job.takeoff = res.photo;
     }
     return job;
   } catch (error) {
@@ -51,9 +52,10 @@ async function update(jobId: number, formData: JobFormData, photoFormData: Photo
     });
     const job = await res.json() as Job;
     if (photoFormData.photo) {
-      const photoData = new FormData()
-      photoData.append('photo', photoFormData.photo)
-      job.takeoff = await addPhoto(job.id, photoData)
+      const photoData = new FormData();
+      photoData.append('photo', photoFormData.photo);
+      const res = await addPhoto(job.id, photoData);
+      job.takeoff = res.photo;
     }
     return job;
   } catch (error) {
@@ -75,18 +77,18 @@ async function deleteJob(jobId: number): Promise<Job> {
   }
 }
 
-async function addPhoto( jobId: number, photoData: FormData): Promise<string> {
+async function addPhoto( jobId: number, photoData: FormData): Promise<PhotoResponse> {
   try {
     const res = await fetch(`${BASE_URL}/${jobId}/add-photo`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${tokenService.getToken()}`
       },
-      body: photoData
-    })
-    return await res.json() as string
+      body: photoData,
+    });
+    return await res.json() as PhotoResponse;
   } catch (error) {
-    throw error
+    throw error;
   }
 }
 

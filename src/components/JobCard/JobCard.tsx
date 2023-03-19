@@ -15,9 +15,10 @@ const JobCard = (props: JobCardProps) => {
   const { contractors, job } = props;
   const queryClient = useQueryClient();
 
+  const [areJobDetailsOpen, setAreJobDetailsOpen] = useState(false);
   const [isBeingEdited, setIsBeingEdited] = useState(false);
+  const [isTakeoffOpen, setIsTakeoffOpen] = useState(false);
   const [photoData, setPhotoData] = useState<PhotoFormData>({ photo: null });
-  const [photoPreview, setPhotoPreview] = useState<string>('');
   const [formData, setFormData] = useState<JobFormData>({
     id: job.id,
     address: job.address,
@@ -27,7 +28,7 @@ const JobCard = (props: JobCardProps) => {
     showerStatus: job.showerStatus,
     mirrorStatus: job.mirrorStatus,
     contractor: job.contractor,
-    jobSiteAccess: job.address,
+    jobSiteAccess: job.jobSiteAccess,
   });
   const [contractorFormData, setContractorFormData] = useState<string>(job.contractor.id.toString());
 
@@ -55,6 +56,10 @@ const JobCard = (props: JobCardProps) => {
       setFormData({ ...formData, contractor: contractors?.find(contractor => contractor.id === parseInt(evt.target.value)) });
     }
   }
+
+  const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    evt.target.files && setPhotoData({ photo: evt.target.files.item(0) })
+  }
   
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
@@ -78,66 +83,91 @@ const JobCard = (props: JobCardProps) => {
 
   if (isBeingEdited) {
     return (
-      <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <input
-        className={styles.inputContainer} type="text" id="address" value={address} name="address" onChange={handleChange} placeholder="Address"
-      />
-      <select className={styles.inputContainer} name="status" id="status" onChange={handleChange} required value={status}>
-        {Object.values(Status).map((status, idx) => (
-          <option key={status} value={status}>{idx + 1}. {status}</option>
-        ))}
-      </select>
-      <input
-        className={styles.inputContainer} type="text" id="lockStatus" 
-        value={lockStatus} name="lockStatus" onChange={handleChange} 
-        placeholder="Lock Status"
-      />
-      <input
-        className={styles.inputContainer} type="text" id="shelvingStatus" 
-        value={shelvingStatus} name="shelvingStatus" onChange={handleChange} 
-        placeholder="Shelving Status"
-      />
-      <input
-        className={styles.inputContainer} type="text" id="showerStatus" 
-        value={showerStatus} name="showerStatus" onChange={handleChange} 
-        placeholder="Shower Status"
-      />
-      <input
-        className={styles.inputContainer} type="text" id="mirrorStatus" 
-        value={mirrorStatus} name="mirrorStatus" onChange={handleChange} 
-        placeholder="Mirror Status"
-      />
-      <select className={styles.inputContainer} name="contractor" id="contractor" onChange={handleChange} value={contractorFormData}>
-        {contractors?.map(contractor => (
-          <option key={contractor.id} value={contractor.id}>{contractor.companyName}</option>
-        ))}
-      </select>
-      <input
-        className={styles.inputContainer} type="text" id="jobSiteAccess" 
-        value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
-        placeholder="Job Site Access"
-      />
-      <button disabled={isFormInvalid()} className={styles.button}>
-        Save
-      </button>
-      <div onClick={() => setIsBeingEdited(false)}>
-        Cancel
-      </div>
-    </form>
+      <form autoComplete="off" onSubmit={handleSubmit} className={styles.editContainer}>
+        <select 
+          className={styles.inputContainer} name="status" id="status" 
+          onChange={handleChange} required value={status}
+        >
+          {Object.values(Status).map((status, idx) => (
+            <option key={status} value={status}>{idx + 1}. {status}</option>
+          ))}
+        </select>
+        <input
+          className={styles.inputContainer} type="text" id="address" 
+          value={address} name="address" onChange={handleChange} 
+          placeholder="Address"
+        />
+        <div className={styles.inputContainer} id={styles.photoUpload}>
+          <label htmlFor="photo-upload" className={photoData.photo?.name && styles.active}>
+            {!photoData.photo ? 'Add Takeoff' : photoData.photo.name}
+          </label>
+          <input
+            type="file"
+            id="photo-upload"
+            name="photo"
+            onChange={handleChangePhoto}
+          />
+        </div>
+        <input
+          className={styles.inputContainer} type="text" id="lockStatus" 
+          value={lockStatus} name="lockStatus" onChange={handleChange} 
+          placeholder="Lock Status"
+        />
+        <input
+          className={styles.inputContainer} type="text" id="shelvingStatus" 
+          value={shelvingStatus} name="shelvingStatus" onChange={handleChange} 
+          placeholder="Shelving Status"
+        />
+        <input
+          className={styles.inputContainer} type="text" id="showerStatus" 
+          value={showerStatus} name="showerStatus" onChange={handleChange} 
+          placeholder="Shower Status"
+        />
+        <input
+          className={styles.inputContainer} type="text" id="mirrorStatus" 
+          value={mirrorStatus} name="mirrorStatus" onChange={handleChange} 
+          placeholder="Mirror Status"
+        />
+        <select 
+          className={styles.inputContainer} name="contractor" id="contractor" 
+          onChange={handleChange} value={contractorFormData}
+        >
+          {contractors?.map(contractor => (
+            <option key={contractor.id} value={contractor.id}>{contractor.companyName}</option>
+          ))}
+        </select>
+        <input
+          className={styles.inputContainer} type="text" id="jobSiteAccess" 
+          value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
+          placeholder="Job Site Access"
+        />
+        <div>
+          <button disabled={isFormInvalid()} className={styles.button}>Save</button>
+          <div onClick={() => setIsBeingEdited(false)}>Cancel</div>
+        </div>
+      </form>
     );
   } else {
     return (
       <article className={styles.container}>
-        <div>{job.address}</div>
-        <div>{job.status}</div>
-        <div>{job.lockStatus}</div>
-        <div>{job.shelvingStatus}</div>
-        <div>{job.showerStatus}</div>
-        <div>{job.mirrorStatus}</div>
-        <div>{job.contractor.contactName}</div>
-        <div>{job.jobSiteAccess}</div>
-        <div>{job.createdBy}</div>
-        <div onClick={() => setIsBeingEdited(true)}>Edit</div>
+        <div id={styles.overview} onClick={() => setAreJobDetailsOpen(!areJobDetailsOpen)}>
+          <div>{job.status}</div>
+          <div>{job.address}</div>
+          <div onClick={() => setIsTakeoffOpen(true)}>{job.takeoff && 'Takeoff'}</div>
+          {isTakeoffOpen && 
+            <div id={styles.takeoff} onClick={() => setIsTakeoffOpen(false)}>
+              <img src={job.takeoff} alt={`${job.address}'s Takeoff`} />
+            </div>
+          }
+          <div>{job.lockStatus}</div>
+          <div>{job.shelvingStatus}</div>
+          <div>{job.showerStatus}</div>
+          <div>{job.mirrorStatus}</div>
+          <div>{job.contractor.contactName}</div>
+          <div>{job.jobSiteAccess}</div>
+          <div onClick={() => setIsBeingEdited(true)}>Edit</div>
+        </div>
+        {areJobDetailsOpen && <div id={styles.details}>DETAILS</div>}
       </article>
     );
   }

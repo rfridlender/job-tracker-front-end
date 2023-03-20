@@ -1,18 +1,21 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
-import { Contractor, Job } from '../../types/models';
+import { Contractor, Job, User } from '../../types/models';
 import { JobFormData, PhotoFormData } from '../../types/forms';
 import styles from './JobCard.module.scss';
 import * as jobService from '../../services/jobService';
 import { Status } from '../../types/enums';
+import WorkLogList from '../WorkLogList/WorkLogList';
+import WorkLogForm from '../WorkLogForm/WorkLogForm';
 
 interface JobCardProps {
   contractors: Contractor[] | undefined;
   job: Job;
+  user: User;
 }
 
 const JobCard = (props: JobCardProps) => {
-  const { contractors, job } = props;
+  const { contractors, job, user } = props;
   const queryClient = useQueryClient();
 
   const [areJobDetailsOpen, setAreJobDetailsOpen] = useState(false);
@@ -163,11 +166,15 @@ const JobCard = (props: JobCardProps) => {
           <div>{job.shelvingStatus}</div>
           <div>{job.showerStatus}</div>
           <div>{job.mirrorStatus}</div>
-          <div>{job.contractor.contactName}</div>
+          <div>{job.contractor.companyName}</div>
           <div>{job.jobSiteAccess}</div>
           <div onClick={() => setIsBeingEdited(true)}>Edit</div>
         </div>
-        {areJobDetailsOpen && <div id={styles.details}>DETAILS</div>}
+        {areJobDetailsOpen && 
+          <div id={styles.details}>
+            <WorkLogList job={job} user={user} />
+          </div>
+        }
       </article>
     );
   }

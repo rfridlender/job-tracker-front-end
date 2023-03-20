@@ -87,11 +87,3 @@ const ContractorForm = (): JSX.Element => {
 }
 
 export default ContractorForm;
-
-// const createContractor = useMutation({
-//   mutationFn: contractorService.create,
-//   onSettled: () => {
-//     queryClient.invalidateQueries(['contractors']);
-//     setIsSubmitted(false);
-//   },
-// });

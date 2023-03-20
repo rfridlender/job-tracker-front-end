@@ -24,13 +24,11 @@ const JobList = (props: JobListProps) => {
 
   return (
     <main className={styles.container}>
-      <h1>JOBS</h1>
       <JobForm contractors={contractors} />
       {Object.values(Status).map(status => (
         <section key={status} id={styles[status.toLowerCase()]}>
-          <h2>{status}</h2>
           {jobs?.filter(job => job.status === status).map(job => (
-            <JobCard key={job.id} contractors={contractors} job={job} />
+            <JobCard key={job.id} contractors={contractors} job={job} user={user} />
           ))}
         </section>
       ))}

@@ -16,8 +16,7 @@ const App = (): JSX.Element => {
   const navigate = useNavigate();
 
   const [user, setUser] = useState<User | null>(authService.getUser());
-  console.log(user);
-  
+
   const handleLogout = (): void => {
     authService.logout();
     setUser(null);

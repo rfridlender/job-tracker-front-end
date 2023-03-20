@@ -97,7 +97,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
       <select className={styles.inputContainer} name="status" id="status" onChange={handleChange} value={status} disabled={isSubmitted}>
-        {Object.values(Status).map((status, idx, statuses) => (
+        {Object.values(Status).map((status, idx) => (
           <option key={status} value={status}>{idx + 1}. {status}</option>
         ))}
       </select>

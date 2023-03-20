@@ -30,9 +30,9 @@ export interface PhotoFormData {
 export interface WorkLogFormData {
   id: number;
   category: Category;
-  workDate: Date;
-  startTime: number;
-  endTime: number;
+  workDate: string;
+  startTime: string;
+  endTime: string;
   workCompleted: string;
   completed: boolean;
   incompleteItems: string;

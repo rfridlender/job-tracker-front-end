@@ -34,18 +34,17 @@ export interface Job {
 
 export interface WorkLog {
   id: number;
-  submittedAt: Date;
   employeeName: string;
   category: Category;
-  workDate: Date;
-  startTime: Date;
-  endTime: Date;
+  workDate: string;
+  startTime: string;
+  endTime: string;
   hourDifference: number;
   workCompleted: string;
   completed: boolean;
   incompleteItems: string;
   keyNumber: string;
-  createdAt: Date;
+  submittedAt: Date;
 }
 
 export interface PhotoResponse {

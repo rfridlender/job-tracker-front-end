@@ -1,0 +1,14 @@
+.container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: plum;
+  > * {
+    width: 100%;
+    border: 1px solid blue;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}

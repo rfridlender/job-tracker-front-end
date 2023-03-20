@@ -8,13 +8,12 @@ import { TiCancel, TiPlus } from 'react-icons/ti';
 
 interface ContractorFormProps {
   setIsContractorFormOpen?: (boolean: boolean) => void;
-  setIsBeingEdited?: (boolean: boolean) => void;
-  updateContractor?: UseMutationResult<Contractor, unknown, ContractorFormData, Contractor[]>;
   contractor?: Contractor;
+  setIsBeingEdited?: (boolean: boolean) => void;
 }
 
 const ContractorForm = (props: ContractorFormProps): JSX.Element => {
-  const { setIsContractorFormOpen, setIsBeingEdited, updateContractor, contractor } = props;
+  const { setIsContractorFormOpen, contractor, setIsBeingEdited } = props;
 
   const queryClient = useQueryClient();
 
@@ -23,7 +22,10 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     onMutate: async (newContractor: ContractorFormData) => {
       await queryClient.cancelQueries(['contractors']);
       const previousContractors = queryClient.getQueryData<Contractor[]>(['contractors']);
-      previousContractors && queryClient.setQueryData(['contractors'], [newContractor, ...previousContractors]);
+      previousContractors && queryClient.setQueryData(
+        ['contractors'], 
+        [newContractor, ...previousContractors]
+      );
       return previousContractors;
     },
     onError: (err, newContractor, context) => {
@@ -31,7 +33,27 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     },
     onSettled: () => {
       queryClient.invalidateQueries(['contractors']);
-      setFormData({ id: 0, companyName: '', contactName: '', phoneNumber: '', email: '' });
+    },
+  });
+
+  const updateContractor = useMutation({
+    mutationFn: () => contractorService.update(formData.id, formData),
+    onMutate: async (updatedContractor: ContractorFormData) => {
+      await queryClient.cancelQueries(['contractors']);
+      const previousContractors = queryClient.getQueryData<Contractor[]>(['contractors']);
+      previousContractors && queryClient.setQueryData(
+        ['contractors'], 
+        previousContractors.map(contractor => 
+          contractor.id !== updatedContractor.id ? contractor : updatedContractor
+        )
+      );
+      return previousContractors;
+    },
+    onError: (err, updatedContractor, context) => {
+      queryClient.setQueryData(['contractors'], context);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['contractors']);
     },
   });
 

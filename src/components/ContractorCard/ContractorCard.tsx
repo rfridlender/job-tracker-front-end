@@ -18,29 +18,9 @@ const ContractorCard = (props: ContractorCardProps) => {
 
   const [isBeingEdited, setIsBeingEdited] = useState(false);
 
-  const updateContractor = useMutation({
-    mutationFn: (formData) => contractorService.update(contractor.id, formData),
-    onMutate: async (updatedContractor: ContractorFormData) => {
-      await queryClient.cancelQueries(['contractors']);
-      const previousContractors = queryClient.getQueryData<Contractor[]>(['contractors']);
-      previousContractors && queryClient.setQueryData(['contractors'], previousContractors.map(contractor => updatedContractor.id !== contractor.id ? contractor : updatedContractor));
-      return previousContractors;
-    },
-    onError: (err, updatedContractor, context) => {
-      queryClient.setQueryData(['contractors'], context);
-    },
-    onSettled: () => {
-      queryClient.invalidateQueries(['contractors']);
-    },
-  });
-
   if (isBeingEdited) {
     return (
-      <ContractorForm 
-        setIsBeingEdited={setIsBeingEdited} 
-        updateContractor={updateContractor} 
-        contractor={contractor} 
-      />
+      <ContractorForm contractor={contractor} setIsBeingEdited={setIsBeingEdited} />
     );
   } else {
     return (

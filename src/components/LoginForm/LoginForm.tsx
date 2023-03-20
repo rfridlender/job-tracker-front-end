@@ -49,7 +49,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
         <input
           type="email"
           id="email"
-          value={formData.email}
+          value={email}
           name="email"
           onChange={handleChange}
         />
@@ -59,7 +59,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
         <input
           type="password"
           id="password"
-          value={formData.password}
+          value={password}
           name="password"
           onChange={handleChange}
         />

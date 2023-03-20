@@ -7,6 +7,8 @@ import * as jobService from '../../services/jobService';
 import { Status } from '../../types/enums';
 import WorkLogList from '../WorkLogList/WorkLogList';
 import WorkLogForm from '../WorkLogForm/WorkLogForm';
+import { TiEdit, TiMinus, TiDocumentText } from 'react-icons/ti';
+import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 
 interface JobCardProps {
   contractors: Contractor[] | undefined;
@@ -18,9 +20,11 @@ const JobCard = (props: JobCardProps) => {
   const { contractors, job, user } = props;
   const queryClient = useQueryClient();
 
-  const [areJobDetailsOpen, setAreJobDetailsOpen] = useState(false);
   const [isBeingEdited, setIsBeingEdited] = useState(false);
+  const [isBeingDeleted, setIsBeingDeleted] = useState(false);
   const [isTakeoffOpen, setIsTakeoffOpen] = useState(false);
+  const [areBuilderDetailsOpen, setAreBuilderDetailsOpen] = useState(false);
+  const [areJobDetailsOpen, setAreJobDetailsOpen] = useState(false);
   const [photoData, setPhotoData] = useState<PhotoFormData>({ photo: null });
   const [formData, setFormData] = useState<JobFormData>({
     id: job.id,
@@ -41,6 +45,22 @@ const JobCard = (props: JobCardProps) => {
       await queryClient.cancelQueries(['jobs']);
       const previousJobs = queryClient.getQueryData<Job[]>(['jobs']);
       previousJobs && queryClient.setQueryData(['jobs'], previousJobs.map(job => job.id !== updatedJob.id ? job : updatedJob));
+      return previousJobs;
+    },
+    onError: (err, updatedJob, context) => {
+      queryClient.setQueryData(['jobs'], context);
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries(['jobs']);
+    },
+  });
+
+  const deleteJob = useMutation({
+    mutationFn: () => jobService.delete(job.id),
+    onMutate: async () => {
+      await queryClient.cancelQueries(['jobs']);
+      const previousJobs = queryClient.getQueryData<Job[]>(['jobs']);
+      previousJobs && queryClient.setQueryData(['jobs'], previousJobs.filter(previousJob => previousJob.id !== job.id ? true : false));
       return previousJobs;
     },
     onError: (err, updatedJob, context) => {
@@ -74,6 +94,15 @@ const JobCard = (props: JobCardProps) => {
     }
   }
 
+  const handleDelete = () => {
+    try {
+      deleteJob.mutate();
+      setIsBeingDeleted(false);
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   const {
     address, status, 
     lockStatus, shelvingStatus, showerStatus, mirrorStatus, 
@@ -91,8 +120,8 @@ const JobCard = (props: JobCardProps) => {
           className={styles.inputContainer} name="status" id="status" 
           onChange={handleChange} required value={status}
         >
-          {Object.values(Status).map((status, idx) => (
-            <option key={status} value={status}>{idx + 1}. {status}</option>
+          {Object.values(Status).map(status => (
+            <option key={status} value={status}>{status}</option>
           ))}
         </select>
         <input
@@ -153,10 +182,21 @@ const JobCard = (props: JobCardProps) => {
   } else {
     return (
       <article className={styles.container}>
-        <div id={styles.overview} onClick={() => setAreJobDetailsOpen(!areJobDetailsOpen)}>
+        <div id={styles.overview}>
           <div>{job.status}</div>
-          <div>{job.address}</div>
-          <div onClick={() => setIsTakeoffOpen(true)}>{job.takeoff && 'Takeoff'}</div>
+          <div onClick={() => setAreJobDetailsOpen(!areJobDetailsOpen)}>
+            <div>{job.address}</div>
+            {!areJobDetailsOpen ?
+              <AiOutlineDown />
+              :
+              <AiOutlineUp />
+            }
+          </div>
+          {!job.takeoff ?
+            <div />
+            :  
+            <TiDocumentText onClick={() => setIsTakeoffOpen(true)} />
+          }
           {isTakeoffOpen && 
             <div id={styles.takeoff} onClick={() => setIsTakeoffOpen(false)}>
               <img src={job.takeoff} alt={`${job.address}'s Takeoff`} />
@@ -166,10 +206,39 @@ const JobCard = (props: JobCardProps) => {
           <div>{job.shelvingStatus}</div>
           <div>{job.showerStatus}</div>
           <div>{job.mirrorStatus}</div>
-          <div>{job.contractor.companyName}</div>
+          <div onClick={() => setAreBuilderDetailsOpen(!areBuilderDetailsOpen)}>
+            <div>{job.contractor.companyName}</div>
+            {!areBuilderDetailsOpen ?
+              <AiOutlineDown />
+              :
+              <AiOutlineUp />
+            }
+          </div>
           <div>{job.jobSiteAccess}</div>
-          <div onClick={() => setIsBeingEdited(true)}>Edit</div>
+          <div>
+            <TiEdit onClick={() => setIsBeingEdited(true)} />
+            <TiMinus onClick={() => setIsBeingDeleted(true)} />
+          </div>
+          {isBeingDeleted &&
+            <div id={styles.deleteOptions}>
+              <section>
+                <div>Are you sure you want to delete {job.address}?</div>
+                <div>
+                  <button onClick={handleDelete}>Delete</button>
+                  <button onClick={() => setIsBeingDeleted(false)}>Cancel</button>
+                </div>
+              </section>
+            </div>
+          }
         </div>
+        {areBuilderDetailsOpen &&
+          <div id={styles.builderDetails}>
+            <div>{job.contractor.companyName}</div>
+            <div>{job.contractor.contactName}</div>
+            <div>{job.contractor.phoneNumber}</div>
+            <div>{job.contractor.email}</div>
+          </div>
+        }
         {areJobDetailsOpen && 
           <div id={styles.details}>
             <WorkLogList job={job} user={user} />

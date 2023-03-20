@@ -2,10 +2,20 @@ import { useState } from 'react';
 import styles from './ContractorForm.module.scss';
 import * as contractorService from '../../services/contractorService';
 import { ContractorFormData } from '../../types/forms';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query';
 import { Contractor } from '../../types/models';
+import { TiCancel, TiPlus } from 'react-icons/ti';
 
-const ContractorForm = (): JSX.Element => {
+interface ContractorFormProps {
+  setIsContractorFormOpen?: (boolean: boolean) => void;
+  setIsBeingEdited?: (boolean: boolean) => void;
+  updateContractor?: UseMutationResult<Contractor, unknown, ContractorFormData, Contractor[]>;
+  contractor?: Contractor;
+}
+
+const ContractorForm = (props: ContractorFormProps): JSX.Element => {
+  const { setIsContractorFormOpen, setIsBeingEdited, updateContractor, contractor } = props;
+
   const queryClient = useQueryClient();
 
   const createContractor = useMutation({
@@ -22,18 +32,16 @@ const ContractorForm = (): JSX.Element => {
     onSettled: () => {
       queryClient.invalidateQueries(['contractors']);
       setFormData({ id: 0, companyName: '', contactName: '', phoneNumber: '', email: '' });
-      setIsSubmitted(false);
     },
   });
 
   const [formData, setFormData] = useState<ContractorFormData>({
-    id: 0,
-    companyName: '',
-    contactName: '',
-    phoneNumber: '',
-    email: '',
+    id: contractor ? contractor.id : 0,
+    companyName: contractor ? contractor.companyName : '',
+    contactName: contractor ? contractor.contactName : '',
+    phoneNumber: contractor ? contractor.phoneNumber : '',
+    email: contractor ? contractor.email : '',
   });
-  const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -41,12 +49,24 @@ const ContractorForm = (): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
-    if(isSubmitted) return;
     try {
-      setIsSubmitted(true);
-      createContractor.mutate(formData);
+      if (!contractor) {
+        createContractor.mutate(formData);
+        setIsContractorFormOpen && setIsContractorFormOpen(false);
+      } else {
+        updateContractor?.mutate(formData);
+        setIsBeingEdited && setIsBeingEdited(false);
+      }
     } catch (err) {
       console.log(err);
+    }
+  }
+
+  const handleCancelFunctions = () => {
+    if (!contractor) {
+      setIsContractorFormOpen && setIsContractorFormOpen(false);
+    } else {
+      setIsBeingEdited && setIsBeingEdited(false);
     }
   }
 
@@ -61,27 +81,30 @@ const ContractorForm = (): JSX.Element => {
       <input 
         className={styles.inputContainer} type="text" id="companyName"
         value={companyName} name="companyName" onChange={handleChange}
-        autoComplete="off" placeholder="Company Name" disabled={isSubmitted}
+        autoComplete="off" placeholder="Company Name"
       />
       <input 
         className={styles.inputContainer} type="text" id="contactName" 
         value={contactName} name="contactName" onChange={handleChange} 
-        autoComplete="off" placeholder="Contact Name" disabled={isSubmitted}
+        autoComplete="off" placeholder="Contact Name"
       />
       <input 
         className={styles.inputContainer} type="tel" id="phoneNumber" 
         value={phoneNumber} name="phoneNumber" onChange={handleChange} 
-        autoComplete="off" placeholder="000.000.0000" disabled={isSubmitted}
+        autoComplete="off" placeholder="000.000.0000"
         pattern="[0-9]{3}.[0-9]{3}.[0-9]{4}"
       />
       <input 
         className={styles.inputContainer} type="email" id="email" 
         value={email} name="email" onChange={handleChange} 
-        autoComplete="off" placeholder="Email" disabled={isSubmitted}
+        autoComplete="off" placeholder="Email"
       />
-      <button  className={styles.button} disabled={isFormInvalid() || isSubmitted}>
-        Plus Icon
-      </button>
+      <div>
+        <button disabled={isFormInvalid()} className={styles.button}>
+          <TiPlus />
+        </button>
+        <TiCancel onClick={handleCancelFunctions} />
+      </div>
     </form>
   );
 }

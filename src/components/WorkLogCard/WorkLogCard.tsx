@@ -107,12 +107,16 @@ const WorkLogCard = (props: WorkLogCardProps) => {
             autoComplete="off"
           />
         </div>
-        <input 
-          className={styles.inputContainer} type="text" id="incompleteItems" 
-          value={incompleteItems} name="incompleteItems" onChange={handleChange} 
-          autoComplete="off" placeholder="Incomplete Items"
-        />
-        {formData.category !== Category.LOCKS_AND_HARDWARE ? 
+        {completed ?
+          <div />
+          :
+          <input 
+            className={styles.inputContainer} type="text" id="incompleteItems" 
+            value={incompleteItems} name="incompleteItems" onChange={handleChange} 
+            autoComplete="off" placeholder="Incomplete Items"
+          />
+        }
+        {category !== Category.LOCKS ? 
           <div />
           :
           <input 

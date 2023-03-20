@@ -23,7 +23,7 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
       queryClient.invalidateQueries(['jobs']);
       setFormData({
         id: 0, 
-        category: Category.OTHER, 
+        category: Category.LOCKS, 
         workDate: new Date().toISOString().substring(0, 10), 
         startTime: "09:00",
         endTime: "17:00",
@@ -38,7 +38,7 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
 
   const [formData, setFormData] = useState<WorkLogFormData>({
     id: 0, 
-    category: Category.OTHER, 
+    category: Category.LOCKS, 
     workDate: new Date().toISOString().substring(0, 10), 
     startTime: "09:00",
     endTime: "17:00",
@@ -53,7 +53,7 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
     if (evt.target.name !== 'completed') {
       setFormData({ ...formData, [evt.target.name]: evt.target.value });
     } else {
-      setFormData({ ...formData, completed: !completed });
+      setFormData({ ...formData, completed: !completed, incompleteItems: '' });
     }
   }
 
@@ -120,7 +120,7 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
           autoComplete="off" disabled={isSubmitted}
         />
       </div>
-      {formData.completed ?
+      {completed ?
         <div />
         :
         <input 
@@ -129,8 +129,7 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
           autoComplete="off" placeholder="Incomplete Items" disabled={isSubmitted}
         />
       }
-
-      {formData.category !== Category.LOCKS_AND_HARDWARE ? 
+      {category !== Category.LOCKS ? 
         <div />
         :
         <input 

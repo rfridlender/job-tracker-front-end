@@ -6,6 +6,8 @@ import styles from './JobList.module.scss'
 import JobForm from '../../components/JobForm/JobForm';
 import JobCard from '../../components/JobCard/JobCard';
 import { Status } from '../../types/enums';
+import { useState } from 'react';
+import { TiPlus } from 'react-icons/ti';
 
 interface JobListProps {
   user: User;
@@ -18,13 +20,30 @@ const JobList = (props: JobListProps) => {
 
   const contractorQuery = useQuery(['contractors'], contractorService.index);
   const jobQuery = useQuery<Job[]>(['jobs'], jobService.index);
+
+  const [isJobFormOpen, setIsJobFormOpen] = useState(false);
   
   const contractors = contractorQuery.data;
   const jobs = jobQuery.data;
 
   return (
     <main className={styles.container}>
-      <JobForm contractors={contractors} />
+      {!isJobFormOpen ?
+        <header>
+          <div>Status</div>
+          <div>Address</div>
+          <div>Takeoff</div>
+          <div>Lock Status</div>
+          <div>Shelving Status</div>
+          <div>Shower Status</div>
+          <div>Mirror Status</div>
+          <div>Builder</div>
+          <div>Job</div>
+          <TiPlus onClick={() => setIsJobFormOpen(true)} />
+        </header>
+        :
+        <JobForm contractors={contractors} setIsJobFormOpen={setIsJobFormOpen} />
+      }
       {Object.values(Status).map(status => (
         <section key={status} id={styles[status.toLowerCase()]}>
           {jobs?.filter(job => job.status === status).map(job => (

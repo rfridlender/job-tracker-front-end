@@ -5,13 +5,15 @@ import { JobFormData, PhotoFormData } from '../../types/forms';
 import { Status } from '../../types/enums';
 import { Contractor, Job } from '../../types/models';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { TiPlus, TiCancel } from 'react-icons/ti';
 
 interface JobFormProps {
   contractors: Contractor[] | undefined;
+  setIsJobFormOpen: (boolean: boolean) => void;
 }
 
 const JobForm = (props: JobFormProps): JSX.Element => {
-  const { contractors } = props;
+  const { contractors, setIsJobFormOpen } = props;
 
   const queryClient = useQueryClient();
 
@@ -28,6 +30,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
     },
     onSettled: () => {
       queryClient.invalidateQueries(['jobs']);
+      setIsJobFormOpen(false);
       setFormData({ 
         id: 0,
         address: '',
@@ -97,8 +100,8 @@ const JobForm = (props: JobFormProps): JSX.Element => {
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
       <select className={styles.inputContainer} name="status" id="status" onChange={handleChange} value={status} disabled={isSubmitted}>
-        {Object.values(Status).map((status, idx) => (
-          <option key={status} value={status}>{idx + 1}. {status}</option>
+        {Object.values(Status).map(status => (
+          <option key={status} value={status}>{status}</option>
         ))}
       </select>
       <input
@@ -144,9 +147,12 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
         placeholder="Job Site Access" disabled={isSubmitted}
       />
-      <button disabled={isFormInvalid() || isSubmitted} className={styles.button}>
-        Plus Icon
-      </button>
+      <div>
+        <button disabled={isFormInvalid() || isSubmitted} className={styles.button}>
+          <TiPlus />
+        </button>
+        <TiCancel onClick={() => setIsJobFormOpen(false)} />
+      </div>
     </form>
   );
 }

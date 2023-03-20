@@ -4,14 +4,14 @@ export enum Status {
   COMPLETE = 'COMPLETE',
   INVOICED = 'INVOICED',
   PAID = 'PAID',
+  RETIRED = 'RETIRED',
 }
 
 export enum Category {
-  LOCKS_AND_HARDWARE = 'LOCKS_AND_HARDWARE',
+  LOCKS= 'LOCKS',
   SHELVING = 'SHELVING',
-  SHOWER_ENCLOSURES = 'SHOWER_ENCLOSURES',
+  SHOWERS = 'SHOWERS',
   MIRRORS = 'MIRRORS',
-  OTHER = 'OTHER',
 }
 
 export enum Role {

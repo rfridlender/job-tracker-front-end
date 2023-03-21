@@ -1,6 +1,5 @@
 import { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
-import Signup from './pages/Signup/Signup';
 import Login from './pages/Login/Login';
 import Landing from './pages/Landing/Landing';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
@@ -32,7 +31,6 @@ const App = (): JSX.Element => {
       <NavBar user={user} handleLogout={handleLogout} />
       <Routes>
         <Route path="/" element={<Landing />} />
-        <Route path="/signup" element={<Signup handleAuthEvt={handleAuthEvt} />} />
         <Route path="/login" element={<Login handleAuthEvt={handleAuthEvt} />}/>
         <Route
           path="/change-password"

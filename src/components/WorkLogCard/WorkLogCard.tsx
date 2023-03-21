@@ -1,11 +1,8 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { User, WorkLog } from '../../types/models';
-import { WorkLogFormData } from '../../types/forms';
 import styles from './WorkLogCard.module.scss';
 import * as workLogService from '../../services/workLogService';
-import { Category } from '../../types/enums';
-import { hourDifferenceCalculator } from '../../services/helpers';
 import WorkLogForm from '../WorkLogForm/WorkLogForm';
 import { TiEdit, TiMinus } from 'react-icons/ti';
 
@@ -39,7 +36,9 @@ const WorkLogCard = (props: WorkLogCardProps) => {
 
   if (isBeingEdited) {
     return (
-      <WorkLogForm jobId={jobId} user={user} workLog={workLog} setIsBeingEdited={setIsBeingEdited} />
+      <WorkLogForm 
+        jobId={jobId} user={user} workLog={workLog} setIsBeingEdited={setIsBeingEdited} 
+      />
     );
   } else {
     return (

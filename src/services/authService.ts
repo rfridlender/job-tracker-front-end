@@ -3,30 +3,29 @@ import * as tokenService from './tokenService';
 import { 
   ChangePasswordFormData,
   LoginFormData,
-  SignupFormData,
   PhotoFormData
 } from '../types/forms';
 import { User } from '../types/models';
 
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/auth`;
 
-async function signup(formData: SignupFormData): Promise<void> {
-  try {
-    const res = await fetch(`${BASE_URL}/signup`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData),
-    });
-    const json = await res.json();
-    if (json.err) {
-      throw new Error(json.err);
-    } else if (json.token) {
-      tokenService.setToken(json.token);
-    }
-  } catch (error) {
-    throw error;
-  }
-}
+// async function signup(formData: SignupFormData): Promise<void> {
+//   try {
+//     const res = await fetch(`${BASE_URL}/signup`, {
+//       method: 'POST',
+//       headers: { 'Content-Type': 'application/json' },
+//       body: JSON.stringify(formData),
+//     });
+//     const json = await res.json();
+//     if (json.err) {
+//       throw new Error(json.err);
+//     } else if (json.token) {
+//       tokenService.setToken(json.token);
+//     }
+//   } catch (error) {
+//     throw error;
+//   }
+// }
 
 async function login(formData: LoginFormData): Promise<void> {
   try {
@@ -78,4 +77,4 @@ async function changePassword(formData: ChangePasswordFormData): Promise<void> {
   }
 }
 
-export { signup, login, logout, getUser, changePassword };
+export { login, logout, getUser, changePassword };

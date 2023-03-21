@@ -1,0 +1,21 @@
+.container {
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+  border: 1px solid red;
+  > * {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > * {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+}

@@ -2,7 +2,7 @@ import { useState } from 'react';
 import styles from './ContractorForm.module.scss';
 import * as contractorService from '../../services/contractorService';
 import { ContractorFormData } from '../../types/forms';
-import { useMutation, UseMutationResult, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Contractor } from '../../types/models';
 import { TiCancel, TiPlus } from 'react-icons/ti';
 
@@ -65,7 +65,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     email: contractor ? contractor.email : '',
   });
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
   }
 

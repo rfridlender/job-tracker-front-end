@@ -1,9 +1,7 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Contractor } from '../../types/models';
-import { ContractorFormData } from '../../types/forms';
 import styles from './ContractorCard.module.scss';
-import * as contractorService from '../../services/contractorService';
 import { TiEdit } from 'react-icons/ti';
 import ContractorForm from '../ContractorForm/ContractorForm';
 

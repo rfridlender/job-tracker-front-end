@@ -1,7 +1,5 @@
-import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { TiPlus } from 'react-icons/ti';
-import * as workLogService from '../../services/workLogService';
 import { Job, User } from '../../types/models';
 import WorkLogCard from '../WorkLogCard/WorkLogCard';
 import WorkLogForm from '../WorkLogForm/WorkLogForm';

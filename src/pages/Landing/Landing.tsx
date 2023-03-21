@@ -1,15 +1,9 @@
 import styles from './Landing.module.scss';
 
-interface LandingProps {
-
-}
-
-const Landing = (props: LandingProps): JSX.Element => {
-  const { } = props;
-  
+const Landing = (): JSX.Element => {
   return (
     <main className={styles.container}>
-      <h1>Please sign in</h1>
+      <h1>Please log in</h1>
     </main>
   );
 }

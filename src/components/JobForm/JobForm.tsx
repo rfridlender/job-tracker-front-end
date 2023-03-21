@@ -65,17 +65,21 @@ const JobForm = (props: JobFormProps): JSX.Element => {
     contractor: job ? job.contractor : undefined,
     jobSiteAccess: job ? job.jobSiteAccess : '',
   });
-  const [contractorFormData, setContractorFormData] = useState<string>(job ? job.contractor.id.toString() : '');
+  const [contractorFormData, setContractorFormData] = useState<string>(
+    job ? job.contractor.id.toString() : ''
+  );
   const [photoData, setPhotoData] = useState<PhotoFormData>({ photo: null });
   
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (evt.target.name !== 'contractor') {
       setFormData({ ...formData, [evt.target.name]: evt.target.value });
     } else {
       setContractorFormData(evt.target.value);
       setFormData({ 
         ...formData, 
-        contractor: contractors?.find(contractor => contractor.id === parseInt(evt.target.value)), 
+        contractor: contractors?.find(
+          contractor => contractor.id === parseInt(evt.target.value)
+        ), 
       });
     }
   }
@@ -119,16 +123,23 @@ const JobForm = (props: JobFormProps): JSX.Element => {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <select className={styles.inputContainer} name="status" id="status" onChange={handleChange} value={status}>
+      <select 
+        className={styles.inputContainer} name="status" id="status" 
+        onChange={handleChange} value={status}
+      >
         {Object.values(Status).map(status => (
           <option key={status} value={status}>{status}</option>
         ))}
       </select>
       <input
-        className={styles.inputContainer} type="text" id="address" value={address} name="address" onChange={handleChange} placeholder="Address"
+        className={styles.inputContainer} type="text" id="address" 
+        value={address} name="address" onChange={handleChange} 
+        placeholder="Address"
       />
       <div className={styles.inputContainer} id={styles.photoUpload}>
-        <label htmlFor="photo-upload" className={photoData.photo?.name && styles.active}>{!photoData.photo ? 'Add Takeoff' : photoData.photo.name}</label>
+        <label htmlFor="photo-upload" className={photoData.photo?.name && styles.active}>
+          {!photoData.photo ? 'Add Takeoff' : photoData.photo.name}
+        </label>
         <input
           type="file"
           id="photo-upload"

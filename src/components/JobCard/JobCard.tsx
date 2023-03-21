@@ -1,12 +1,9 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useState } from 'react';
 import { Contractor, Job, User } from '../../types/models';
-import { JobFormData, PhotoFormData } from '../../types/forms';
 import styles from './JobCard.module.scss';
 import * as jobService from '../../services/jobService';
-import { Status } from '../../types/enums';
 import WorkLogList from '../WorkLogList/WorkLogList';
-import WorkLogForm from '../WorkLogForm/WorkLogForm';
 import { TiEdit, TiMinus, TiDocumentText } from 'react-icons/ti';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import JobForm from '../JobForm/JobForm';
@@ -32,7 +29,10 @@ const JobCard = (props: JobCardProps) => {
     onMutate: async () => {
       await queryClient.cancelQueries(['jobs']);
       const previousJobs = queryClient.getQueryData<Job[]>(['jobs']);
-      previousJobs && queryClient.setQueryData(['jobs'], previousJobs.filter(previousJob => previousJob.id !== job.id ? true : false));
+      previousJobs && queryClient.setQueryData(
+        ['jobs'], 
+        previousJobs.filter(previousJob => previousJob.id !== job.id ? true : false)
+      );
       return previousJobs;
     },
     onError: (err, updatedJob, context) => {

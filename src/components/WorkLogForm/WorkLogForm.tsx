@@ -43,7 +43,7 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
     keyNumber: workLog ? workLog.keyNumber : '',
   });
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>): void => {
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (evt.target.name !== 'completed') {
       setFormData({ ...formData, [evt.target.name]: evt.target.value });
     } else {

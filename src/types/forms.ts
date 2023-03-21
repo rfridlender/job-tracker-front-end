@@ -1,4 +1,4 @@
-import { Category, Status } from './enums';
+import { Category, Role, Status } from './enums';
 import { Contractor } from './models';
 
 /* ---------==== custom forms ====--------- */
@@ -46,11 +46,13 @@ export interface LoginFormData {
   password: string;
 }
 
-export interface SignupFormData {
+export interface UserFormData {
+  id: number;
   name: string;
   email: string;
   password: string;
   passwordConf: string;
+  role: Role;
 }
 
 export interface ChangePasswordFormData {

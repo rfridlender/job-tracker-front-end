@@ -2,8 +2,8 @@ import { useState } from 'react';
 import styles from './JobForm.module.scss';
 import * as jobService from '../../services/jobService';
 import { JobFormData, PhotoFormData } from '../../types/forms';
-import { Status } from '../../types/enums';
-import { Contractor, Job } from '../../types/models';
+import { Role, Status } from '../../types/enums';
+import { Contractor, Job, User } from '../../types/models';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { TiPlus, TiCancel } from 'react-icons/ti';
 
@@ -12,10 +12,11 @@ interface JobFormProps {
   setIsJobFormOpen?: (boolean: boolean) => void;
   job?: Job;
   setIsBeingEdited?: (boolean: boolean) => void;
+  user: User;
 }
 
 const JobForm = (props: JobFormProps): JSX.Element => {
-  const { contractors, setIsJobFormOpen, job, setIsBeingEdited } = props;
+  const { contractors, setIsJobFormOpen, job, setIsBeingEdited, user } = props;
 
   const queryClient = useQueryClient();
 
@@ -123,30 +124,40 @@ const JobForm = (props: JobFormProps): JSX.Element => {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <select 
-        className={styles.inputContainer} name="status" id="status" 
-        onChange={handleChange} value={status}
-      >
-        {Object.values(Status).map(status => (
-          <option key={status} value={status}>{status}</option>
-        ))}
-      </select>
-      <input
-        className={styles.inputContainer} type="text" id="address" 
-        value={address} name="address" onChange={handleChange} 
-        placeholder="Address"
-      />
-      <div className={styles.inputContainer} id={styles.photoUpload}>
-        <label htmlFor="photo-upload" className={photoData.photo?.name && styles.active}>
-          {!photoData.photo ? 'Add Takeoff' : photoData.photo.name}
-        </label>
-        <input
-          type="file"
-          id="photo-upload"
-          name="photo"
-          onChange={handleChangePhoto}
-        />
-      </div>
+      {user.role !== Role.ADMIN ?
+        <>
+          <div>{job?.status}</div>
+          <div>{job?.address}</div>
+          <div>{job?.takeoff ? 'Takeoff' : ''}</div>
+        </>
+        :
+        <>
+          <select 
+            className={styles.inputContainer} name="status" id="status" 
+            onChange={handleChange} value={status}
+          >
+            {Object.values(Status).map(status => (
+              <option key={status} value={status}>{status}</option>
+            ))}
+          </select>
+          <input
+            className={styles.inputContainer} type="text" id="address" 
+            value={address} name="address" onChange={handleChange} 
+            placeholder="Address"
+          />
+          <div className={styles.inputContainer} id={styles.photoUpload}>
+            <label htmlFor="photo-upload" className={photoData.photo?.name && styles.active}>
+              {!photoData.photo ? 'Add Takeoff' : photoData.photo.name}
+            </label>
+            <input
+              type="file"
+              id="photo-upload"
+              name="photo"
+              onChange={handleChangePhoto}
+            />
+          </div>
+        </>
+      }
       <input
         className={styles.inputContainer} type="text" id="lockStatus" 
         value={lockStatus} name="lockStatus" onChange={handleChange} 
@@ -167,17 +178,31 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         value={mirrorStatus} name="mirrorStatus" onChange={handleChange} 
         placeholder="Mirror Status"
       />
-      <select className={styles.inputContainer} name="contractor" id="contractor" onChange={handleChange} value={contractorFormData}>
-          <option value="">Builder</option>
-        {contractors?.map(contractor => (
-          <option key={contractor.id} value={contractor.id}>{contractor.companyName}</option>
-        ))}
-      </select>
-      <input
-        className={styles.inputContainer} type="text" id="jobSiteAccess" 
-        value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
-        placeholder="Job Site Access"
-      />
+      {user.role !== Role.ADMIN ?
+        <>
+          <div>{job?.contractor.companyName}</div>
+          <div>{job?.jobSiteAccess}</div>
+        </>
+        :
+        <>
+          <select 
+            className={styles.inputContainer} name="contractor" id="contractor" 
+            onChange={handleChange} value={contractorFormData}
+          >
+              <option value="">Builder</option>
+            {contractors?.map(contractor => (
+              <option key={contractor.id} value={contractor.id}>
+                {contractor.companyName}
+              </option>
+            ))}
+          </select>
+          <input
+            className={styles.inputContainer} type="text" id="jobSiteAccess" 
+            value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
+            placeholder="Job Site Access"
+          />
+        </>
+      }
       <div>
         <button disabled={isFormInvalid()} className={styles.button}>
           <TiPlus />

@@ -7,6 +7,7 @@ import WorkLogList from '../WorkLogList/WorkLogList';
 import { TiEdit, TiMinus, TiDocumentText } from 'react-icons/ti';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import JobForm from '../JobForm/JobForm';
+import { Role } from '../../types/enums';
 
 interface JobCardProps {
   contractors: Contractor[] | undefined;
@@ -54,7 +55,10 @@ const JobCard = (props: JobCardProps) => {
 
   if (isBeingEdited) {
     return (
-      <JobForm contractors={contractors} job={job} setIsBeingEdited={setIsBeingEdited} />
+      <JobForm 
+        contractors={contractors} job={job} 
+        setIsBeingEdited={setIsBeingEdited} user={user} 
+      />
     );
   } else {
     return (
@@ -94,7 +98,11 @@ const JobCard = (props: JobCardProps) => {
           <div>{job.jobSiteAccess}</div>
           <div>
             <TiEdit onClick={() => setIsBeingEdited(true)} />
-            <TiMinus onClick={() => setIsBeingDeleted(true)} />
+            {user.role !== Role.ADMIN ?
+              <div />
+              :
+              <TiMinus onClick={() => setIsBeingDeleted(true)} />
+            }
           </div>
           {isBeingDeleted &&
             <div id={styles.deleteOptions}>

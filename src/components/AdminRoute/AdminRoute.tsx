@@ -1,20 +1,23 @@
 import { ReactNode } from 'react';
 import { Navigate } from 'react-router-dom';
+import { Role } from '../../types/enums';
 import { User } from '../../types/models';
 
-interface ProtectedRouteProps {
+interface AdminRouteProps {
   user: User | null;
   children: ReactNode;
 }
 
-const ProtectedRoute = (props: ProtectedRouteProps): JSX.Element => {
+const AdminRoute = (props: AdminRouteProps): JSX.Element => {
   const { user, children } = props;
 
   if (!user) {
     return (<Navigate to="/login" />);
+  } else if (user.role !== Role.ADMIN) {
+    return (<Navigate to="/jobs" />);
   } else {
     return (<>{ children }</>);
   }
 }
 
-export default ProtectedRoute;
+export default AdminRoute;

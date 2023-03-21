@@ -5,7 +5,7 @@ import * as jobService from '../../services/jobService';
 import styles from './JobList.module.scss'
 import JobForm from '../../components/JobForm/JobForm';
 import JobCard from '../../components/JobCard/JobCard';
-import { Status } from '../../types/enums';
+import { Role, Status } from '../../types/enums';
 import { useState } from 'react';
 import { TiPlus } from 'react-icons/ti';
 
@@ -39,10 +39,14 @@ const JobList = (props: JobListProps) => {
           <div>Mirror Status</div>
           <div>Builder</div>
           <div>Job</div>
-          <TiPlus onClick={() => setIsJobFormOpen(true)} />
+          {user.role !== Role.ADMIN ?
+            <div />
+            :
+            <TiPlus onClick={() => setIsJobFormOpen(true)} />
+          }
         </header>
         :
-        <JobForm contractors={contractors} setIsJobFormOpen={setIsJobFormOpen} />
+        <JobForm contractors={contractors} setIsJobFormOpen={setIsJobFormOpen} user={user} />
       }
       {Object.values(Status).map(status => (
         <section key={status} id={styles[status.toLowerCase()]}>

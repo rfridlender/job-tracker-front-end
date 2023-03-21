@@ -10,6 +10,7 @@ import { User } from './types/models';
 import JobsIndex from './pages/JobList/JobList';
 import { Role } from './types/enums';
 import Admin from './pages/Admin/Admin';
+import AdminRoute from './components/AdminRoute/AdminRoute';
 
 const App = (): JSX.Element => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const App = (): JSX.Element => {
     <>
       <NavBar user={user} handleLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Landing />} />
+        <Route path="/" element={<Landing user={user} />} />
         <Route path="/login" element={<Login handleAuthEvt={handleAuthEvt} />}/>
         <Route
           path="/change-password"
@@ -51,9 +52,9 @@ const App = (): JSX.Element => {
         <Route
           path="/admin"
           element={
-            <ProtectedRoute user={user}>
+            <AdminRoute user={user}>
               {user?.role === Role.ADMIN && <Admin user={user} />}
-            </ProtectedRoute>
+            </AdminRoute>
           }
         />
       </Routes>

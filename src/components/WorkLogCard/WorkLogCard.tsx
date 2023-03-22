@@ -5,6 +5,7 @@ import styles from './WorkLogCard.module.scss';
 import * as workLogService from '../../services/workLogService';
 import WorkLogForm from '../WorkLogForm/WorkLogForm';
 import { TiEdit, TiMinus } from 'react-icons/ti';
+import { twentyFourToTwelveConvertor } from '../../services/helpers';
 
 interface WorkLogCardProps {
   jobId: number;
@@ -46,21 +47,25 @@ const WorkLogCard = (props: WorkLogCardProps) => {
           <div>{workLog.workDate}</div>
           <div>{workLog.employeeName}</div>
           <div>{workLog.category}</div>
-          <div>{workLog.startTime}</div>
-          <div>{workLog.endTime}</div>
-          <div>{`${workLog.hourDifference}h`}</div>
+          <div>{twentyFourToTwelveConvertor(workLog.startTime)}</div>
+          <div>{twentyFourToTwelveConvertor(workLog.endTime)}</div>
+          <div>{`${workLog.hourDifference.toFixed(2)}h`}</div>
           <div>{workLog.workCompleted}</div>
           <div>{workLog.completed ? 'Yes' : 'No'}</div>
           <div>{workLog.incompleteItems}</div>
           <div>{workLog.keyNumber}</div>
-          <div>
-            <TiEdit onClick={() => setIsBeingEdited(true)} />
-            <TiMinus onClick={() => setIsBeingDeleted(true)} />
-          </div>
+          {user.name !== workLog.employeeName ?
+            <div />  
+            :
+            <div>
+              <TiEdit onClick={() => setIsBeingEdited(true)} />
+              <TiMinus onClick={() => setIsBeingDeleted(true)} />
+            </div>
+          }
           {isBeingDeleted &&
             <div id={styles.deleteOptions}>
               <section>
-                <div>Are you sure you want to delete this work log?</div>
+                <div>Are you sure you want to delete this work log from {workLog.workDate}?</div>
                 <div>
                   <button onClick={handleDelete}>Delete</button>
                   <button onClick={() => setIsBeingDeleted(false)}>Cancel</button>

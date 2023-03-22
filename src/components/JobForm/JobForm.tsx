@@ -5,7 +5,7 @@ import { JobFormData, PhotoFormData } from '../../types/forms';
 import { Role, Status } from '../../types/enums';
 import { Contractor, Job, User } from '../../types/models';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { TiPlus, TiCancel } from 'react-icons/ti';
+import { TiPlus, TiCancel, TiDocumentText } from 'react-icons/ti';
 
 interface JobFormProps {
   contractors: Contractor[] | undefined;
@@ -69,7 +69,9 @@ const JobForm = (props: JobFormProps): JSX.Element => {
   const [contractorFormData, setContractorFormData] = useState<string>(
     job ? job.contractor.id.toString() : ''
   );
-  const [photoData, setPhotoData] = useState<PhotoFormData>({ photo: null });
+  const [photoData, setPhotoData] = useState<PhotoFormData>({ 
+    takeoffOne: null, takeoffTwo:null 
+  });
   
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     if (evt.target.name !== 'contractor') {
@@ -86,7 +88,9 @@ const JobForm = (props: JobFormProps): JSX.Element => {
   }
 
   const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    evt.target.files && setPhotoData({ photo: evt.target.files.item(0) })
+    evt.target.files && setPhotoData({ 
+      ...photoData, [evt.target.name]: evt.target.files.item(0) 
+    });
   }
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
@@ -128,7 +132,14 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         <>
           <div>{job?.status}</div>
           <div>{job?.address}</div>
-          <div>{job?.takeoff ? 'Takeoff' : ''}</div>
+          <div>
+              {job?.takeoffOne ? 
+                <TiDocumentText /> : <div />
+              }
+              {job?.takeoffTwo ? 
+                <TiDocumentText /> : <div />
+              }
+            </div>
         </>
         :
         <>
@@ -145,14 +156,27 @@ const JobForm = (props: JobFormProps): JSX.Element => {
             value={address} name="address" onChange={handleChange} 
             placeholder="Address"
           />
-          <div className={styles.inputContainer} id={styles.photoUpload}>
-            <label htmlFor="photo-upload" className={photoData.photo?.name && styles.active}>
-              {!photoData.photo ? 'Add Takeoff' : photoData.photo.name}
+          <div className={styles.inputContainer} id={styles.takeoffContainer}>
+            <label 
+              htmlFor="takeoffOne" className={photoData.takeoffOne?.name && styles.active}
+            >
+              {!photoData.takeoffOne ? 'Page 1' : photoData.takeoffOne.name}
             </label>
             <input
               type="file"
-              id="photo-upload"
-              name="photo"
+              id="takeoffOne"
+              name="takeoffOne"
+              onChange={handleChangePhoto}
+            />
+            <label 
+              htmlFor="takeoffTwo" className={photoData.takeoffTwo?.name && styles.active}
+            >
+              {!photoData.takeoffTwo ? 'Page 2' : photoData.takeoffTwo.name}
+            </label>
+            <input
+              type="file"
+              id="takeoffTwo"
+              name="takeoffTwo"
               onChange={handleChangePhoto}
             />
           </div>

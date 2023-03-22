@@ -21,7 +21,7 @@ const JobCard = (props: JobCardProps) => {
 
   const [isBeingEdited, setIsBeingEdited] = useState(false);
   const [isBeingDeleted, setIsBeingDeleted] = useState(false);
-  const [isTakeoffOpen, setIsTakeoffOpen] = useState(false);
+  const [isTakeoffOpen, setIsTakeoffOpen] = useState(0);
   const [areBuilderDetailsOpen, setAreBuilderDetailsOpen] = useState(false);
   const [areJobDetailsOpen, setAreJobDetailsOpen] = useState(false);
 
@@ -73,14 +73,24 @@ const JobCard = (props: JobCardProps) => {
               <AiOutlineUp />
             }
           </div>
-          {!job.takeoff ?
+          {!job.takeoffOne || !job.takeoffTwo ?
             <div />
-            :  
-            <TiDocumentText onClick={() => setIsTakeoffOpen(true)} />
+            :
+            <div>
+              {job.takeoffOne ? 
+                <TiDocumentText onClick={() => setIsTakeoffOpen(1)} /> : <div />
+              }
+              {job.takeoffTwo ? 
+                <TiDocumentText onClick={() => setIsTakeoffOpen(2)} /> : <div />
+              }
+            </div>
           }
-          {isTakeoffOpen && 
-            <div id={styles.takeoff} onClick={() => setIsTakeoffOpen(false)}>
-              <img src={job.takeoff} alt={`${job.address}'s Takeoff`} />
+          {!!isTakeoffOpen && 
+            <div id={styles.takeoff} onClick={() => setIsTakeoffOpen(0)}>
+              <img 
+                src={isTakeoffOpen === 1 ? job.takeoffOne : job.takeoffTwo} 
+                alt={`${job.address}'s Takeoff`} 
+              />
             </div>
           }
           <div>{job.lockStatus}</div>

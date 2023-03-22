@@ -26,7 +26,8 @@ export interface Job {
   mirrorStatus: string;
   workLogs: WorkLog[];
   contractor: Contractor;
-  takeoff: string;
+  takeoffOne: string;
+  takeoffTwo: string;
   jobSiteAccess: string;
   createdBy: string;
   createdAt: Date;

@@ -28,11 +28,17 @@ async function create(formData: JobFormData, photoFormData: PhotoFormData): Prom
       body: JSON.stringify(formData),
     });
     const job = await res.json() as Job;
-    if (photoFormData.photo) {
+    if (photoFormData.takeoffOne) {
       const photoData = new FormData();
-      photoData.append('photo', photoFormData.photo);
-      const res = await addPhoto(job.id, photoData);
-      job.takeoff = res.photo;
+      photoData.append('photo', photoFormData.takeoffOne);
+      const res = await addPhoto(job.id, photoData, 1);
+      job.takeoffOne = res.photo;
+    }
+    if (photoFormData.takeoffTwo) {
+      const photoData = new FormData();
+      photoData.append('photo', photoFormData.takeoffTwo);
+      const res = await addPhoto(job.id, photoData, 2);
+      job.takeoffTwo = res.photo;
     }
     return job;
   } catch (error) {
@@ -51,11 +57,17 @@ async function update(jobId: number, formData: JobFormData, photoFormData: Photo
       body: JSON.stringify(formData),
     });
     const job = await res.json() as Job;
-    if (photoFormData.photo) {
+    if (photoFormData.takeoffOne) {
       const photoData = new FormData();
-      photoData.append('photo', photoFormData.photo);
-      const res = await addPhoto(job.id, photoData);
-      job.takeoff = res.photo;
+      photoData.append('photo', photoFormData.takeoffOne);
+      const res = await addPhoto(job.id, photoData, 1);
+      job.takeoffOne = res.photo;
+    }
+    if (photoFormData.takeoffTwo) {
+      const photoData = new FormData();
+      photoData.append('photo', photoFormData.takeoffTwo);
+      const res = await addPhoto(job.id, photoData, 2);
+      job.takeoffTwo = res.photo;
     }
     return job;
   } catch (error) {
@@ -77,9 +89,11 @@ async function deleteJob(jobId: number): Promise<Job> {
   }
 }
 
-async function addPhoto( jobId: number, photoData: FormData): Promise<PhotoResponse> {
+async function addPhoto( 
+    jobId: number, photoData: FormData, takeoffId: number
+  ): Promise<PhotoResponse> {
   try {
-    const res = await fetch(`${BASE_URL}/${jobId}/add-photo`, {
+    const res = await fetch(`${BASE_URL}/${jobId}/add-photo/${takeoffId}`, {
       method: 'PUT',
       headers: {
         'Authorization': `Bearer ${tokenService.getToken()}`

@@ -24,7 +24,8 @@ export interface JobFormData {
 }
 
 export interface PhotoFormData {
-  photo: File | null;
+  takeoffOne: File | null;
+  takeoffTwo: File | null;
 }
 
 export interface WorkLogFormData {

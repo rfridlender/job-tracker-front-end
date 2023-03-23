@@ -121,11 +121,13 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
         value={email} name="email" onChange={handleChange} 
         autoComplete="off" placeholder="Email"
       />
-      <div>
-        <button disabled={isFormInvalid()} className={styles.button}>
+      <div className={styles.buttonContainer}>
+        <button disabled={isFormInvalid()}>
           <TiPlus />
         </button>
-        <TiCancel onClick={handleCancelFunctions} />
+        <div onClick={handleCancelFunctions}>
+          <TiCancel />
+        </div>
       </div>
     </form>
   );

@@ -17,15 +17,15 @@ const UserList = () => {
 
   return (
     <section className={styles.container}>
-      <h2>USERS</h2>
+      <h2>Users</h2>
       {!isUserFormOpen ?
         <header>
           <div>Name</div>
           <div>Email</div>
-          <div />
-          <div />
           <div>Role</div>
-          <TiPlus onClick={() => setIsUserFormOpen(true)} />
+          <div className={styles.buttonContainer}>
+            <TiPlus onClick={() => setIsUserFormOpen(true)} />
+          </div>
         </header>
         :
         <UserForm setIsUserFormOpen={setIsUserFormOpen} />

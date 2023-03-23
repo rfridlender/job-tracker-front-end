@@ -27,7 +27,9 @@ const ContractorCard = (props: ContractorCardProps) => {
         <div>{contractor.contactName}</div>
         <div>{contractor.phoneNumber}</div>
         <div>{contractor.email}</div>
-        <TiEdit onClick={() => setIsBeingEdited(true)} />
+        <div className={styles.buttonContainer}>
+          <TiEdit onClick={() => setIsBeingEdited(true)} />
+        </div>
       </article>
     );
   }

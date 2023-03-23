@@ -28,22 +28,23 @@ const JobList = (props: JobListProps) => {
 
   return (
     <main className={styles.container}>
+      <h2>Jobs</h2>
       {!isJobFormOpen ?
         <header>
           <div>Status</div>
           <div>Address</div>
-          <div>Takeoff</div>
+          <div id={styles.takeoffContainer}>Takeoff</div>
           <div>Lock Status</div>
           <div>Shelving Status</div>
           <div>Shower Status</div>
           <div>Mirror Status</div>
           <div>Builder</div>
-          <div>Job</div>
-          {user.role !== Role.ADMIN ?
-            <div />
-            :
-            <TiPlus onClick={() => setIsJobFormOpen(true)} />
-          }
+          <div>Job Site Access</div>
+          <div className={styles.buttonContainer}>
+            {user.role === Role.ADMIN &&
+              <TiPlus onClick={() => setIsJobFormOpen(true)} />
+            }
+          </div>
         </header>
         :
         <JobForm contractors={contractors} setIsJobFormOpen={setIsJobFormOpen} user={user} />

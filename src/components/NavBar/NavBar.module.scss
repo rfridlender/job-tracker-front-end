@@ -16,7 +16,7 @@ $color-shadow: #6c757d;
   align-items: center;
   position: fixed;
   background-color: $color-primary;
-  box-shadow: 0 0 .5rem 0 $color-shadow;
+  box-shadow: 0 .25rem .25rem 0 $color-shadow;
   > .subnav {
     width: 100%;
     max-width: 1440px;

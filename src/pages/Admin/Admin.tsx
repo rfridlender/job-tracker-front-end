@@ -12,7 +12,6 @@ const Admin = (props: AdminProps): JSX.Element => {
   
   return (
     <main className={styles.container}>
-      <h1>ADMIN</h1>
       <ContractorList />
       <UserList />
     </main>

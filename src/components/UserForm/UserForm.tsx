@@ -62,8 +62,6 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     id: user ? user.id : 0,
     name: user ? user.name : '',
     email: user ? user.email : '',
-    password: '',
-    passwordConf: '',
     role: user ? user.role : Role.USER,
   });
 
@@ -94,14 +92,10 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     }
   }
 
-  const { name, email, password, passwordConf, role} = formData;
+  const { name, email, role} = formData;
 
   const isFormInvalid = (): boolean => {
-    if (!user) {
-      return !(name && email && password && password === passwordConf && role);
-    } else {
-      return !(name && email && role);
-    }
+    return !(name && email && role);
   }
 
   return (
@@ -116,25 +110,6 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         value={email} name="email" onChange={handleChange}
         autoComplete="off" placeholder="Email"
       />
-      {!user ?
-        <>
-          <input
-            className={styles.inputContainer} type="password" id="password" 
-            value={password} name="password" onChange={handleChange}
-            autoComplete="off" placeholder="Password"
-          />
-          <input
-            className={styles.inputContainer} type="password" id="passwordConf" 
-            value={passwordConf} name="passwordConf" onChange={handleChange}
-            autoComplete="off" placeholder="Confirm Password"
-          />
-        </>
-        :
-        <>
-          <div />
-          <div />
-        </>
-      }
       <select 
         className={styles.inputContainer} name="role" id="role" 
         onChange={handleChange} value={role}
@@ -143,11 +118,13 @@ const UserForm = (props: UserFormProps): JSX.Element => {
           <option key={role} value={role}>{role}</option>
         ))}
       </select>
-      <div>
-        <button disabled={isFormInvalid()} className={styles.button}>
+      <div className={styles.buttonContainer}>
+        <button disabled={isFormInvalid()}>
           <TiPlus />
         </button>
-        <TiCancel onClick={handleCancelFunctions} />
+        <div>
+          <TiCancel onClick={handleCancelFunctions} />
+        </div>
       </div>
     </form>
   );

@@ -5,7 +5,8 @@ import { JobFormData, PhotoFormData } from '../../types/forms';
 import { Role, Status } from '../../types/enums';
 import { Contractor, Job, User } from '../../types/models';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { TiPlus, TiCancel, TiDocumentText } from 'react-icons/ti';
+import { TiPlus, TiCancel } from 'react-icons/ti';
+import { HiDocumentPlus, HiDocumentCheck } from 'react-icons/hi2';
 
 interface JobFormProps {
   contractors: Contractor[] | undefined;
@@ -130,16 +131,16 @@ const JobForm = (props: JobFormProps): JSX.Element => {
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
       {user.role !== Role.ADMIN ?
         <>
-          <div>{job?.status}</div>
-          <div>{job?.address}</div>
-          <div>
-              {job?.takeoffOne ? 
-                <TiDocumentText /> : <div />
-              }
-              {job?.takeoffTwo ? 
-                <TiDocumentText /> : <div />
-              }
-            </div>
+          <div className={styles.inputContainer}>{job?.status}</div>
+          <div className={styles.inputContainer}>{job?.address}</div>
+          <div className={styles.inputContainer}>
+            {job?.takeoffOne ? 
+              <HiDocumentPlus /> : <div />
+            }
+            {job?.takeoffTwo ? 
+              <HiDocumentPlus /> : <div />
+            }
+          </div>
         </>
         :
         <>
@@ -160,7 +161,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
             <label 
               htmlFor="takeoffOne" className={photoData.takeoffOne?.name && styles.active}
             >
-              {!photoData.takeoffOne ? 'Page 1' : photoData.takeoffOne.name}
+              {!photoData.takeoffOne ? <HiDocumentPlus /> : <HiDocumentCheck />}
             </label>
             <input
               type="file"
@@ -171,7 +172,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
             <label 
               htmlFor="takeoffTwo" className={photoData.takeoffTwo?.name && styles.active}
             >
-              {!photoData.takeoffTwo ? 'Page 2' : photoData.takeoffTwo.name}
+              {!photoData.takeoffTwo ? <HiDocumentPlus /> : <HiDocumentCheck />}
             </label>
             <input
               type="file"
@@ -204,8 +205,8 @@ const JobForm = (props: JobFormProps): JSX.Element => {
       />
       {user.role !== Role.ADMIN ?
         <>
-          <div>{job?.contractor.companyName}</div>
-          <div>{job?.jobSiteAccess}</div>
+          <div className={styles.inputContainer}>{job?.contractor.companyName}</div>
+          <div className={styles.inputContainer}>{job?.jobSiteAccess}</div>
         </>
         :
         <>
@@ -227,11 +228,13 @@ const JobForm = (props: JobFormProps): JSX.Element => {
           />
         </>
       }
-      <div>
-        <button disabled={isFormInvalid()} className={styles.button}>
+      <div className={styles.buttonContainer}>
+        <button disabled={isFormInvalid()}>
           <TiPlus />
         </button>
-        <TiCancel onClick={handleCancelFunctions} />
+        <div>
+          <TiCancel onClick={handleCancelFunctions} />
+        </div>
       </div>
     </form>
   );

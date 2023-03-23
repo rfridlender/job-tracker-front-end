@@ -17,14 +17,16 @@ const ContractorList = () => {
 
   return (
     <section className={styles.container}>
-      <h2>CONTRACTORS</h2>
+      <h2>Contractors</h2>
       {!isContractorFormOpen ?
         <header>
           <div>Company Name</div>
           <div>Contact Name</div>
           <div>Phone Number</div>
           <div>Email</div>
-          <TiPlus onClick={() => setIsContractorFormOpen(true)} />
+          <div className={styles.buttonContainer}>
+            <TiPlus onClick={() => setIsContractorFormOpen(true)} />
+          </div>
         </header>
         :
         <ContractorForm setIsContractorFormOpen={setIsContractorFormOpen} />

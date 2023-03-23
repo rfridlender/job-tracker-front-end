@@ -33,17 +33,7 @@ $color-shadow: #6c757d;
       justify-content: flex-start;
       align-items: center;
       background-color: $color-primary-shadow;
-      > main {
-        width: 100%;
-        max-width: 1440px;
-        height: calc(100% - 4rem);
-        margin-top: 4rem;
-        display: flex;
-        flex-flow: column;
-        justify-content: flex-start;
-        align-items: center;
-        gap: 1rem;
-      }
+      color: $color-text-primary;
     }
   }
 }

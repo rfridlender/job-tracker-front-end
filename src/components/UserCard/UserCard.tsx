@@ -55,15 +55,13 @@ const UserCard = (props: UserCardProps) => {
       <article className={styles.container}>
         <div>{user.name}</div>
         <div>{user.email}</div>
-        <div />
-        <div />
         <div>{user.role}</div>
-        <div>
+        <div className={styles.buttonContainer}>
             <TiEdit onClick={() => setIsBeingEdited(true)} />
             <TiMinus onClick={() => setIsBeingDeleted(true)} />
         </div>
         {isBeingDeleted &&
-            <div id={styles.deleteOptions}>
+            <div className={styles.deleteOptions}>
               <section>
                 <div>Are you sure you want to fire {user.name}?</div>
                 <div>

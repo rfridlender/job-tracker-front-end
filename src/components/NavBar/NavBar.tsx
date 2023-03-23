@@ -19,7 +19,8 @@ const NavBar = (props: NavBarProps): JSX.Element => {
       <nav className={styles.container}>
         <div className={styles.subnav}>
           <div>
-            <img src={logo} alt="Door2Door Logo" />
+            <img className={styles.logo} src={logo} alt="Door2Door Logo" />
+            <img className={styles.thinLogo} src={thinLogo} alt="Door2Door Logo" />
           </div>
           <div>
             <NavLink 

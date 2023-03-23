@@ -4,7 +4,8 @@ import { Contractor, Job, User } from '../../types/models';
 import styles from './JobCard.module.scss';
 import * as jobService from '../../services/jobService';
 import WorkLogList from '../WorkLogList/WorkLogList';
-import { TiEdit, TiMinus, TiDocumentText } from 'react-icons/ti';
+import { TiEdit, TiMinus } from 'react-icons/ti';
+import { HiDocumentText } from 'react-icons/hi2';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import JobForm from '../JobForm/JobForm';
 import { Role } from '../../types/enums';
@@ -63,9 +64,12 @@ const JobCard = (props: JobCardProps) => {
   } else {
     return (
       <article className={styles.container}>
-        <div id={styles.overview}>
+        <div className={styles.overviewContainer}>
           <div>{job.status}</div>
-          <div onClick={() => setAreJobDetailsOpen(!areJobDetailsOpen)}>
+          <div 
+            className={styles.detailContainer} 
+            onClick={() => setAreJobDetailsOpen(!areJobDetailsOpen)}
+          >
             <div>{job.address}</div>
             {!areJobDetailsOpen ?
               <AiOutlineDown />
@@ -73,20 +77,12 @@ const JobCard = (props: JobCardProps) => {
               <AiOutlineUp />
             }
           </div>
-          {!job.takeoffOne || !job.takeoffTwo ?
-            <div />
-            :
-            <div>
-              {job.takeoffOne ? 
-                <TiDocumentText onClick={() => setIsTakeoffOpen(1)} /> : <div />
-              }
-              {job.takeoffTwo ? 
-                <TiDocumentText onClick={() => setIsTakeoffOpen(2)} /> : <div />
-              }
-            </div>
-          }
+          <div id={styles.takeoffContainer}>
+            {job.takeoffOne && <HiDocumentText onClick={() => setIsTakeoffOpen(1)} />}
+            {job.takeoffTwo && <HiDocumentText onClick={() => setIsTakeoffOpen(2)} />}
+          </div>
           {!!isTakeoffOpen && 
-            <div id={styles.takeoff} onClick={() => setIsTakeoffOpen(0)}>
+            <div className={styles.takeoffOverlay} onClick={() => setIsTakeoffOpen(0)}>
               <img 
                 src={isTakeoffOpen === 1 ? job.takeoffOne : job.takeoffTwo} 
                 alt={`${job.address}'s Takeoff`} 
@@ -97,7 +93,10 @@ const JobCard = (props: JobCardProps) => {
           <div>{job.shelvingStatus}</div>
           <div>{job.showerStatus}</div>
           <div>{job.mirrorStatus}</div>
-          <div onClick={() => setAreBuilderDetailsOpen(!areBuilderDetailsOpen)}>
+          <div 
+            className={styles.detailContainer} 
+            onClick={() => setAreBuilderDetailsOpen(!areBuilderDetailsOpen)}
+          >
             <div>{job.contractor.companyName}</div>
             {!areBuilderDetailsOpen ?
               <AiOutlineDown />
@@ -106,16 +105,12 @@ const JobCard = (props: JobCardProps) => {
             }
           </div>
           <div>{job.jobSiteAccess}</div>
-          <div>
+          <div className={styles.buttonContainer}>
             <TiEdit onClick={() => setIsBeingEdited(true)} />
-            {user.role !== Role.ADMIN ?
-              <div />
-              :
-              <TiMinus onClick={() => setIsBeingDeleted(true)} />
-            }
+            {user.role === Role.ADMIN && <TiMinus onClick={() => setIsBeingDeleted(true)} />}
           </div>
           {isBeingDeleted &&
-            <div id={styles.deleteOptions}>
+            <div className={styles.deleteOptions}>
               <section>
                 <div>Are you sure you want to delete {job.address}?</div>
                 <div>
@@ -127,7 +122,7 @@ const JobCard = (props: JobCardProps) => {
           }
         </div>
         {areBuilderDetailsOpen &&
-          <div id={styles.builderDetails}>
+          <div className={styles.builderDetailsContainer}>
             <div>{job.contractor.companyName}</div>
             <div>{job.contractor.contactName}</div>
             <div>{job.contractor.phoneNumber}</div>
@@ -135,7 +130,7 @@ const JobCard = (props: JobCardProps) => {
           </div>
         }
         {areJobDetailsOpen && 
-          <div id={styles.details}>
+          <div className={styles.jobDetailsContainer}>
             <WorkLogList job={job} user={user} />
           </div>
         }

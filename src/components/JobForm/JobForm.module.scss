@@ -1,24 +1,103 @@
+$color-primary: #f8f9fa;
+$color-primary-shadow: #dee2e6;
+$color-secondary: #ced4da;
+$color-secondary-shadow: #6c757d;
+$color-accent: #8b0500;
+$color-accent-shadow: #4b0500;
+$color-text-primary: #212529;
+$color-text-secondary: #6c757d;
+$color-shadow: #6c757d;
+
 .container {
   width: 100%;
+  height: 3rem;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  > * {
+  gap: 1rem;
+  background-color: $color-primary;
+  box-shadow: 0 .25rem .25rem 0 $color-shadow;
+  padding: 0 1rem;
+  border-radius: .25rem;
+  > .inputContainer {
     width: 100%;
+    height: 2rem;
+    border: none;
+    outline: none;
+    background-color: $color-primary;
+    border-bottom: .125rem solid $color-text-primary;
+    transition: all .25s;
+    font-size: 1rem;
+    color: $color-text-primary;
+  }
+  > .inputContainer:hover {
+    border-bottom: .125rem solid $color-accent;
+  }
+  > .inputContainer::placeholder {
+    color: $color-text-secondary;
+    transition: all .25s;
+  }
+  > .inputContainer:hover::placeholder {
+    color: $color-accent;
+  }
+  > .buttonContainer {
+    width: fit-content;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
+    > button, > div {
+      width: 2rem;
+      height: 2rem;
+      color: $color-text-primary;
+      border: .125rem solid $color-text-primary;
+      border-radius: .25rem;
+      cursor: pointer;
+      transition: all .25s;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    > button:hover, > div:hover {
+      color: $color-accent;
+      border: .125rem solid $color-accent;  
+    }
+    > button:disabled {
+      color: $color-text-secondary;
+      border: .125rem solid $color-text-secondary;
+    }
+    > button:disabled:hover {
+      color: $color-text-secondary;
+      border: .125rem solid $color-text-secondary;
+      cursor: inherit;
+    }
   }
   #takeoffContainer {
+    width: fit-content;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: 1rem;
+    border: none;
     label {
-      width: 100%;
-      border: 1px solid black;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      width: 2rem;
+      height: 2rem;
+      color: $color-text-primary;
+      border: .125rem solid $color-text-primary;
+      border-radius: .25rem;
+      cursor: pointer;
+      transition: all .25s;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    label:hover {
+      color: $color-accent;
+      border: .125rem solid $color-accent;  
     }
     input {
       display: none;

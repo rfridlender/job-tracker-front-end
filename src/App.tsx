@@ -31,8 +31,7 @@ const App = (): JSX.Element => {
     <>
       <NavBar user={user} handleLogout={handleLogout} />
       <Routes>
-        <Route path="/" element={<Landing user={user} />} />
-        <Route path="/login" element={<Login handleAuthEvt={handleAuthEvt} />}/>
+        <Route path="/" element={<Login user={user} handleAuthEvt={handleAuthEvt} />}/>
         <Route
           path="/change-password"
           element={

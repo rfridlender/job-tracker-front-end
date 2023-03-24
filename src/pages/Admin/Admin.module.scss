@@ -1,10 +1,25 @@
 .container {
   width: 100%;
-  max-width: 1440px;
-  margin-top: 5rem;
+  max-width: 2176px;
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 1rem;
+  gap: .5rem;
+  margin-top: 4rem;
+  padding: 1rem;
 }
+
+@media screen and (max-width: 1056px) {
+  .container {
+    width: 100%;
+    min-width: 1024px;
+    padding: 1rem 0;
+  }
+}
+
+// @media screen and (max-width: 425px) {
+//   .container {
+    
+//   }
+// }

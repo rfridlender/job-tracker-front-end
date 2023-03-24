@@ -86,13 +86,13 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
       <input 
-        className={styles.inputContainer} type="date" id="workDate"
+        className={styles.dateInputContainer} type="date" id="workDate"
         value={workDate} name="workDate" onChange={handleChange}
         autoComplete="off" max={new Date().toISOString().substring(0, 10)} 
       />
-      <div className={styles.inputContainer}>{user.name}</div>
+      <div className={styles.nameInputContainer}>{user.name}</div>
       <select 
-        className={styles.inputContainer} name="category" id="category" 
+        className={styles.categoryInputContainer} name="category" id="category" 
         onChange={handleChange} value={category}
       >
         {Object.values(Category).map(category => (
@@ -100,16 +100,16 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
         ))}
       </select>
       <input 
-        className={styles.inputContainer} type="time" id="startTime" 
+        className={styles.dateInputContainer} type="time" id="startTime" 
         value={startTime} name="startTime" onChange={handleChange} 
         autoComplete="off"
       />
       <input 
-        className={styles.inputContainer} type="time" id="endTime" 
+        className={styles.dateInputContainer} type="time" id="endTime" 
         value={endTime} name="endTime" onChange={handleChange} 
         autoComplete="off"
       />
-      <div className={styles.inputContainer}>
+      <div className={styles.hourInputContainer}>
         {hourDifferenceCalculator(startTime, endTime)}
       </div>
       <input 
@@ -117,8 +117,12 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
         value={workCompleted} name="workCompleted" onChange={handleChange} 
         autoComplete="off" placeholder="Work Completed"
       />
-      <div className={styles.inputContainer} id={styles.completed}>
-        <label htmlFor="completed">Completed</label>
+      <div className={styles.completedInputContainer}>
+        <label 
+          className={!completed ? styles.incompletedContainer : styles.completedContainer} htmlFor="completed"
+        >
+          Completed
+        </label>
         <input 
           type="checkbox" id="completed"
           checked={completed} name="completed" onChange={handleChange} 
@@ -126,7 +130,7 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
         />
       </div>
       {completed ?
-        <div />
+        <div className={styles.inputContainer} />
         :
         <input 
           className={styles.inputContainer} type="text" id="incompleteItems" 
@@ -135,20 +139,22 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
         />
       }
       {category !== Category.LOCKS ? 
-        <div />
+        <div className={styles.keyInputContainer} />
         :
         <input 
-          className={styles.inputContainer} type="text" id="keyNumber" 
+          className={styles.keyInputContainer} type="text" id="keyNumber" 
           value={keyNumber} name="keyNumber" onChange={handleChange} 
           autoComplete="off" placeholder="Key Number"
           pattern="[0-9]{5}"
         />
       }
-      <div>
-        <button disabled={isFormInvalid()} className={styles.button}>
+      <div className={styles.buttonContainer}>
+        <button disabled={isFormInvalid()}>
           <TiPlus />
         </button>
-        <TiCancel onClick={handleCancelFunctions} />
+        <div>
+          <TiCancel onClick={handleCancelFunctions} />
+        </div>
       </div>
     </form>
   );

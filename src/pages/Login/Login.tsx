@@ -1,23 +1,29 @@
 import { useState } from 'react';
+import { Navigate } from 'react-router';
 import LoginForm from '../../components/LoginForm/LoginForm';
+import { User } from '../../types/models';
 import styles from './Login.module.scss';
 
 interface LoginPageProps {
+  user: User | null;
   handleAuthEvt: () => void;
 } 
 
 const LoginPage = (props: LoginPageProps): JSX.Element => {
-  const [message, setMessage] = useState('');
+  const { user, handleAuthEvt } = props;
 
-  const updateMessage = (msg: string): void => setMessage(msg);
-
-  return (
-    <main className={styles.container}>
-      <h1>Log In</h1>
-      <p>{message}</p>
-      <LoginForm {...props} updateMessage={updateMessage} />
-    </main>
-  );
+  if (user) {
+    return (
+      <Navigate to="/jobs" />
+    );
+  } else {
+    return (
+      <main className={styles.container}>
+        <h2>Please log in</h2>
+        <LoginForm handleAuthEvt={handleAuthEvt} />
+      </main>
+    );
+  }
 }
 
 export default LoginPage;

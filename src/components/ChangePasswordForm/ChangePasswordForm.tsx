@@ -5,9 +5,10 @@ import styles from './ChangePasswordForm.module.scss';
 import { AuthFormProps } from '../../types/props';
 import { ChangePasswordFormData } from '../../types/forms';
 import { handleErrMsg } from '../../types/validators';
+import logo from '../../assets/icons/logo.png';
 
 const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
-  const { updateMessage, handleAuthEvt } = props;
+  const { handleAuthEvt } = props;
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<ChangePasswordFormData>({
@@ -15,9 +16,10 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
     newPassword: '',
     newPasswordConf: '',
   });
+  const [message, setMessage] = useState('');
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
-    updateMessage('');
+    setMessage('');
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
   }
 
@@ -29,7 +31,7 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
       navigate('/jobs');
     } catch (err) {
       console.log(err);
-      handleErrMsg(err, updateMessage);
+      handleErrMsg(err, setMessage);
     }
   }
 
@@ -40,54 +42,26 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
   }
 
   return (
-    <form
-      autoComplete="off"
-      onSubmit={handleSubmit}
-      className={styles.container}
-    >
-      <div className={styles.inputContainer}>
-        <label htmlFor="password" className={styles.label}>
-          Current Password
-        </label>
-        <input
-          type="password"
-          id="oldPassword"
-          value={oldPassword}
-          name="oldPassword"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor="newPassword" className={styles.label}>
-          New Password
-        </label>
-        <input
-          type="password"
-          id="newPassword"
-          value={newPassword}
-          name="newPassword"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor="newPasswordConf" className={styles.label}>
-          Confirm New Password
-        </label>
-        <input
-          type="password"
-          id="newPasswordConf"
-          value={newPasswordConf}
-          name="newPasswordConf"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <button disabled={isFormInvalid()} className={styles.button}>
-          Change Password
-        </button>
-        <Link to="/">
-          <button>Cancel</button>
-        </Link>
+    <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
+      <img src={logo} alt="Door2Door Logo" />
+      <div className={styles.message}>{message}</div>
+      <input 
+        className={styles.inputContainer} type="password" id="oldPassword" 
+        value={oldPassword} name="oldPassword" onChange={handleChange} 
+        placeholder="Current Password"
+      />
+      <input 
+        className={styles.inputContainer} type="password" id="newPassword" 
+        value={newPassword} name="newPassword" onChange={handleChange} 
+        placeholder="New Password"
+      />
+      <input 
+        className={styles.inputContainer} type="password" id="newPasswordConf" 
+        value={newPasswordConf} name="newPasswordConf" onChange={handleChange} placeholder="Confirm New Password"
+      />
+      <div className={styles.buttonContainer}>
+        <button disabled={isFormInvalid()}>Apply</button>
+        <div><Link to="/jobs">Cancel</Link></div>
       </div>
     </form>
   );

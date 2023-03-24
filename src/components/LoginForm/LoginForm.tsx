@@ -5,18 +5,20 @@ import * as authService from '../../services/authService';
 import { AuthFormProps } from '../../types/props';
 import { LoginFormData } from '../../types/forms';
 import { handleErrMsg } from '../../types/validators';
+import logo from '../../assets/icons/logo.png';
 
 const LoginForm = (props: AuthFormProps): JSX.Element => {
-  const { updateMessage, handleAuthEvt } = props;
+  const { handleAuthEvt } = props;
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<LoginFormData>({
     email: '',
     password: '',
   });
+  const [message, setMessage] = useState('');
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement>): void => {
-    updateMessage('');
+    setMessage('');
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
   }
 
@@ -28,7 +30,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
       navigate('/jobs');
     } catch (err) {
       console.log(err);
-      handleErrMsg(err, updateMessage);
+      handleErrMsg(err, setMessage);
     }
   }
 
@@ -39,38 +41,19 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
   }
 
   return (
-    <form
-      autoComplete="off"
-      onSubmit={handleSubmit}
-      className={styles.container}
-    >
-      <div className={styles.inputContainer}>
-        <label htmlFor="email" className={styles.label}>Email</label>
-        <input
-          type="email"
-          id="email"
-          value={email}
-          name="email"
-          onChange={handleChange}
-        />
-      </div>
-      <div className={styles.inputContainer}>
-        <label htmlFor="password" className={styles.label}>Password</label>
-        <input
-          type="password"
-          id="password"
-          value={password}
-          name="password"
-          onChange={handleChange}
-        />
-      </div>
-      <div>
-        <button disabled={isFormInvalid()} className={styles.button}>
-          Log In
-        </button>
-        <Link to="/">
-          <button>Cancel</button>
-        </Link>
+    <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
+      <img src={logo} alt="Door2Door Logo" />
+      <div className={styles.message}>{message}</div>
+      <input
+        className={styles.inputContainer} type="email" id="email" 
+        value={email} name="email" onChange={handleChange} placeholder="Email"
+      />
+      <input
+        className={styles.inputContainer} type="password" id="password" 
+        value={password} name="password" onChange={handleChange} placeholder="Password"
+      />
+      <div className={styles.buttonContainer}>
+        <button disabled={isFormInvalid()}>Log In</button>
       </div>
     </form>
   );

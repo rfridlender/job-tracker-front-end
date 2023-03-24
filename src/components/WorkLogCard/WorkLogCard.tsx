@@ -44,26 +44,32 @@ const WorkLogCard = (props: WorkLogCardProps) => {
   } else {
     return (
       <div className={styles.container}>
-          <div>{workLog.workDate}</div>
-          <div>{workLog.employeeName}</div>
-          <div>{workLog.category}</div>
-          <div>{twentyFourToTwelveConvertor(workLog.startTime)}</div>
-          <div>{twentyFourToTwelveConvertor(workLog.endTime)}</div>
-          <div>{`${workLog.hourDifference.toFixed(2)}h`}</div>
+          <div className={styles.dateContainer}>{workLog.workDate}</div>
+          <div className={styles.nameContainer}>{workLog.employeeName}</div>
+          <div className={styles.categoryContainer}>{workLog.category}</div>
+          <div className={styles.dateContainer}>
+            {twentyFourToTwelveConvertor(workLog.startTime)}
+          </div>
+          <div className={styles.dateContainer}>
+            {twentyFourToTwelveConvertor(workLog.endTime)}
+          </div>
+          <div className={styles.hourContainer}>
+            {`${workLog.hourDifference.toFixed(2)}h`}
+          </div>
           <div>{workLog.workCompleted}</div>
-          <div>{workLog.completed ? 'Yes' : 'No'}</div>
+          <div className={styles.completedContainer}>{workLog.completed ? 'Yes' : 'No'}</div>
           <div>{workLog.incompleteItems}</div>
-          <div>{workLog.keyNumber}</div>
+          <div className={styles.keyContainer}>{workLog.keyNumber}</div>
           {user.name !== workLog.employeeName ?
-            <div />  
+            <div className={styles.buttonContainer} />  
             :
-            <div>
+            <div className={styles.buttonContainer}>
               <TiEdit onClick={() => setIsBeingEdited(true)} />
               <TiMinus onClick={() => setIsBeingDeleted(true)} />
             </div>
           }
           {isBeingDeleted &&
-            <div id={styles.deleteOptions}>
+            <div className={styles.deleteOptions}>
               <section>
                 <div>Are you sure you want to delete this work log from {workLog.workDate}?</div>
                 <div>

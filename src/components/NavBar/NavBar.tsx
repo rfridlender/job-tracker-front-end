@@ -22,14 +22,6 @@ const NavBar = (props: NavBarProps): JSX.Element => {
             <img className={styles.logo} src={logo} alt="Door2Door Logo" />
             <img className={styles.thinLogo} src={thinLogo} alt="Door2Door Logo" />
           </div>
-          <div>
-            <NavLink 
-              className={({ isActive }) => isActive ? styles.active : ''}
-              to="/login"
-            >
-              Login
-            </NavLink>
-          </div>
         </div>
       </nav>
     );

@@ -54,7 +54,7 @@ const UserCard = (props: UserCardProps) => {
     return (
       <article className={styles.container}>
         <div>{user.name}</div>
-        <div>{user.email}</div>
+        <a href={`mailto:${user.email}`}>{user.email}</a>
         <div>{user.role}</div>
         <div className={styles.buttonContainer}>
             <TiEdit onClick={() => setIsBeingEdited(true)} />

@@ -1,9 +1,154 @@
+$color-primary: #f8f9fa;
+$color-primary-shadow: #dee2e6;
+$color-secondary: #ced4da;
+$color-secondary-shadow: #6c757d;
+$color-accent: #8b0500;
+$color-accent-shadow: #4b0500;
+$color-text-primary: #212529;
+$color-text-secondary: #6c757d;
+$color-shadow: #6c757d;
+
 .container {
   width: 100%;
+  height: 3rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  > * {
+  gap: .5rem;
+  > .inputContainer, > .dateInputContainer, 
+  > .categoryInputContainer, > .keyInputContainer {
     width: 100%;
+    height: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border: none;
+    outline: none;
+    background-color: $color-primary;
+    color: $color-text-primary;
+    border-bottom: .125rem solid $color-text-primary;
+    transition: all .25s;
+    font-size: 1rem;
+    cursor: pointer;
+  }
+  > .inputContainer:hover, > .dateInputContainer:hover, 
+  > .categoryInputContainer:hover, > .keyInputContainer:hover {
+    border-bottom: .125rem solid $color-accent;
+  }
+  > .inputContainer::placeholder, > .keyInputContainer::placeholder {
+    color: $color-text-secondary;
+    transition: all .25s;
+  }
+  > .inputContainer:hover::placeholder, > .keyInputContainer:hover::placeholder {
+    color: $color-accent;
+  }
+  > .dateInputContainer {
+    width: 8rem;
+    min-width: 8rem;
+  }
+  .nameInputContainer {
+    width: 10rem;
+    min-width: 10rem;
+    height: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: default;
+  }
+  .categoryInputContainer {
+    width: 6rem;
+    min-width: 6rem;
+  }
+  .hourInputContainer {
+    width: 4rem;
+    min-width: 4rem;
+    height: 2rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    cursor: default;
+  }
+  .completedInputContainer {
+    width: 8rem;
+    min-width: 8rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    > label {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      border-radius: .25rem;
+      cursor: pointer;
+      transition: all .25s;
+    }
+    .completedContainer {
+      color: $color-text-primary;
+      border: .125rem solid $color-text-primary;
+    }
+    .incompletedContainer {
+      color: $color-text-secondary;
+      border: .125rem solid $color-text-secondary;
+    }
+    >label:hover {
+      color: $color-accent;
+      border: .125rem solid $color-accent;
+    }
+    > input {
+      display: none;
+    }
+  }
+  div.inputContainer {
+    border: none;
+    cursor: default;
+  }
+  .keyInputContainer {
+    width: 6rem;
+    min-width: 6rem;
+  }
+  div.keyInputContainer {
+    border: none;
+    cursor: default;
+  }
+  div.keyInputContainer:hover {
+    border: none;
+  }
+  > .buttonContainer {
+    width: fit-content;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .5rem;
+    > button, > div {
+      width: 2rem;
+      height: 2rem;
+      color: $color-text-primary;
+      background-color: inherit;
+      border: .125rem solid $color-text-primary;
+      border-radius: .25rem;
+      cursor: pointer;
+      transition: all .25s;
+      svg {
+        width: 100%;
+        height: 100%;
+      }
+    }
+    > button:hover, > div:hover {
+      color: $color-accent;
+      border: .125rem solid $color-accent;  
+    }
+    > button:disabled {
+      color: $color-text-secondary;
+      border: .125rem solid $color-text-secondary;
+    }
+    > button:disabled:hover {
+      color: $color-text-secondary;
+      border: .125rem solid $color-text-secondary;
+      cursor: inherit;
+    }
   }
 }

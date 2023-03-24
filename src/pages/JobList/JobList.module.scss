@@ -10,13 +10,14 @@ $color-shadow: #6c757d;
 
 .container {
   width: 100%;
-  max-width: 1440px;
+  max-width: 2176px;
   display: flex;
   flex-flow: column;
   justify-content: flex-start;
   align-items: center;
-  gap: .5rem;
-  margin-top: 5rem;
+  gap: 1rem;
+  margin-top: 4rem;
+  padding: 1rem;
   > h2 {
     width: 100%;
     display: flex;
@@ -24,54 +25,100 @@ $color-shadow: #6c757d;
     align-items: center;
     font-weight: normal;
   }
-  > header {
+  > .scrollContainer {
     width: 100%;
-    height: 3rem;
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
-    gap: 1rem;
-    background-color: $color-primary;
-    box-shadow: 0 .25rem .25rem 0 $color-shadow;
-    padding: 0 1rem;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: .5rem;
     border-radius: .25rem;
-    font-weight: bold;
-    > div {
+    overflow-x: scroll;
+    padding-bottom: .5rem;
+    > header {
+      width: fit-content;
+      height: 3rem;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: .5rem;
+      padding-right: .5rem;
+      background-color: $color-primary;
+      box-shadow: 0 .25rem .25rem 0 $color-shadow;
+      border-radius: .25rem;
+      font-weight: bold;
+      > div:first-child {
+        width: 8rem;
+        min-width: 8rem;
+        padding-left: .5rem;
+        color: $color-primary;
+        background-color: $color-text-primary;
+        border-radius: .25rem 0 0 .25rem;
+      }
+      > div {
+        width: 16rem;
+        min-width: 16rem;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+      }
+      > .buttonContainer {
+        width: 4.5rem;
+        min-width: 4.5rem;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: .5rem;
+        svg {
+          width: 2rem;
+          height: 2rem;
+          color: $color-text-primary;
+          border: .125rem solid $color-text-primary;
+          border-radius: .25rem;
+          cursor: pointer;
+          transition: all .25s;
+        }
+        svg:hover {
+          color: $color-accent;
+          border: .125rem solid $color-accent;  
+        }
+      }
+      #takeoffContainer {
+        width: 4.5rem;
+        min-width: 4.5rem;
+      }
+    }
+    > section {
       width: 100%;
-      height: 100%;
       display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      transition: all .25s;
-    }
-    > .buttonContainer {
-      width: 5rem;
-      min-width: 5rem;
-      height: 100%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: 1rem;
-      svg {
-        width: 2rem;
-        height: 2rem;
-        color: $color-text-primary;
-        border: .125rem solid $color-text-primary;
-        border-radius: .25rem;
-        cursor: pointer;
-        transition: all .25s;
-      }
-      svg:hover {
-        color: $color-accent;
-        border: .125rem solid $color-accent;  
-      }
-    }
-    #takeoffContainer {
-      width: 5rem;
-      min-width: 5rem;
+      flex-flow: column;
+      justify-content: center;
+      align-items: flex-start;
+      gap: .5rem;
     }
   }
-  > section {
+}
+
+@media screen and (max-width: 1056px) {
+  .container {
     width: 100%;
+    max-width: 1024px;
+    padding: 1rem 0;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    > .scrollContainer {
+      border-radius: 0;
+      > header {
+        border-radius: 0;
+        > div:first-child {
+          border-radius: 0;
+        }
+      }
+    }
   }
 }

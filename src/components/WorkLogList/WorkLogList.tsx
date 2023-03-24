@@ -19,21 +19,24 @@ const WorkLogList = (props: WorkLogListProps) => {
     <div className={styles.container}>
       {!isWorkLogFormOpen ? 
         <header>
-          <div>Work Date</div>
-          <div>Name</div>
-          <div>Category</div>
-          <div>Start Time</div>
-          <div>End Time</div>
-          <div>Hours</div>
+          <div className={styles.dateContainer}>Work Date</div>
+          <div className={styles.nameContainer}>Name</div>
+          <div className={styles.categoryContainer}>Category</div>
+          <div className={styles.dateContainer}>Start Time</div>
+          <div className={styles.dateContainer}>End Time</div>
+          <div className={styles.hourContainer}>Hours</div>
           <div>Work Completed</div>
-          <div>Completed</div>
+          <div className={styles.completedContainer}>Completed</div>
           <div>Incomplete Items</div>
-          <div>Key Number</div>
-          <TiPlus onClick={() => setIsWorkLogFormOpen(true)} />
+          <div className={styles.keyContainer}>Key Number</div>
+          <div className={styles.buttonContainer}>
+            <TiPlus onClick={() => setIsWorkLogFormOpen(true)} />
+          </div>
         </header>
         :
         <WorkLogForm jobId={job.id} user={user} setIsWorkLogFormOpen={setIsWorkLogFormOpen} />
       }
+      {!!job.workLogs.length && <div className={styles.divider} />}
       {job.workLogs?.map(workLog => (
         <WorkLogCard key={workLog.id} jobId={job.id} workLog={workLog} user={user} />
       ))}

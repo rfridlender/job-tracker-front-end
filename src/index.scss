@@ -37,3 +37,20 @@ $color-shadow: #6c757d;
     }
   }
 }
+
+::-webkit-scrollbar {
+  height: .75rem;
+}
+
+::-webkit-scrollbar-track {
+  background-color: inherit;
+}
+
+::-webkit-scrollbar-thumb {
+  background: $color-text-primary;
+  border-radius: .25rem;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: $color-accent;
+}

@@ -1,17 +1,79 @@
+$color-primary: #f8f9fa;
+$color-primary-shadow: #dee2e6;
+$color-secondary: #ced4da;
+$color-secondary-shadow: #6c757d;
+$color-accent: #8b0500;
+$color-accent-shadow: #4b0500;
+$color-text-primary: #212529;
+$color-text-secondary: #6c757d;
+$color-shadow: #6c757d;
+
 .container {
   width: 100%;
+  height: 3rem;
   display: flex;
-  justify-content: center;
+  justify-content: space-evenly;
   align-items: center;
-  background-color: plum;
-  > * {
+  gap: .5rem;
+  > div {
     width: 100%;
-    border: 1px solid blue;
+    height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: flex-start;
     align-items: center;
+    border: none;
+    outline: none;
+    transition: all .25s;
+    font-size: 1rem;
+    color: $color-text-primary;
   }
-  #deleteOptions {
+  > .dateContainer {
+    width: 8rem;
+    min-width: 8rem;
+  }
+  > .nameContainer {
+    width: 10rem;
+    min-width: 10rem;
+  }
+  > .categoryContainer {
+    width: 6rem;
+    min-width: 6rem;
+  }
+  > .hourContainer {
+    width: 4rem;
+    min-width: 4rem;
+  }
+  > .completedContainer {
+    width: 8rem;
+    min-width: 8rem;
+  }
+  > .keyContainer {
+    width: 6rem;
+    min-width: 6rem;
+  }
+  > .buttonContainer {
+    width: 4.5rem;
+    min-width: 4.5rem;
+    height: 100%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    gap: .5rem;
+    svg {
+      width: 2rem;
+      height: 2rem;
+      color: $color-text-primary;
+      border: .125rem solid $color-text-primary;
+      border-radius: .25rem;
+      cursor: pointer;
+      transition: all .25s;
+    }
+    svg:hover {
+      color: $color-accent;
+      border: .125rem solid $color-accent;  
+    }
+  }
+  .deleteOptions {
     width: 100%;
     height: 100%;
     display: flex;
@@ -25,19 +87,38 @@
     background-color: rgba(0, 0, 0, .5);
     > section {
       width: 20rem;
-      height: 8rem;
+      padding: 1rem;
       display: flex;
       flex-flow: column;
       justify-content: center;
       align-items: center;
-      background-color: white;
+      gap: 1rem;
+      background-color: $color-primary;
+      box-shadow: 0 .25rem .25rem 0 $color-shadow;
+      border-radius: .25rem;
+      font-size: 1rem;
       > div {
         width: 100%;
-        height: 100%;
+        height: 2rem;
         display: flex;
-        justify-content: space-evenly;
+        justify-content: center;
         align-items: center;
+        gap: 1rem;
         text-align: center;
+        button {
+          width: 100%;
+          height: 2rem;
+          color: $color-text-primary;
+          background-color: $color-primary;
+          border: .125rem solid $color-text-primary;
+          border-radius: .25rem;
+          cursor: pointer;
+          transition: all .25s;
+        }
+        button:hover {
+          color: $color-accent;
+          border: .125rem solid $color-accent;  
+        }
       }
     }
   }

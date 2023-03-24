@@ -17,7 +17,7 @@ const ContractorList = () => {
 
   return (
     <section className={styles.container}>
-      <h2>Contractors</h2>
+      <h2>Builders</h2>
       {!isContractorFormOpen ?
         <header>
           <div>Company Name</div>

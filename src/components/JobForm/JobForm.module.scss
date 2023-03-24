@@ -9,18 +9,23 @@ $color-text-secondary: #6c757d;
 $color-shadow: #6c757d;
 
 .container {
-  width: 100%;
+  width: fit-content;
   height: 3rem;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  gap: 1rem;
+  gap: .5rem;
   background-color: $color-primary;
   box-shadow: 0 .25rem .25rem 0 $color-shadow;
-  padding: 0 1rem;
+  padding: 0 .5rem;
   border-radius: .25rem;
+  > .inputContainer:first-child {
+    width: 7.5rem;
+    min-width: 7.5rem;
+  }
   > .inputContainer {
-    width: 100%;
+    width: 16rem;
+    min-width: 16rem;
     height: 2rem;
     border: none;
     outline: none;
@@ -46,7 +51,7 @@ $color-shadow: #6c757d;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: .5rem;
     > button, > div {
       width: 2rem;
       height: 2rem;
@@ -75,12 +80,13 @@ $color-shadow: #6c757d;
     }
   }
   #takeoffContainer {
-    width: fit-content;
+    width: 4.5rem;
+    min-width: 4.5rem;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 1rem;
+    gap: .5rem;
     border: none;
     label {
       width: 2rem;
@@ -102,5 +108,11 @@ $color-shadow: #6c757d;
     input {
       display: none;
     }
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    border-radius: 0;
   }
 }

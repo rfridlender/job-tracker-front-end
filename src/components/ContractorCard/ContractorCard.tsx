@@ -25,8 +25,10 @@ const ContractorCard = (props: ContractorCardProps) => {
       <article className={styles.container}>
         <div>{contractor.companyName}</div>
         <div>{contractor.contactName}</div>
-        <div>{contractor.phoneNumber}</div>
-        <div>{contractor.email}</div>
+        <a href={`tel:+${contractor.phoneNumber.replaceAll('.', '')}`}>
+              {contractor.phoneNumber}
+        </a>
+        <a href={`mailto:${contractor.email}`}>{contractor.email}</a>
         <div className={styles.buttonContainer}>
           <TiEdit onClick={() => setIsBeingEdited(true)} />
         </div>

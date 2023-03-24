@@ -65,7 +65,7 @@ const JobCard = (props: JobCardProps) => {
     return (
       <article className={styles.container}>
         <div className={styles.overviewContainer}>
-          <div>{job.status}</div>
+          <div className={styles[`${job.status.toLowerCase()}Container`]}>{job.status}</div>
           <div 
             className={styles.detailContainer} 
             onClick={() => setAreJobDetailsOpen(!areJobDetailsOpen)}
@@ -89,10 +89,18 @@ const JobCard = (props: JobCardProps) => {
               />
             </div>
           }
-          <div>{job.lockStatus}</div>
-          <div>{job.shelvingStatus}</div>
-          <div>{job.showerStatus}</div>
-          <div>{job.mirrorStatus}</div>
+          {job.lockStatus !== 'Done' ? 
+            <div>{job.lockStatus}</div> : <span>{job.lockStatus}</span>
+          }
+          {job.shelvingStatus !== 'Done' ? 
+            <div>{job.shelvingStatus}</div> : <span>{job.shelvingStatus}</span>
+          }
+          {job.showerStatus !== 'Done' ? 
+            <div>{job.showerStatus}</div> : <span>{job.showerStatus}</span>
+          }
+          {job.mirrorStatus !== 'Done' ? 
+            <div>{job.mirrorStatus}</div> : <span>{job.mirrorStatus}</span>
+          }
           <div 
             className={styles.detailContainer} 
             onClick={() => setAreBuilderDetailsOpen(!areBuilderDetailsOpen)}
@@ -125,14 +133,14 @@ const JobCard = (props: JobCardProps) => {
           <div className={styles.builderDetailsContainer}>
             <div>{job.contractor.companyName}</div>
             <div>{job.contractor.contactName}</div>
-            <div>{job.contractor.phoneNumber}</div>
-            <div>{job.contractor.email}</div>
+            <a href={`tel:+${job.contractor.phoneNumber.replaceAll('.', '')}`}>
+              {job.contractor.phoneNumber}
+            </a>
+            <a href={`mailto:${job.contractor.email}`}>{job.contractor.email}</a>
           </div>
         }
         {areJobDetailsOpen && 
-          <div className={styles.jobDetailsContainer}>
-            <WorkLogList job={job} user={user} />
-          </div>
+          <WorkLogList job={job} user={user} />
         }
       </article>
     );

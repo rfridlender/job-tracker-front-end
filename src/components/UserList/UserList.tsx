@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { TiPlus } from 'react-icons/ti';
 import * as userService from '../../services/userService';
 import UserCard from '../UserCard/UserCard';
@@ -13,26 +13,45 @@ const UserList = () => {
 
   const [isUserFormOpen, setIsUserFormOpen] = useState(false);
 
+  const scrollContainer = useRef<HTMLDivElement>(null);
+
+
+  const handleScroll = () => {
+    if (scrollContainer.current) {
+      scrollContainer.current.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+  }
+
+  const handleOpenUserForm = () => {
+    setIsUserFormOpen(true);
+    handleScroll();
+  }
+
   const users = data;
 
   return (
     <section className={styles.container}>
       <h2>Users</h2>
-      {!isUserFormOpen ?
-        <header>
-          <div>Name</div>
-          <div>Email</div>
-          <div>Role</div>
-          <div className={styles.buttonContainer}>
-            <TiPlus onClick={() => setIsUserFormOpen(true)} />
-          </div>
-        </header>
-        :
-        <UserForm setIsUserFormOpen={setIsUserFormOpen} />
-      }
-      {users?.map(user => (
-        <UserCard key={user.id} user={user} />
-      ))}
+      <div 
+        className={styles.scrollContainer} 
+        ref={scrollContainer} 
+      >
+        {!isUserFormOpen ?
+          <header>
+            <div className={styles.nameContainer}>Name</div>
+            <div>Email</div>
+            <div className={styles.roleContainer}>Role</div>
+            <div className={styles.buttonContainer}>
+              <TiPlus onClick={handleOpenUserForm} />
+            </div>
+          </header>
+          :
+          <UserForm setIsUserFormOpen={setIsUserFormOpen} handleScroll={handleScroll} />
+        }
+        {users?.map(user => (
+          <UserCard key={user.id} user={user} handleScroll={handleScroll} />
+        ))}
+      </div>
     </section>
   );
 }

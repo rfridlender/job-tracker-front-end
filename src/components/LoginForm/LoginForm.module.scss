@@ -81,3 +81,9 @@ $color-shadow: #6c757d;
     }
   }
 }
+
+@media screen and (max-width: 320px) {
+  .container {
+    border-radius: 0;
+  }
+}

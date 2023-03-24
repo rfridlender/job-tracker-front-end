@@ -11,10 +11,11 @@ interface UserFormProps {
   setIsUserFormOpen?: (boolean: boolean) => void;
   user?: User;
   setIsBeingEdited?: (boolean: boolean) => void;
+  handleScroll: () => void;
 }
 
 const UserForm = (props: UserFormProps): JSX.Element => {
-  const { setIsUserFormOpen, user, setIsBeingEdited } = props;
+  const { setIsUserFormOpen, user, setIsBeingEdited, handleScroll } = props;
 
   const queryClient = useQueryClient();
 
@@ -71,6 +72,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
+    // handleScroll();
     try {
       if (!user) {
         createUser.mutate(formData);
@@ -85,6 +87,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   }
 
   const handleCancelFunctions = () => {
+    handleScroll();
     if (!user) {
       setIsUserFormOpen && setIsUserFormOpen(false);
     } else {
@@ -101,7 +104,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
       <input
-        className={styles.inputContainer} type="text" id="name" 
+        className={styles.inputContainer} type="text" id={styles.nameInputContainer} 
         value={name} name="name" onChange={handleChange}
         autoComplete="off" placeholder="Name"
       />
@@ -111,7 +114,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         autoComplete="off" placeholder="Email"
       />
       <select 
-        className={styles.inputContainer} name="role" id="role" 
+        className={styles.inputContainer} name="role" id={styles.roleInputContainer} 
         onChange={handleChange} value={role}
       >
         {Object.values(Role).map(role => (

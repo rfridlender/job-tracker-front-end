@@ -14,7 +14,7 @@ $color-shadow: #6c757d;
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  gap: .5rem;
+  gap: 1rem;
   > h2 {
     width: 100%;
     display: flex;
@@ -22,46 +22,93 @@ $color-shadow: #6c757d;
     align-items: center;
     font-weight: normal;
   }
-  > header {
+  > .scrollContainer {
     width: 100%;
-    height: 3rem;
     display: flex;
-    justify-content: space-evenly;
-    align-items: center;
+    flex-flow: column;
+    justify-content: center;
+    align-items: flex-start;
     gap: .5rem;
-    background-color: $color-primary;
-    box-shadow: 0 .25rem .25rem 0 $color-shadow;
-    padding: 0 .5rem;
     border-radius: .25rem;
-    font-weight: bold;
-    > div {
+    overflow-x: scroll;
+    padding-bottom: 1rem;
+    > header {
       width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      transition: all .25s;
-    }
-    > .buttonContainer {
-      width: 4.5rem;
-      min-width: 4.5rem;
-      height: 100%;
+      height: 3rem;
       display: flex;
       justify-content: flex-start;
       align-items: center;
       gap: .5rem;
-      svg {
-        width: 2rem;
-        height: 2rem;
-        color: $color-text-primary;
-        border: .125rem solid $color-text-primary;
-        border-radius: .25rem;
-        cursor: pointer;
+      background-color: $color-primary;
+      box-shadow: 0 .25rem .25rem 0 $color-shadow;
+      padding: 0 .5rem;
+      border-radius: .25rem;
+      font-weight: bold;
+      > div {
+        width: 100%;
+        min-width: 14rem;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
         transition: all .25s;
       }
-      svg:hover {
-        color: $color-accent;
-        border: .125rem solid $color-accent;  
+      > .nameContainer {
+        min-width: 12rem;
+      }
+      > .roleContainer {
+        min-width: 6rem;
+      }
+      > .buttonContainer {
+        width: 4.5rem;
+        min-width: 4.5rem;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: .5rem;
+        svg {
+          width: 2rem;
+          height: 2rem;
+          color: $color-text-primary;
+          border: .125rem solid $color-text-primary;
+          border-radius: .25rem;
+          cursor: pointer;
+          transition: all .25s;
+        }
+        svg:hover {
+          color: $color-accent;
+          border: .125rem solid $color-accent;  
+        }
+      }
+    }
+  }
+}
+
+
+@media screen and (max-width: 1056px) {
+  .container {
+    width: 100%;
+    max-width: 1024px;
+  }
+}
+
+@media screen and (max-width: 1024px) {
+  .container {
+    > .scrollContainer {
+      border-radius: 0;
+      > header {
+        border-radius: 0;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 624px) {
+  .container {
+    > .scrollContainer {
+      > header {
+        width: fit-content;
       }
     }
   }

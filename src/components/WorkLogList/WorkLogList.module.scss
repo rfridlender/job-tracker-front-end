@@ -88,3 +88,9 @@ $color-shadow: #6c757d;
     background-color: $color-text-primary;
   }
 }
+
+@media screen and (max-width: 1024px) {
+  .container {
+    border-radius: 0;
+  }
+}

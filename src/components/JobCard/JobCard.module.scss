@@ -139,8 +139,10 @@ $color-retired: #212529;
       top: 0;
       left: 0;
       background-color: rgba(0, 0, 0, .5);
+      overflow-y: auto;
       > img {
-        height: 90vh;
+        width: 100%;
+        max-width: 1440px;
         object-fit: cover;
       }
     }
@@ -228,6 +230,21 @@ $color-retired: #212529;
       border-radius: 0;
       > div:first-child {
         border-radius: 0;
+      }
+    }
+    .builderDetailsContainer {
+      border-radius: 0;
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .container {
+    .overviewContainer {
+      .deleteOptions {
+        section {
+          border-radius: 0;
+        }
       }
     }
   }

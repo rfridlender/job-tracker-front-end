@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { TiPlus } from 'react-icons/ti';
 import * as contractorService from '../../services/contractorService';
 import ContractorCard from '../ContractorCard/ContractorCard';
@@ -13,27 +13,34 @@ const ContractorList = () => {
 
   const [isContractorFormOpen, setIsContractorFormOpen] = useState(false);
 
+  const scrollContainer = useRef<HTMLDivElement>(null);
+
   const contractors = data;
 
   return (
     <section className={styles.container}>
       <h2>Builders</h2>
-      {!isContractorFormOpen ?
-        <header>
-          <div>Company Name</div>
-          <div>Contact Name</div>
-          <div>Phone Number</div>
-          <div>Email</div>
-          <div className={styles.buttonContainer}>
-            <TiPlus onClick={() => setIsContractorFormOpen(true)} />
-          </div>
-        </header>
-        :
-        <ContractorForm setIsContractorFormOpen={setIsContractorFormOpen} />
-      }
-      {contractors?.map(contractor => (
-        <ContractorCard key={contractor.id} contractor={contractor} />
-      ))}
+      <div 
+        className={styles.scrollContainer} 
+        ref={scrollContainer} 
+      >
+        {!isContractorFormOpen ?
+          <header>
+            <div>Company Name</div>
+            <div className={styles.nameContainer}>Contact Name</div>
+            <div className={styles.phoneContainer}>Phone Number</div>
+            <div>Email</div>
+            <div className={styles.buttonContainer}>
+              <TiPlus onClick={() => setIsContractorFormOpen(true)} />
+            </div>
+          </header>
+          :
+          <ContractorForm setIsContractorFormOpen={setIsContractorFormOpen} />
+        }
+        {contractors?.map(contractor => (
+          <ContractorCard key={contractor.id} contractor={contractor} />
+        ))}
+      </div>
     </section>
   );
 }

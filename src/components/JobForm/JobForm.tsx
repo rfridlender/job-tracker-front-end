@@ -14,10 +14,14 @@ interface JobFormProps {
   job?: Job;
   setIsBeingEdited?: (boolean: boolean) => void;
   user: User;
+  handleScroll: () => void;
 }
 
 const JobForm = (props: JobFormProps): JSX.Element => {
-  const { contractors, setIsJobFormOpen, job, setIsBeingEdited, user } = props;
+  const { 
+    contractors, setIsJobFormOpen, job, 
+    setIsBeingEdited, user, handleScroll 
+  } = props;
 
   const queryClient = useQueryClient();
 
@@ -96,6 +100,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
+    handleScroll();
     try {
       if (!job) {
         createJob.mutate(formData);
@@ -110,6 +115,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
   }
 
   const handleCancelFunctions = () => {
+    handleScroll();
     if (!job) {
       setIsJobFormOpen && setIsJobFormOpen(false);
     } else {
@@ -232,8 +238,8 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         <button disabled={isFormInvalid()}>
           <TiPlus />
         </button>
-        <div>
-          <TiCancel onClick={handleCancelFunctions} />
+        <div onClick={handleCancelFunctions}>
+          <TiCancel />
         </div>
       </div>
     </form>

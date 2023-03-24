@@ -106,12 +106,12 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
         autoComplete="off" placeholder="Company Name"
       />
       <input 
-        className={styles.inputContainer} type="text" id="contactName" 
+        className={styles.inputContainer} type="text" id={styles.nameInputContainer} 
         value={contactName} name="contactName" onChange={handleChange} 
         autoComplete="off" placeholder="Contact Name"
       />
       <input 
-        className={styles.inputContainer} type="tel" id="phoneNumber" 
+        className={styles.inputContainer} type="tel" id={styles.phoneInputContainer} 
         value={phoneNumber} name="phoneNumber" onChange={handleChange} 
         autoComplete="off" placeholder="000.000.0000"
         pattern="[0-9]{3}.[0-9]{3}.[0-9]{4}"

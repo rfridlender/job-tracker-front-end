@@ -14,10 +14,12 @@ interface JobCardProps {
   contractors: Contractor[] | undefined;
   job: Job;
   user: User;
+  handleScroll: () => void;
 }
 
 const JobCard = (props: JobCardProps) => {
-  const { contractors, job, user } = props;
+  const { contractors, job, user, handleScroll } = props;
+
   const queryClient = useQueryClient();
 
   const [isBeingEdited, setIsBeingEdited] = useState(false);
@@ -46,6 +48,7 @@ const JobCard = (props: JobCardProps) => {
   });
 
   const handleDelete = () => {
+    handleScroll();
     try {
       deleteJob.mutate();
       setIsBeingDeleted(false);
@@ -54,11 +57,16 @@ const JobCard = (props: JobCardProps) => {
     }
   }
 
+  const handleEditJob = () => {
+    setIsBeingEdited(true);
+    handleScroll();
+  }
+
   if (isBeingEdited) {
     return (
       <JobForm 
-        contractors={contractors} job={job} 
-        setIsBeingEdited={setIsBeingEdited} user={user} 
+        contractors={contractors} job={job} setIsBeingEdited={setIsBeingEdited} 
+        user={user} handleScroll={handleScroll}
       />
     );
   } else {
@@ -114,7 +122,7 @@ const JobCard = (props: JobCardProps) => {
           </div>
           <div>{job.jobSiteAccess}</div>
           <div className={styles.buttonContainer}>
-            <TiEdit onClick={() => setIsBeingEdited(true)} />
+            <TiEdit onClick={handleEditJob} />
             {user.role === Role.ADMIN && <TiMinus onClick={() => setIsBeingDeleted(true)} />}
           </div>
           {isBeingDeleted &&

@@ -13,13 +13,7 @@
 @media screen and (max-width: 1056px) {
   .container {
     width: 100%;
-    min-width: 1024px;
+    max-width: 1024px;
     padding: 1rem 0;
   }
 }
-
-// @media screen and (max-width: 425px) {
-//   .container {
-    
-//   }
-// }

@@ -24,6 +24,7 @@ $color-shadow: #6c757d;
 
 :root {
   @include expand();
+  background-color: $color-primary-shadow;
   body {
     @include expand();
     #root {
@@ -32,7 +33,6 @@ $color-shadow: #6c757d;
       flex-flow: column;
       justify-content: flex-start;
       align-items: center;
-      background-color: $color-primary-shadow;
       color: $color-text-primary;
     }
   }

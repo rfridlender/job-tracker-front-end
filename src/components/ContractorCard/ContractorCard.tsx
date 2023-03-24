@@ -24,9 +24,12 @@ const ContractorCard = (props: ContractorCardProps) => {
     return (
       <article className={styles.container}>
         <div>{contractor.companyName}</div>
-        <div>{contractor.contactName}</div>
-        <a href={`tel:+${contractor.phoneNumber.replaceAll('.', '')}`}>
-              {contractor.phoneNumber}
+        <div className={styles.nameContainer}>{contractor.contactName}</div>
+        <a 
+          className={styles.phoneContainer} 
+          href={`tel:+${contractor.phoneNumber.replaceAll('.', '')}`}
+        >
+          {contractor.phoneNumber}
         </a>
         <a href={`mailto:${contractor.email}`}>{contractor.email}</a>
         <div className={styles.buttonContainer}>

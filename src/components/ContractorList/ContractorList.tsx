@@ -15,6 +15,17 @@ const ContractorList = () => {
 
   const scrollContainer = useRef<HTMLDivElement>(null);
 
+  const handleScroll = () => {
+    if (scrollContainer.current) {
+      scrollContainer.current.scrollTo({ left: 0, behavior: 'smooth' });
+    }
+  }
+
+  const handleOpenContractorForm = () => {
+    setIsContractorFormOpen(true);
+    handleScroll();
+  }
+
   const contractors = data;
 
   return (
@@ -31,14 +42,19 @@ const ContractorList = () => {
             <div className={styles.phoneContainer}>Phone Number</div>
             <div>Email</div>
             <div className={styles.buttonContainer}>
-              <TiPlus onClick={() => setIsContractorFormOpen(true)} />
+              <TiPlus onClick={handleOpenContractorForm} />
             </div>
           </header>
           :
-          <ContractorForm setIsContractorFormOpen={setIsContractorFormOpen} />
+          <ContractorForm 
+            setIsContractorFormOpen={setIsContractorFormOpen}
+            handleScroll={handleScroll}
+          />
         }
         {contractors?.map(contractor => (
-          <ContractorCard key={contractor.id} contractor={contractor} />
+          <ContractorCard 
+            key={contractor.id} contractor={contractor} handleScroll={handleScroll}
+          />
         ))}
       </div>
     </section>

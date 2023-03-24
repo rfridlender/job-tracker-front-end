@@ -34,6 +34,11 @@ const JobList = (props: JobListProps) => {
     }
   }
 
+  const handleOpenJobForm = () => {
+    setIsJobFormOpen(true);
+    handleScroll();
+  }
+
   const onMouseDown = (evt: React.MouseEvent<HTMLDivElement>) => {
     setScrollState({ ...scrollState, isScrolling: true, clientX: evt.clientX });
     if (scrollContainer.current) {
@@ -55,11 +60,6 @@ const JobList = (props: JobListProps) => {
       scrollState.scrollX = scrollX + evt.clientX - clientX;
       scrollState.clientX = evt.clientX;
     }
-  }
-
-  const handleOpenJobForm = () => {
-    setIsJobFormOpen(true);
-    handleScroll();
   }
   
   const contractors = contractorQuery.data;

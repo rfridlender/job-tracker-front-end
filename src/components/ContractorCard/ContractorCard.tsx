@@ -7,18 +7,27 @@ import ContractorForm from '../ContractorForm/ContractorForm';
 
 interface ContractorCardProps {
   contractor: Contractor;
+  handleScroll: () => void;
 }
 
 const ContractorCard = (props: ContractorCardProps) => {
-  const { contractor } = props;
+  const { contractor, handleScroll } = props;
   
   const queryClient = useQueryClient();
 
   const [isBeingEdited, setIsBeingEdited] = useState(false);
 
+
+  const handleEditContractor = () => {
+    setIsBeingEdited(true);
+    handleScroll();
+  }
+
   if (isBeingEdited) {
     return (
-      <ContractorForm contractor={contractor} setIsBeingEdited={setIsBeingEdited} />
+      <ContractorForm 
+        contractor={contractor} setIsBeingEdited={setIsBeingEdited} 
+        handleScroll={handleScroll} />
     );
   } else {
     return (
@@ -33,7 +42,7 @@ const ContractorCard = (props: ContractorCardProps) => {
         </a>
         <a href={`mailto:${contractor.email}`}>{contractor.email}</a>
         <div className={styles.buttonContainer}>
-          <TiEdit onClick={() => setIsBeingEdited(true)} />
+          <TiEdit onClick={handleEditContractor} />
         </div>
       </article>
     );

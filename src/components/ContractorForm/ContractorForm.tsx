@@ -10,10 +10,11 @@ interface ContractorFormProps {
   setIsContractorFormOpen?: (boolean: boolean) => void;
   contractor?: Contractor;
   setIsBeingEdited?: (boolean: boolean) => void;
+  handleScroll: ()=> void;
 }
 
 const ContractorForm = (props: ContractorFormProps): JSX.Element => {
-  const { setIsContractorFormOpen, contractor, setIsBeingEdited } = props;
+  const { setIsContractorFormOpen, contractor, setIsBeingEdited, handleScroll } = props;
 
   const queryClient = useQueryClient();
 
@@ -71,6 +72,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
+    handleScroll();
     try {
       if (!contractor) {
         createContractor.mutate(formData);
@@ -85,6 +87,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
   }
 
   const handleCancelFunctions = () => {
+    handleScroll();;
     if (!contractor) {
       setIsContractorFormOpen && setIsContractorFormOpen(false);
     } else {

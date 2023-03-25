@@ -8,6 +8,8 @@ import { User } from '../types/models';
 const BASE_URL = `${import.meta.env.VITE_BACK_END_SERVER_URL}/api/auth`;
 
 async function login(formData: LoginFormData): Promise<void> {
+  console.log(`running`);
+  
   try {
     const res = await fetch(`${BASE_URL}/login`, {
       method: 'POST',

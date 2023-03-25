@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Routes, Route, useNavigate } from 'react-router-dom';
 import Login from './pages/Login/Login';
-import Landing from './pages/Landing/Landing';
 import ChangePassword from './pages/ChangePassword/ChangePassword';
 import NavBar from './components/NavBar/NavBar';
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';

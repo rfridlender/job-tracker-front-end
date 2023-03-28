@@ -12,15 +12,15 @@ $color-shadow: #6c757d;
   width: 100%;
   display: flex;
   flex-flow: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  gap: 1rem;
   > h2 {
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     font-weight: normal;
+    padding: 1rem;
   }
   > .scrollContainer {
     width: 100%;

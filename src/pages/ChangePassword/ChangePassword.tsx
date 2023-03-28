@@ -1,5 +1,7 @@
 import ChangePasswordForm from '../../components/ChangePasswordForm/ChangePasswordForm';
+import NavBar from '../../components/NavBar/NavBar';
 import styles from './ChangePassword.module.scss';
+import logo from '../../assets/icons/logo.png'
 
 interface ChangePasswordProps {
   handleAuthEvt: () => void;
@@ -7,10 +9,13 @@ interface ChangePasswordProps {
 
 const ChangePassword = (props: ChangePasswordProps): JSX.Element => {
   return (
-    <main className={styles.container}>
-      <h2>Change Password</h2>
-      <ChangePasswordForm {...props} />
-    </main>
+    <>
+      <NavBar />
+      <main className={styles.container}>
+        <img src={logo} alt="Door2Door Logo" />
+        <ChangePasswordForm {...props} />
+      </main>
+    </>
   );
 }
 

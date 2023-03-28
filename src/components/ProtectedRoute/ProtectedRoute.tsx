@@ -11,7 +11,7 @@ const ProtectedRoute = (props: ProtectedRouteProps): JSX.Element => {
   const { user, children } = props;
 
   if (!user) {
-    return (<Navigate to="/login" />);
+    return (<Navigate to="/" />);
   } else {
     return (<>{ children }</>);
   }

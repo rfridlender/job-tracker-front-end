@@ -10,63 +10,64 @@ $color-shadow: #6c757d;
 
 .container {
   width: 100%;
-  height: 4rem;
+  height: 3rem;
+  min-height: 3rem;
+  grid-area: nav;
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-  position: fixed;
+  padding: 0 1rem;
   background-color: $color-primary;
-  box-shadow: 0 .25rem .25rem 0 $color-shadow;
-  > .subnav {
-    width: 100%;
-    max-width: 2176px;
+  box-shadow: 0 0 .25rem 0 $color-shadow;
+  z-index: 1;
+  a {
+    height: 100%;
+    color: $color-text-secondary;
+    transition: all .25s;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: .125rem;
+  }
+  a.active {
+    color: $color-text-primary;
+  }
+  a:hover {
+    color: $color-accent;
+  }
+  svg {
+    height: 100%;
+  }
+  > .welcomeContainer {
+    > svg {
+      width: 2rem;
+      height: 2rem;
+      border-radius: .25rem;
+      transition: all .25s;
+      cursor: pointer;
+    }
+    > svg:hover {
+      background-color: $color-secondary;
+    }
+  }
+  > div {
     height: 100%;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    padding: 0 1rem;
-    a {
-      height: 100%;
-      color: $color-text-secondary;
-      transition: all .25s;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: .125rem;
-    }
-    a.active {
-      color: $color-text-primary;
-    }
-    a:hover {
-      color: $color-accent;
-    }
-    svg {
-      height: 100%;
-    }
-    > div {
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      > .logo {
-        height: 75%;
-      }
-      > .thinLogo {
-        display: none;
-      }
+    gap: 1rem;
+    > span {
+      font-weight: bold;
     }
   }
 }
 
 @media screen and (max-width: 768px) {
   .container {
-    > .subnav {
-      > div {
-        > a {
-          > span {
-            display: none;
-          }
+    > div {
+      > a {
+        > span {
+          display: none;
         }
       }
     }
@@ -75,15 +76,9 @@ $color-shadow: #6c757d;
 
 @media screen and (max-width: 425px) {
   .container {
-    > .subnav {
-      > div {
-        > .logo {
-          display: none;
-        }
-        > .thinLogo {
-          display: inherit;
-          height: 75%;
-        }
+    > .welcomeContainer {
+      > span {
+        display: none;
       }
     }
   }

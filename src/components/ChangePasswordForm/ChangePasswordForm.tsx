@@ -28,7 +28,7 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
     try {
       await authService.changePassword(formData);
       handleAuthEvt();
-      navigate('/jobs');
+      navigate('/portal/jobs');
     } catch (err) {
       console.log(err);
       handleErrMsg(err, setMessage);
@@ -43,8 +43,8 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <img src={logo} alt="Door2Door Logo" />
-      <div className={styles.message}>{message}</div>
+      <h2>Change password</h2>
+      {message && <div className={styles.message}>{message}</div>}
       <input 
         className={styles.inputContainer} type="password" id="oldPassword" 
         value={oldPassword} name="oldPassword" onChange={handleChange} 
@@ -61,7 +61,7 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
       />
       <div className={styles.buttonContainer}>
         <button disabled={isFormInvalid()}>Apply</button>
-        <div><Link to="/jobs">Cancel</Link></div>
+        <div><Link to="/portal/jobs">Cancel</Link></div>
       </div>
     </form>
   );

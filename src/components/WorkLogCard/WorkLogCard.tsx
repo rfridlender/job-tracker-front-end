@@ -11,10 +11,12 @@ interface WorkLogCardProps {
   jobId: number;
   workLog: WorkLog;
   user: User;
+  setIsWorkLogFormOpen: (boolean: boolean) => void;
+  handleScroll: () => void;
 }
 
 const WorkLogCard = (props: WorkLogCardProps) => {
-  const { jobId, workLog, user } = props;
+  const { jobId, workLog, user, setIsWorkLogFormOpen, handleScroll } = props;
 
   const queryClient = useQueryClient();
   
@@ -27,6 +29,7 @@ const WorkLogCard = (props: WorkLogCardProps) => {
   });
 
   const handleDelete = () => {
+    handleScroll();
     try {
       deleteWorkLog.mutate();
       setIsBeingDeleted(false);
@@ -35,10 +38,15 @@ const WorkLogCard = (props: WorkLogCardProps) => {
     }
   }
 
+  const handleEditWorkLog = () => {
+    setIsBeingEdited(true);
+    handleScroll();
+  }
+
   if (isBeingEdited) {
     return (
       <WorkLogForm 
-        jobId={jobId} user={user} workLog={workLog} setIsBeingEdited={setIsBeingEdited} 
+        jobId={jobId} user={user} workLog={workLog} setIsBeingEdited={setIsBeingEdited} handleScroll={handleScroll}
       />
     );
   } else {
@@ -64,7 +72,7 @@ const WorkLogCard = (props: WorkLogCardProps) => {
             <div className={styles.buttonContainer} />  
             :
             <div className={styles.buttonContainer}>
-              <TiEdit onClick={() => setIsBeingEdited(true)} />
+              <TiEdit onClick={handleEditWorkLog} />
               <TiMinus onClick={() => setIsBeingDeleted(true)} />
             </div>
           }

@@ -14,10 +14,14 @@ interface WorkLogFormProps {
   setIsWorkLogFormOpen?: (boolean: boolean) => void;
   workLog?: WorkLog;
   setIsBeingEdited?: (boolean: boolean) => void;
+  handleScroll: () => void;
 }
 
 const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
-  const { jobId, user, setIsWorkLogFormOpen, workLog, setIsBeingEdited } = props;
+  const { 
+    jobId, user, setIsWorkLogFormOpen, workLog, 
+    setIsBeingEdited, handleScroll 
+  } = props;
 
   const queryClient = useQueryClient();
 
@@ -53,6 +57,7 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
+    handleScroll();
     try {
       if (!workLog) {
         createWorkLog.mutate();
@@ -67,6 +72,7 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
   }
 
   const handleCancelFunctions = () => {
+    handleScroll();
     if (!workLog) {
       setIsWorkLogFormOpen && setIsWorkLogFormOpen(false);
     } else {

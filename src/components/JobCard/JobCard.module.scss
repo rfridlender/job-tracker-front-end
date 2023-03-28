@@ -3,11 +3,11 @@ $color-secondary: #ced4da;
 $color-accent: #8b0500;
 $color-text-primary: #212529;
 $color-shadow: #6c757d;
-$color-upcoming: #e76f51;
-$color-incomplete: #f4a261;
-$color-complete: #e9c46a;
-$color-invoiced: #2a9d8f;
-$color-paid: #264653;
+$color-upcoming: #6c757d;
+$color-incomplete: #8b0500;
+$color-complete: #38b000;
+$color-invoiced: #006400;
+$color-paid: #7209b7;
 $color-retired: #212529;
 
 .container {
@@ -16,181 +16,201 @@ $color-retired: #212529;
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  gap: .5rem;
   .overviewContainer {
     width: 100%;
     height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: .5rem;
-    padding-right: .5rem;
-    background-color: $color-primary;
-    box-shadow: 0 .25rem .25rem 0 $color-shadow;
-    border-radius: .25rem;
+    gap: .75rem;
     > div:first-child {
-      width: 8rem;
-      min-width: 8rem;
-      padding-left: .5rem;
-      color: $color-primary;
-      border-radius: .25rem 0 0 .25rem;
+      width: .25rem;
+      min-width: .25rem;
+      height: 100%;
+      padding: 0;
+      position: sticky;
+      left: 0;
+      z-index: 1;
     }
-    .upcomingContainer {
+    > .upcomingSpacer {
       background-color: $color-upcoming;
     }
-    .incompleteContainer {
+    > .incompleteSpacer {
       background-color: $color-incomplete;
     }
-    .completeContainer {
+    > .completeSpacer {
       background-color: $color-complete;
     }
-    .invoicedContainer {
+    > .invoicedSpacer {
       background-color: $color-invoiced;
     }
-    .paidContainer {
+    > .paidSpacer {
       background-color: $color-paid;
     }
-    .retiredContainer {
+    > .retiredSpacer {
       background-color: $color-retired;
     }
-    > div, > span {
-      width: 16rem;
-      min-width: 16rem;
-      height: 100%;
+    > .overviewDetailsContainer {
+      width: 100%;
+      height: 3rem;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      gap: .5rem;
-      transition: all .25s;
-    }
-    > span {
-      color: $color-invoiced;
-    }
-    > .detailContainer {
-      cursor: pointer;
-      transition: all .25s;
-      > div {
+      border-bottom: 1px solid $color-secondary;
+      > .statusContainer {
+        width: 8rem;
+        min-width: 8rem;
+      }
+      > div, > span {
+        width: 16rem;
+        min-width: 16rem;
+        height: 100%;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: .5rem;
+        padding: 0 .5rem;
+        transition: all .25s;
+      }
+      > span {
+        color: $color-primary;
+        background-color: #006400;
+        font-weight: bold;
+        border-right: 1px solid $color-primary;
+        
+      }
+      > .detailContainer {
+        cursor: pointer;
+        transition: all .25s;
+        > div {
+          height: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        > svg {
+          width: 1rem;
+          min-width: 1rem;
+          height: 100%;
+        }
+      }
+      > .detailContainer:hover {
+        color: $color-accent;
+      }
+      > #addressContainer {
+        position: sticky;
+        left: .25rem;
+        background-color: $color-primary;
+      }
+      > #takeoffContainer {
+        width: 5.5rem;
+        min-width: 5.5rem;
+        svg, div {
+          width: 2rem;
+          height: 2rem;
+          color: $color-text-primary;
+          border: 1px solid $color-text-primary;
+          border-radius: .25rem;
+          cursor: pointer;
+          transition: all .25s;
+        }
+        svg:hover {
+          color: $color-accent;
+          border: 1px solid $color-accent;  
+        }
+      }
+      > #accessContainer {
+        width: 10rem;
+        min-width: 10rem;
+      }
+      > .buttonContainer {
+        width: 5.5rem;
+        min-width: 5.5rem;
+        height: 100%;
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: .5rem;
+        svg {
+          width: 2rem;
+          height: 2rem;
+          color: $color-text-primary;
+          border: 1px solid $color-text-primary;
+          border-radius: .25rem;
+          cursor: pointer;
+          transition: all .25s;
+        }
+        svg:hover {
+          color: $color-accent;
+          border: 1px solid $color-accent;  
+        }
+      }
+      .takeoffOverlay {
+        width: 100%;
         height: 100%;
         display: flex;
         justify-content: center;
-        align-items: center;
+        align-items: flex-start;
+        position: absolute;
+        top: 0;
+        left: 0;
+        padding: 1rem 0;
+        background-color: rgba(0, 0, 0, .5);
+        overflow-y: auto;
+        z-index: 4;
+        > img {
+          width: 100%;
+          max-width: 1440px;
+          object-fit: cover;
+        }
       }
-      > svg {
-        width: 1rem;
-        min-width: 1rem;
-        height: 100%;
-      }
-    }
-    > .detailContainer:hover {
-      color: $color-accent;
-    }
-    > .buttonContainer {
-      width: 4.5rem;
-      min-width: 4.5rem;
-      height: 100%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: .5rem;
-      svg {
-        width: 2rem;
-        height: 2rem;
-        color: $color-text-primary;
-        border: .125rem solid $color-text-primary;
-        border-radius: .25rem;
-        cursor: pointer;
-        transition: all .25s;
-      }
-      svg:hover {
-        color: $color-accent;
-        border: .125rem solid $color-accent;  
-      }
-    }
-    #takeoffContainer {
-      width: 4.5rem;
-      min-width: 4.5rem;
-      height: 100%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: .5rem;
-      border: none;
-      svg, div {
-        width: 2rem;
-        height: 2rem;
-        color: $color-text-primary;
-        border: .125rem solid $color-text-primary;
-        border-radius: .25rem;
-        cursor: pointer;
-        transition: all .25s;
-      }
-      svg:hover {
-        color: $color-accent;
-        border: .125rem solid $color-accent;  
-      }
-    }
-    .takeoffOverlay {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, .5);
-      overflow-y: auto;
-      > img {
+      .deleteOptions {
         width: 100%;
-        max-width: 1440px;
-        object-fit: cover;
-      }
-    }
-    .deleteOptions {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-flow: column;
-      justify-content: center;
-      align-items: center;
-      gap: 1rem;
-      position: absolute;
-      top: 0;
-      left: 0;
-      background-color: rgba(0, 0, 0, .5);
-      > section {
-        width: 20rem;
-        padding: 1rem;
+        height: 100%;
         display: flex;
         flex-flow: column;
         justify-content: center;
         align-items: center;
         gap: 1rem;
-        background-color: $color-primary;
-        box-shadow: 0 .25rem .25rem 0 $color-shadow;
-        border-radius: .25rem;
-        font-size: 1rem;
-        > div {
-          width: 100%;
-          height: 2rem;
+        position: absolute;
+        top: 0;
+        left: 0;
+        background-color: rgba(0, 0, 0, .5);
+        z-index: 4;
+        > section {
+          width: 20rem;
+          padding: 1rem;
           display: flex;
+          flex-flow: column;
           justify-content: center;
           align-items: center;
           gap: 1rem;
-          text-align: center;
-          button {
+          background-color: $color-primary;
+          box-shadow: 0 .25rem .25rem 0 $color-shadow;
+          border-radius: .25rem;
+          font-size: 1rem;
+          > div {
             width: 100%;
             height: 2rem;
-            color: $color-text-primary;
-            background-color: $color-primary;
-            border: .125rem solid $color-text-primary;
-            border-radius: .25rem;
-            cursor: pointer;
-            transition: all .25s;
-          }
-          button:hover {
-            color: $color-accent;
-            border: .125rem solid $color-accent;  
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 1rem;
+            text-align: center;
+            button {
+              width: 100%;
+              height: 2rem;
+              color: $color-text-primary;
+              background-color: $color-primary;
+              border: 1px solid $color-text-primary;
+              border-radius: .25rem;
+              cursor: pointer;
+              transition: all .25s;
+            }
+            button:hover {
+              color: $color-accent;
+              border: 1px solid $color-accent;  
+            }
           }
         }
       }
@@ -199,21 +219,23 @@ $color-retired: #212529;
   .builderDetailsContainer {
     width: 100%;
     height: 3rem;
+    min-height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
     gap: .5rem;
-    padding: 0 .5rem;
-    background: $color-primary;
-    box-shadow: 0 .25rem .25rem 0 $color-shadow;
-    border-radius: .25rem;
+    padding: 0 1rem;
+    background: $color-secondary;
+    z-index: 2;
     > * {
       width: 100%;
       display: flex;
       justify-content: flex-start;
       align-items: center;
+      padding: 0 .5rem;
     }
     > a {
+      height: 100%;
       color: $color-text-primary;
       cursor: pointer;
       transition: all .25s;
@@ -222,28 +244,18 @@ $color-retired: #212529;
       color: $color-accent;
     }
   }
-}
-
-@media screen and (max-width: 1024px) {
-  .container {
-    .overviewContainer {
-      border-radius: 0;
-      > div:first-child {
-        border-radius: 0;
-      }
-    }
-    .builderDetailsContainer {
-      border-radius: 0;
-    }
+  > .detailsSpacer {
+    width: 100%;
+    border-bottom: 1px solid $color-text-primary;
   }
 }
 
-@media screen and (max-width: 320px) {
+@media screen and (max-width: 768px) {
   .container {
-    .overviewContainer {
-      .deleteOptions {
-        section {
-          border-radius: 0;
+    > .overviewContainer {
+      > .overviewDetailsContainer {
+        > #addressContainer {
+          position: relative;
         }
       }
     }

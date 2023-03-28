@@ -29,16 +29,13 @@ $color-shadow: #6c757d;
     @include expand();
     #root {
       @include expand();
-      display: flex;
-      flex-flow: column;
-      justify-content: flex-start;
-      align-items: center;
       color: $color-text-primary;
     }
   }
 }
 
 ::-webkit-scrollbar {
+  width: .5rem;
   height: .5rem;
 }
 

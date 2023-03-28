@@ -10,7 +10,7 @@ $color-shadow: #6c757d;
 
 .container {
   width: 100%;
-  height: 100%;
+  height: calc(100% - 3rem);
   display: flex;
   flex-flow: column;
   justify-content: flex-start;

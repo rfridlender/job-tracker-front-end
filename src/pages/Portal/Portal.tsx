@@ -31,9 +31,9 @@ const Portal = (props: PortalProps): JSX.Element => {
   } else {
     return (
       <div className={styles.closedContainer}>
-      <NavBar user={user} handleLogout={handleLogout} setIsSideBarOpen={setIsSideBarOpen} />
-      <Outlet />
-    </div>
+        <NavBar user={user} handleLogout={handleLogout} setIsSideBarOpen={setIsSideBarOpen} />
+        <Outlet />
+      </div>
     );
   }
 }

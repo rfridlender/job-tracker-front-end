@@ -63,7 +63,17 @@ $color-shadow: #6c757d;
     > .inputContainer:hover::placeholder {
       color: $color-accent;
     }
-    #takeoffContainer {
+    > div.inputContainer {
+      border: none;
+      height: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+    }
+    > div.inputContainer:hover {
+      border: none;
+    }
+    > #takeoffContainer {
       width: 5.5rem;
       min-width: 5.5rem;
       height: 100%;
@@ -72,6 +82,13 @@ $color-shadow: #6c757d;
       align-items: center;
       gap: .5rem;
       border: none;
+      > svg {
+        width: 2rem;
+        height: 2rem;
+        color: $color-text-primary;
+        border: 1px solid $color-text-primary;
+        border-radius: .25rem;
+      }
       label {
         width: 2rem;
         height: 2rem;

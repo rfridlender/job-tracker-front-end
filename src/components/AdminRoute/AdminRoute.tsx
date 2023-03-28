@@ -14,7 +14,7 @@ const AdminRoute = (props: AdminRouteProps): JSX.Element => {
   if (!user) {
     return (<Navigate to="/" />);
   } else if (user.role !== Role.ADMIN) {
-    return (<Navigate to="/jobs" />);
+    return (<Navigate to="/portal/jobs" />);
   } else {
     return (<>{ children }</>);
   }

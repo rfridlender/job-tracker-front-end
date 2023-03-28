@@ -6,7 +6,7 @@ import { Role, Status } from '../../types/enums';
 import { Contractor, Job, User } from '../../types/models';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { TiPlus, TiCancel } from 'react-icons/ti';
-import { HiDocumentPlus, HiDocumentCheck } from 'react-icons/hi2';
+import { HiDocumentPlus, HiDocumentCheck, HiDocumentText } from 'react-icons/hi2';
 
 interface JobFormProps {
   contractors: Contractor[] | undefined;
@@ -141,12 +141,12 @@ const JobForm = (props: JobFormProps): JSX.Element => {
           <>
             <div className={styles.inputContainer}>{job?.status}</div>
             <div className={styles.inputContainer}>{job?.address}</div>
-            <div className={styles.inputContainer}>
+            <div className={styles.inputContainer} id={styles.takeoffContainer}>
               {job?.takeoffOne ? 
-                <HiDocumentPlus /> : <div />
+                <HiDocumentText /> : <div />
               }
               {job?.takeoffTwo ? 
-                <HiDocumentPlus /> : <div />
+                <HiDocumentText /> : <div />
               }
             </div>
           </>
@@ -214,7 +214,9 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         {user.role !== Role.ADMIN ?
           <>
             <div className={styles.inputContainer}>{job?.contractor.companyName}</div>
-            <div className={styles.inputContainer}>{job?.jobSiteAccess}</div>
+            <div className={styles.inputContainer} id={styles.accessContainer}>
+              {job?.jobSiteAccess}
+            </div>
           </>
           :
           <>

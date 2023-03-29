@@ -5,16 +5,15 @@ import { ContractorFormData } from '../../types/forms';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Contractor } from '../../types/models';
 import { TiCancel, TiPlus } from 'react-icons/ti';
+import { TbEraser } from 'react-icons/tb';
 
 interface ContractorFormProps {
-  setIsContractorFormOpen?: (boolean: boolean) => void;
   contractor?: Contractor;
   setIsBeingEdited?: (boolean: boolean) => void;
-  handleScroll: ()=> void;
 }
 
 const ContractorForm = (props: ContractorFormProps): JSX.Element => {
-  const { setIsContractorFormOpen, contractor, setIsBeingEdited, handleScroll } = props;
+  const { contractor, setIsBeingEdited } = props;
 
   const queryClient = useQueryClient();
 
@@ -72,11 +71,10 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
-    handleScroll();
     try {
       if (!contractor) {
         createContractor.mutate(formData);
-        setIsContractorFormOpen && setIsContractorFormOpen(false);
+        handleClear();
       } else {
         updateContractor?.mutate(formData);
         setIsBeingEdited && setIsBeingEdited(false);
@@ -86,14 +84,9 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     }
   }
 
-  const handleCancelFunctions = () => {
-    handleScroll();;
-    if (!contractor) {
-      setIsContractorFormOpen && setIsContractorFormOpen(false);
-    } else {
-      setIsBeingEdited && setIsBeingEdited(false);
-    }
-  }
+  const handleClear = () => setFormData({ 
+    id: 0, companyName: '', contactName: '', phoneNumber: '', email: ''
+  });
 
   const { companyName, contactName, phoneNumber, email } = formData;
 
@@ -104,33 +97,38 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
       <input 
-        className={styles.inputContainer} type="text" id="companyName"
-        value={companyName} name="companyName" onChange={handleChange}
-        autoComplete="off" placeholder="Company Name"
+        type="text" value={companyName} name="companyName" 
+        onChange={handleChange} autoComplete="off" placeholder="Company Name"
       />
       <input 
-        className={styles.inputContainer} type="text" id={styles.nameInputContainer} 
-        value={contactName} name="contactName" onChange={handleChange} 
-        autoComplete="off" placeholder="Contact Name"
+        type="text" value={contactName} name="contactName" 
+        onChange={handleChange}  autoComplete="off" placeholder="Contact Name"
       />
       <input 
-        className={styles.inputContainer} type="tel" id={styles.phoneInputContainer} 
-        value={phoneNumber} name="phoneNumber" onChange={handleChange} 
-        autoComplete="off" placeholder="000.000.0000"
+        type="tel" value={phoneNumber} name="phoneNumber" 
+        onChange={handleChange}  autoComplete="off" placeholder="000.000.0000" 
         pattern="[0-9]{3}.[0-9]{3}.[0-9]{4}"
       />
       <input 
-        className={styles.inputContainer} type="email" id="email" 
-        value={email} name="email" onChange={handleChange} 
-        autoComplete="off" placeholder="Email"
+        type="email" value={email} name="email" 
+        onChange={handleChange}  autoComplete="off" placeholder="Email"
       />
       <div className={styles.buttonContainer}>
         <button disabled={isFormInvalid()}>
           <TiPlus />
+          <span>Save</span>
         </button>
-        <div onClick={handleCancelFunctions}>
-          <TiCancel />
-        </div>
+        {!contractor || !setIsBeingEdited ?
+          <div onClick={handleClear}>
+            <TbEraser />
+            <span>Clear</span>
+          </div>
+          :
+          <div onClick={() => setIsBeingEdited(false)}>
+            <TiCancel />
+            <span>Cancel</span>
+          </div>
+        }
       </div>
     </form>
   );

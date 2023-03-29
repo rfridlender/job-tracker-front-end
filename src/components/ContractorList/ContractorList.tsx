@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
+import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 import { TiPlus } from 'react-icons/ti';
 import * as contractorService from '../../services/contractorService';
 import ContractorCard from '../ContractorCard/ContractorCard';
@@ -11,52 +12,41 @@ const ContractorList = () => {
 
   const { data, isLoading } = useQuery(['contractors'], contractorService.index);
 
-  const [isContractorFormOpen, setIsContractorFormOpen] = useState(false);
+  const [search, setSearch] = useState('');
 
-  const scrollContainer = useRef<HTMLDivElement>(null);
-
-  const handleScroll = () => {
-    if (scrollContainer.current) {
-      scrollContainer.current.scrollTo({ left: 0, behavior: 'smooth' });
-    }
+  const handleSearch = (evt: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearch(evt.target.value);
   }
 
-  const handleOpenContractorForm = () => {
-    setIsContractorFormOpen(true);
-    handleScroll();
-  }
-
-  const contractors = data;
+  const searchedContractors = data?.filter(contractor => 
+    contractor.companyName.toLowerCase().includes(search.toLowerCase()) ||
+    contractor.contactName.toLowerCase().includes(search.toLowerCase()) ||
+    contractor.phoneNumber.toLowerCase().includes(search.toLowerCase()) ||
+    contractor.email.toLowerCase().includes(search.toLowerCase())
+  );
+  const contractors = searchedContractors?.sort((a, b) => {
+    return a.companyName > b.companyName ? 1 : -1
+  });
 
   return (
     <section className={styles.container}>
-      <h2>Builders</h2>
-      <div 
-        className={styles.scrollContainer} 
-        ref={scrollContainer} 
-      >
-        {!isContractorFormOpen ?
-          <header>
-            <div>Company Name</div>
-            <div className={styles.nameContainer}>Contact Name</div>
-            <div className={styles.phoneContainer}>Phone Number</div>
-            <div>Email</div>
-            <div className={styles.buttonContainer}>
-              <TiPlus onClick={handleOpenContractorForm} />
-            </div>
-          </header>
-          :
-          <ContractorForm 
-            setIsContractorFormOpen={setIsContractorFormOpen}
-            handleScroll={handleScroll}
+      <div className={styles.filters}>
+        <div className={styles.searchBar}>
+          <input 
+            type="text" placeholder="Search" 
+            value={search} onChange={handleSearch} 
           />
-        }
-        {contractors?.map(contractor => (
-          <ContractorCard 
-            key={contractor.id} contractor={contractor} handleScroll={handleScroll}
-          />
-        ))}
+          {!search ?
+            <AiOutlineSearch />
+            :
+            <AiOutlineClose onClick={() => setSearch('')}/>
+          }
+        </div>
       </div>
+      {!search && <ContractorForm />}
+      {contractors?.map(contractor => (
+        <ContractorCard key={contractor.id} contractor={contractor} />
+      ))}
     </section>
   );
 }

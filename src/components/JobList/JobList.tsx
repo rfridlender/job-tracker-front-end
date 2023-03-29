@@ -1,5 +1,5 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Job, User } from '../../types/models';
+import { Contractor, Job, User } from '../../types/models';
 import * as contractorService from '../../services/contractorService';
 import * as jobService from '../../services/jobService';
 import styles from './JobList.module.scss'
@@ -79,9 +79,12 @@ const JobList = (props: JobListProps) => {
   const filteredJobs = jobQuery.data?.filter(job => 
     job.contractor.companyName.includes(builderFilter)
   );
-  const jobs = filteredJobs?.filter(job => 
+  const searchedJobs = filteredJobs?.filter(job => 
     job.address.toLowerCase().includes(search.toLowerCase())
   );
+  const jobs = searchedJobs?.sort((a, b) => {
+    return a.contractor.companyName > b.contractor.companyName ? 1 : -1;
+  });
 
   return (
     <main className={styles.container}>

@@ -15,7 +15,6 @@ const UserList = () => {
 
   const scrollContainer = useRef<HTMLDivElement>(null);
 
-
   const handleScroll = () => {
     if (scrollContainer.current) {
       scrollContainer.current.scrollTo({ left: 0, behavior: 'smooth' });
@@ -27,7 +26,7 @@ const UserList = () => {
     handleScroll();
   }
 
-  const users = data;
+  const users = data?.sort((a, b) => a.name > b.name ? 1 : -1);;
 
   return (
     <section className={styles.container}>

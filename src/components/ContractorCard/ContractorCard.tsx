@@ -7,43 +7,32 @@ import ContractorForm from '../ContractorForm/ContractorForm';
 
 interface ContractorCardProps {
   contractor: Contractor;
-  handleScroll: () => void;
 }
 
 const ContractorCard = (props: ContractorCardProps) => {
-  const { contractor, handleScroll } = props;
+  const { contractor } = props;
   
   const queryClient = useQueryClient();
 
   const [isBeingEdited, setIsBeingEdited] = useState(false);
 
-
-  const handleEditContractor = () => {
-    setIsBeingEdited(true);
-    handleScroll();
-  }
-
   if (isBeingEdited) {
     return (
-      <ContractorForm 
-        contractor={contractor} setIsBeingEdited={setIsBeingEdited} 
-        handleScroll={handleScroll} />
+      <ContractorForm contractor={contractor} setIsBeingEdited={setIsBeingEdited} />
     );
   } else {
     return (
       <article className={styles.container}>
         <div>{contractor.companyName}</div>
-        <div className={styles.nameContainer}>{contractor.contactName}</div>
-        <a 
-          className={styles.phoneContainer} 
-          href={`tel:+${contractor.phoneNumber.replaceAll('.', '')}`}
-        >
+        <div>{contractor.contactName}</div>
+        <a href={`tel:+${contractor.phoneNumber.replaceAll('.', '')}`}>
           {contractor.phoneNumber}
         </a>
         <a href={`mailto:${contractor.email}`}>{contractor.email}</a>
-        <div className={styles.buttonContainer}>
-          <TiEdit onClick={handleEditContractor} />
-        </div>
+        <button onClick={() => setIsBeingEdited(true)}>
+          <TiEdit />
+          <span>Edit</span>
+        </button>
       </article>
     );
   }

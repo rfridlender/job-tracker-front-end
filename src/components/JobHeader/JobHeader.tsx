@@ -13,22 +13,19 @@ const JobHeader = (props: JobHeaderProps) => {
 
   return (
     <header className={styles.container}>
-      <div />
-      <div className={styles.header}>
-        <div>Status</div>
-        <div>Address</div>
-        <div id={styles.takeoffContainer}>Takeoff</div>
-        <div>Lock Status</div>
-        <div>Shelving Status</div>
-        <div>Shower Status</div>
-        <div>Mirror Status</div>
-        <div>Builder</div>
-        <div id={styles.accessContainer}>Job Site Access</div>
-        <div className={styles.buttonContainer}>
-          {user.role === Role.ADMIN &&
-            <TiPlus onClick={handleOpenJobForm} />
-          }
-        </div>
+      <div>Status</div>
+      <div>Address</div>
+      <div id={styles.takeoffContainer}>Takeoff</div>
+      <div>Lock Status</div>
+      <div>Shelving Status</div>
+      <div>Shower Status</div>
+      <div>Mirror Status</div>
+      <div>Builder</div>
+      <div id={styles.accessContainer}>Job Site Access</div>
+      <div className={styles.buttonContainer}>
+        {user.role === Role.ADMIN &&
+          <TiPlus onClick={handleOpenJobForm} />
+        }
       </div>
     </header>
   );

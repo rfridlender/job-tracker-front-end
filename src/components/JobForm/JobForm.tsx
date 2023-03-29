@@ -135,116 +135,113 @@ const JobForm = (props: JobFormProps): JSX.Element => {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <div className={styles.spacer} />
-      <div className={styles.formContainer}>
-        {user.role !== Role.ADMIN ?
-          <>
-            <div className={styles.inputContainer}>{job?.status}</div>
-            <div className={styles.inputContainer}>{job?.address}</div>
-            <div className={styles.inputContainer} id={styles.takeoffContainer}>
-              {job?.takeoffOne ? 
-                <HiDocumentText /> : <div />
-              }
-              {job?.takeoffTwo ? 
-                <HiDocumentText /> : <div />
-              }
-            </div>
-          </>
-          :
-          <>
-            <select 
-              className={styles.inputContainer} name="status" id="status" 
-              onChange={handleChange} value={status}
-            >
-              {Object.values(Status).map(status => (
-                <option key={status} value={status}>{status}</option>
-              ))}
-            </select>
-            <input
-              className={styles.inputContainer} type="text" id="address" 
-              value={address} name="address" onChange={handleChange} 
-              placeholder="Address"
-            />
-            <div className={styles.inputContainer} id={styles.takeoffContainer}>
-              <label 
-                htmlFor="takeoffOne" className={photoData.takeoffOne?.name && styles.active}
-              >
-                {!photoData.takeoffOne ? <HiDocumentPlus /> : <HiDocumentCheck />}
-              </label>
-              <input
-                type="file"
-                id="takeoffOne"
-                name="takeoffOne"
-                onChange={handleChangePhoto}
-              />
-              <label 
-                htmlFor="takeoffTwo" className={photoData.takeoffTwo?.name && styles.active}
-              >
-                {!photoData.takeoffTwo ? <HiDocumentPlus /> : <HiDocumentCheck />}
-              </label>
-              <input
-                type="file"
-                id="takeoffTwo"
-                name="takeoffTwo"
-                onChange={handleChangePhoto}
-              />
-            </div>
-          </>
-        }
-        <input
-          className={styles.inputContainer} type="text" id="lockStatus" 
-          value={lockStatus} name="lockStatus" onChange={handleChange} 
-          placeholder="Lock Status"
-        />
-        <input
-          className={styles.inputContainer} type="text" id="shelvingStatus" 
-          value={shelvingStatus} name="shelvingStatus" onChange={handleChange} 
-          placeholder="Shelving Status"
-        />
-        <input
-          className={styles.inputContainer} type="text" id="showerStatus" 
-          value={showerStatus} name="showerStatus" onChange={handleChange} 
-          placeholder="Shower Status"
-        />
-        <input
-          className={styles.inputContainer} type="text" id="mirrorStatus" 
-          value={mirrorStatus} name="mirrorStatus" onChange={handleChange} 
-          placeholder="Mirror Status"
-        />
-        {user.role !== Role.ADMIN ?
-          <>
-            <div className={styles.inputContainer}>{job?.contractor.companyName}</div>
-            <div className={styles.inputContainer} id={styles.accessContainer}>
-              {job?.jobSiteAccess}
-            </div>
-          </>
-          :
-          <>
-            <select 
-              className={styles.inputContainer} name="contractor" id="contractor" 
-              onChange={handleChange} value={contractorFormData}
-            >
-                <option value="">Builder</option>
-              {contractors?.map(contractor => (
-                <option key={contractor.id} value={contractor.id}>
-                  {contractor.companyName}
-                </option>
-              ))}
-            </select>
-            <input
-              className={styles.inputContainer} type="text" id={styles.accessContainer}
-              value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
-              placeholder="Job Site Access"
-            />
-          </>
-        }
-        <div className={styles.buttonContainer}>
-          <button disabled={isFormInvalid()}>
-            <TiPlus />
-          </button>
-          <div onClick={handleCancelFunctions}>
-            <TiCancel />
+      {user.role !== Role.ADMIN ?
+        <>
+          <div className={styles.inputContainer}>{job?.status}</div>
+          <div className={styles.inputContainer}>{job?.address}</div>
+          <div className={styles.inputContainer} id={styles.takeoffContainer}>
+            {job?.takeoffOne ? 
+              <HiDocumentText /> : <div />
+            }
+            {job?.takeoffTwo ? 
+              <HiDocumentText /> : <div />
+            }
           </div>
+        </>
+        :
+        <>
+          <select 
+            className={styles.inputContainer} name="status" id="status" 
+            onChange={handleChange} value={status}
+          >
+            {Object.values(Status).map(status => (
+              <option key={status} value={status}>{status}</option>
+            ))}
+          </select>
+          <input
+            className={styles.inputContainer} type="text" id="address" 
+            value={address} name="address" onChange={handleChange} 
+            placeholder="Address"
+          />
+          <div className={styles.inputContainer} id={styles.takeoffContainer}>
+            <label 
+              htmlFor="takeoffOne" className={photoData.takeoffOne?.name && styles.active}
+            >
+              {!photoData.takeoffOne ? <HiDocumentPlus /> : <HiDocumentCheck />}
+            </label>
+            <input
+              type="file"
+              id="takeoffOne"
+              name="takeoffOne"
+              onChange={handleChangePhoto}
+            />
+            <label 
+              htmlFor="takeoffTwo" className={photoData.takeoffTwo?.name && styles.active}
+            >
+              {!photoData.takeoffTwo ? <HiDocumentPlus /> : <HiDocumentCheck />}
+            </label>
+            <input
+              type="file"
+              id="takeoffTwo"
+              name="takeoffTwo"
+              onChange={handleChangePhoto}
+            />
+          </div>
+        </>
+      }
+      <input
+        className={styles.inputContainer} type="text" id="lockStatus" 
+        value={lockStatus} name="lockStatus" onChange={handleChange} 
+        placeholder="Lock Status"
+      />
+      <input
+        className={styles.inputContainer} type="text" id="shelvingStatus" 
+        value={shelvingStatus} name="shelvingStatus" onChange={handleChange} 
+        placeholder="Shelving Status"
+      />
+      <input
+        className={styles.inputContainer} type="text" id="showerStatus" 
+        value={showerStatus} name="showerStatus" onChange={handleChange} 
+        placeholder="Shower Status"
+      />
+      <input
+        className={styles.inputContainer} type="text" id="mirrorStatus" 
+        value={mirrorStatus} name="mirrorStatus" onChange={handleChange} 
+        placeholder="Mirror Status"
+      />
+      {user.role !== Role.ADMIN ?
+        <>
+          <div className={styles.inputContainer}>{job?.contractor.companyName}</div>
+          <div className={styles.inputContainer} id={styles.accessContainer}>
+            {job?.jobSiteAccess}
+          </div>
+        </>
+        :
+        <>
+          <select 
+            className={styles.inputContainer} name="contractor" id="contractor" 
+            onChange={handleChange} value={contractorFormData}
+          >
+              <option value="">Builder</option>
+            {contractors?.map(contractor => (
+              <option key={contractor.id} value={contractor.id}>
+                {contractor.companyName}
+              </option>
+            ))}
+          </select>
+          <input
+            className={styles.inputContainer} type="text" id={styles.accessContainer}
+            value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
+            placeholder="Job Site Access"
+          />
+        </>
+      }
+      <div className={styles.buttonContainer}>
+        <button disabled={isFormInvalid()}>
+          <TiPlus />
+        </button>
+        <div onClick={handleCancelFunctions}>
+          <TiCancel />
         </div>
       </div>
     </form>

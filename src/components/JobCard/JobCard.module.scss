@@ -21,208 +21,190 @@ $color-retired: #212529;
   flex-flow: column;
   justify-content: center;
   align-items: center;
-  .overviewContainer {
+  > .overviewContainer {
     width: 100%;
     height: 3rem;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: .75rem;
-    > div:first-child {
-      width: .25rem;
-      min-width: .25rem;
-      height: 100%;
-      padding: 0;
-      position: sticky;
-      left: 0;
-      z-index: 1;
+    border-bottom: 1px solid $color-secondary;
+    > .statusContainer {
+      width: 8rem;
+      min-width: 8rem;
+      color: $color-primary;
     }
-    > .upcomingSpacer {
+    > #upcomingContainer {
       background-color: $color-upcoming;
     }
-    > .incompleteSpacer {
+    > #incompleteContainer {
       background-color: $color-incomplete;
     }
-    > .completeSpacer {
+    > #completeContainer {
       background-color: $color-complete;
     }
-    > .invoicedSpacer {
+    > #invoicedContainer {
       background-color: $color-invoiced;
     }
-    > .paidSpacer {
+    > #paidContainer {
       background-color: $color-paid;
     }
-    > .retiredSpacer {
+    > #retiredContainer {
       background-color: $color-retired;
     }
-    > .overviewDetailsContainer {
-      width: 100%;
-      height: 3rem;
+    > div, > span {
+      width: 16rem;
+      min-width: 16rem;
+      height: 100%;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       align-items: center;
-      border-bottom: 1px solid $color-secondary;
-      > .statusContainer {
-        width: 8rem;
-        min-width: 8rem;
-      }
-      > div, > span {
-        width: 16rem;
-        min-width: 16rem;
-        height: 100%;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        gap: .5rem;
-        padding: 0 .5rem;
-        transition: all .25s;
-      }
-      > span {
-        color: $color-primary;
-        background-color: #006400;
-        font-weight: bold;
-        border-right: 1px solid $color-primary;
-        
-      }
-      > .detailContainer {
-        cursor: pointer;
-        transition: all .25s;
-        > div {
-          height: 100%;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        > svg {
-          width: 1rem;
-          min-width: 1rem;
-          height: 100%;
-        }
-      }
-      > .detailContainer:hover {
-        color: $color-accent;
-      }
-      > #addressContainer {
-        position: sticky;
-        left: .25rem;
-        background-color: $color-primary;
-      }
-      > #takeoffContainer {
-        width: 5.5rem;
-        min-width: 5.5rem;
-        svg, div {
-          width: 2rem;
-          height: 2rem;
-          color: $color-text-primary;
-          border: 1px solid $color-text-primary;
-          border-radius: .25rem;
-          cursor: pointer;
-          transition: all .25s;
-        }
-        svg:hover {
-          color: $color-accent;
-          border: 1px solid $color-accent;  
-        }
-      }
-      > #accessContainer {
-        width: 10rem;
-        min-width: 10rem;
-      }
-      > .buttonContainer {
-        width: 5.5rem;
-        min-width: 5.5rem;
-        height: 100%;
-        display: flex;
-        justify-content: flex-start;
-        align-items: center;
-        gap: .5rem;
-        svg {
-          width: 2rem;
-          height: 2rem;
-          color: $color-text-primary;
-          border: 1px solid $color-text-primary;
-          border-radius: .25rem;
-          cursor: pointer;
-          transition: all .25s;
-        }
-        svg:hover {
-          color: $color-accent;
-          border: 1px solid $color-accent;  
-        }
-      }
-      .takeoffOverlay {
-        width: 100%;
+      gap: .5rem;
+      padding: 0 .5rem;
+      transition: all .25s;
+    }
+    > span {
+      color: $color-primary;
+      background-color: #006400;
+      border-right: 1px solid $color-primary;
+    }
+    > .detailContainer {
+      cursor: pointer;
+      transition: all .25s;
+      > div {
         height: 100%;
         display: flex;
         justify-content: center;
-        align-items: flex-start;
-        position: absolute;
-        top: 0;
-        left: 0;
-        padding: 1rem 0;
-        background-color: rgba(0, 0, 0, .5);
-        overflow-y: auto;
-        z-index: 4;
-        > img {
-          width: 100%;
-          max-width: 1440px;
-          object-fit: cover;
-        }
+        align-items: center;
       }
-      .deleteOptions {
-        width: 100%;
+      > svg {
+        width: 1rem;
+        min-width: 1rem;
         height: 100%;
+      }
+    }
+    > .detailContainer:hover {
+      color: $color-accent;
+    }
+    > #addressContainer {
+      position: sticky;
+      left: .25rem;
+      background-color: $color-primary;
+    }
+    > #takeoffContainer {
+      width: 5.5rem;
+      min-width: 5.5rem;
+      svg, div {
+        width: 2rem;
+        height: 2rem;
+        color: $color-text-primary;
+        border: 1px solid $color-text-primary;
+        border-radius: .25rem;
+        cursor: pointer;
+        transition: all .25s;
+      }
+      svg:hover {
+        color: $color-accent;
+        border: 1px solid $color-accent;  
+      }
+    }
+    > #accessContainer {
+      width: 10rem;
+      min-width: 10rem;
+    }
+    > .buttonContainer {
+      width: 5.5rem;
+      min-width: 5.5rem;
+      height: 100%;
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      gap: .5rem;
+      svg {
+        width: 2rem;
+        height: 2rem;
+        color: $color-text-primary;
+        border: 1px solid $color-text-primary;
+        border-radius: .25rem;
+        cursor: pointer;
+        transition: all .25s;
+      }
+      svg:hover {
+        color: $color-accent;
+        border: 1px solid $color-accent;  
+      }
+    }
+    .takeoffOverlay {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      position: absolute;
+      top: 0;
+      left: 0;
+      padding: 1rem 0;
+      background-color: rgba(0, 0, 0, .5);
+      overflow-y: auto;
+      z-index: 4;
+      > img {
+        width: 100%;
+        max-width: 1440px;
+        object-fit: cover;
+      }
+    }
+    .deleteOptions {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      flex-flow: column;
+      justify-content: center;
+      align-items: center;
+      gap: 1rem;
+      position: absolute;
+      top: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, .5);
+      z-index: 4;
+      > section {
+        width: 20rem;
+        padding: 2rem;
         display: flex;
         flex-flow: column;
         justify-content: center;
         align-items: center;
-        gap: 1rem;
-        position: absolute;
-        top: 0;
-        left: 0;
-        background-color: rgba(0, 0, 0, .5);
-        z-index: 4;
-        > section {
-          width: 20rem;
-          padding: 2rem;
+        gap: 2rem;
+        background-color: $color-primary;
+        box-shadow: 0 .25rem .25rem 0 $color-shadow;
+        border-radius: .25rem;
+        font-size: 1rem;
+        > div {
+          width: 100%;
           display: flex;
-          flex-flow: column;
           justify-content: center;
           align-items: center;
-          gap: 2rem;
-          background-color: $color-primary;
-          box-shadow: 0 .25rem .25rem 0 $color-shadow;
-          border-radius: .25rem;
-          font-size: 1rem;
-          > div {
+          gap: 1rem;
+          text-align: center;
+          > button {
             width: 100%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 1rem;
-            text-align: center;
-            > button {
-              width: 100%;
-              height: 3rem;
-              color: $color-primary;
-              border: none;
-              border-radius: .25rem;
-              font-size: 1rem;
-              cursor: pointer;
-              transition: all .25s;
-            }
-            > button:first-child {
-              background-color: $color-accent;
-            }
-            > button:last-child {
-              background-color: $color-text-secondary;
-            }
-            > button:first-child:hover {
-              background-color: $color-accent-shadow;
-            }
-            > button:last-child:hover {
-              background-color: $color-text-primary;
-            }
+            height: 3rem;
+            color: $color-primary;
+            border: none;
+            border-radius: .25rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all .25s;
+          }
+          > button:first-child {
+            background-color: $color-accent;
+          }
+          > button:last-child {
+            background-color: $color-text-secondary;
+          }
+          > button:first-child:hover {
+            background-color: $color-accent-shadow;
+          }
+          > button:last-child:hover {
+            background-color: $color-text-primary;
           }
         }
       }
@@ -265,10 +247,8 @@ $color-retired: #212529;
 @media screen and (max-width: 768px) {
   .container {
     > .overviewContainer {
-      > .overviewDetailsContainer {
-        > #addressContainer {
-          position: relative;
-        }
+      > #addressContainer {
+        position: relative;
       }
     }
   }
@@ -277,11 +257,9 @@ $color-retired: #212529;
 @media screen and (max-width: 320px) {
   .container {
     > .overviewContainer {
-      > .overviewDetailsContainer {
-        .deleteOptions {
-          section {
-            border-radius: 0;
-          }
+      > .deleteOptions {
+        section {
+          border-radius: 0;
         }
       }
     }

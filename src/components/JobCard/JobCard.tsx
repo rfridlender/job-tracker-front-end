@@ -73,72 +73,74 @@ const JobCard = (props: JobCardProps) => {
     return (
       <article className={styles.container}>
         <div className={styles.overviewContainer}>
-          <div className={styles[`${job.status.toLowerCase()}Spacer`]} />
-          <div className={styles.overviewDetailsContainer}>
-            <div className={styles.statusContainer}>{job.status}</div>
-            <div 
-              className={styles.detailContainer} id={styles.addressContainer}
-              onClick={() => setAreJobDetailsOpen(!areJobDetailsOpen)}
-            >
-              <div>{job.address}</div>
-              {!areJobDetailsOpen ?
-                <AiOutlineDown />
-                :
-                <AiOutlineUp />
-              }
-            </div>
-            <div id={styles.takeoffContainer}>
-              {job.takeoffOne && <HiDocumentText onClick={() => setIsTakeoffOpen(1)} />}
-              {job.takeoffTwo && <HiDocumentText onClick={() => setIsTakeoffOpen(2)} />}
-            </div>
-            {!!isTakeoffOpen && 
-              <div className={styles.takeoffOverlay} onClick={() => setIsTakeoffOpen(0)}>
-                <img 
-                  src={isTakeoffOpen === 1 ? job.takeoffOne : job.takeoffTwo} 
-                  alt={`${job.address}'s Takeoff`} 
-                />
-              </div>
-            }
-            {job.lockStatus !== 'Done' ? 
-              <div>{job.lockStatus}</div> : <span>{job.lockStatus}</span>
-            }
-            {job.shelvingStatus !== 'Done' ? 
-              <div>{job.shelvingStatus}</div> : <span>{job.shelvingStatus}</span>
-            }
-            {job.showerStatus !== 'Done' ? 
-              <div>{job.showerStatus}</div> : <span>{job.showerStatus}</span>
-            }
-            {job.mirrorStatus !== 'Done' ? 
-              <div>{job.mirrorStatus}</div> : <span>{job.mirrorStatus}</span>
-            }
-            <div 
-              className={styles.detailContainer} 
-              onClick={() => setAreBuilderDetailsOpen(!areBuilderDetailsOpen)}
-            >
-              <div>{job.contractor.companyName}</div>
-              {!areBuilderDetailsOpen ?
-                <AiOutlineDown />
-                :
-                <AiOutlineUp />
-              }
-            </div>
-            <div id={styles.accessContainer}>{job.jobSiteAccess}</div>
-            <div className={styles.buttonContainer}>
-              <TiEdit onClick={handleEditJob} />
-              {user.role === Role.ADMIN && <TiMinus onClick={() => setIsBeingDeleted(true)} />}
-            </div>
-            {isBeingDeleted &&
-              <div className={styles.deleteOptions}>
-                <section>
-                  <div>Are you sure you want to delete {job.address}?</div>
-                  <div>
-                    <button onClick={handleDelete}>Delete</button>
-                    <button onClick={() => setIsBeingDeleted(false)}>Cancel</button>
-                  </div>
-                </section>
-              </div>
+          <div 
+            className={styles.statusContainer} 
+            id={styles[`${job.status.toLowerCase()}Container`]}
+          >
+            {job.status}
+          </div>
+          <div 
+            className={styles.detailContainer} id={styles.addressContainer}
+            onClick={() => setAreJobDetailsOpen(!areJobDetailsOpen)}
+          >
+            <div>{job.address}</div>
+            {!areJobDetailsOpen ?
+              <AiOutlineDown />
+              :
+              <AiOutlineUp />
             }
           </div>
+          <div id={styles.takeoffContainer}>
+            {job.takeoffOne && <HiDocumentText onClick={() => setIsTakeoffOpen(1)} />}
+            {job.takeoffTwo && <HiDocumentText onClick={() => setIsTakeoffOpen(2)} />}
+          </div>
+          {!!isTakeoffOpen && 
+            <div className={styles.takeoffOverlay} onClick={() => setIsTakeoffOpen(0)}>
+              <img 
+                src={isTakeoffOpen === 1 ? job.takeoffOne : job.takeoffTwo} 
+                alt={`${job.address}'s Takeoff`} 
+              />
+            </div>
+          }
+          {job.lockStatus !== 'Done' ? 
+            <div>{job.lockStatus}</div> : <span>{job.lockStatus}</span>
+          }
+          {job.shelvingStatus !== 'Done' ? 
+            <div>{job.shelvingStatus}</div> : <span>{job.shelvingStatus}</span>
+          }
+          {job.showerStatus !== 'Done' ? 
+            <div>{job.showerStatus}</div> : <span>{job.showerStatus}</span>
+          }
+          {job.mirrorStatus !== 'Done' ? 
+            <div>{job.mirrorStatus}</div> : <span>{job.mirrorStatus}</span>
+          }
+          <div 
+            className={styles.detailContainer} 
+            onClick={() => setAreBuilderDetailsOpen(!areBuilderDetailsOpen)}
+          >
+            <div>{job.contractor.companyName}</div>
+            {!areBuilderDetailsOpen ?
+              <AiOutlineDown />
+              :
+              <AiOutlineUp />
+            }
+          </div>
+          <div id={styles.accessContainer}>{job.jobSiteAccess}</div>
+          <div className={styles.buttonContainer}>
+            <TiEdit onClick={handleEditJob} />
+            {user.role === Role.ADMIN && <TiMinus onClick={() => setIsBeingDeleted(true)} />}
+          </div>
+          {isBeingDeleted &&
+            <div className={styles.deleteOptions}>
+              <section>
+                <div>Are you sure you want to delete {job.address}?</div>
+                <div>
+                  <button onClick={handleDelete}>Delete</button>
+                  <button onClick={() => setIsBeingDeleted(false)}>Cancel</button>
+                </div>
+              </section>
+            </div>
+          }
         </div>
         {areBuilderDetailsOpen &&
           <div className={styles.builderDetailsContainer}>

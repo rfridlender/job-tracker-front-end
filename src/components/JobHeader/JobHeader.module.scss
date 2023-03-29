@@ -17,84 +17,66 @@ $color-shadow: #6c757d;
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  gap: .75rem;
   background-color: $color-primary;
   z-index: 3;
+  font-weight: bold;
+  border-bottom: 1px solid $color-secondary;
   > div:first-child {
-    width: .25rem;
-    min-width: .25rem;
-    height: 100%;
+    width: 8rem;
+    min-width: 8rem;
+  }
+  > div:nth-child(2) {
     position: sticky;
-    left: 0;
+    left: .25rem;
     background-color: $color-primary;
   }
-  > .header {
-    width: 100%;
+  > div {
+    width: 16rem;
+    min-width: 16rem;
+    height: 100%;
+    padding: 0 .5rem;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    border-right: 1px solid $color-secondary;
+  }
+  #takeoffContainer {
+    width: 5.5rem;
+    min-width: 5.5rem;
+  }
+  #accessContainer {
+    width: 10rem;
+    min-width: 10rem;
+  }
+  > .buttonContainer {
+    width: 5.5rem;
+    min-width: 5.5rem;
     height: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
-    font-weight: bold;
-    border-bottom: 1px solid $color-secondary;
-    > div:first-child {
-      width: 8rem;
-      min-width: 8rem;
+    gap: .5rem;
+    border-right: none;
+    svg {
+      width: 2rem;
+      height: 2rem;
+      color: $color-text-primary;
+      border: 1px solid $color-text-primary;
+      border-radius: .25rem;
+      cursor: pointer;
+      transition: all .25s;
     }
-    > div:nth-child(2) {
-      position: sticky;
-      left: .25rem;
-      background-color: $color-primary;
-    }
-    > div {
-      width: 16rem;
-      min-width: 16rem;
-      height: 100%;
-      padding: 0 .5rem;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      border-right: 1px solid $color-secondary;
-    }
-    #takeoffContainer {
-      width: 5.5rem;
-      min-width: 5.5rem;
-    }
-    #accessContainer {
-      width: 10rem;
-      min-width: 10rem;
-    }
-    > .buttonContainer {
-      width: 5.5rem;
-      min-width: 5.5rem;
-      height: 100%;
-      display: flex;
-      justify-content: flex-start;
-      align-items: center;
-      gap: .5rem;
-      border-right: none;
-      svg {
-        width: 2rem;
-        height: 2rem;
-        color: $color-text-primary;
-        border: 1px solid $color-text-primary;
-        border-radius: .25rem;
-        cursor: pointer;
-        transition: all .25s;
-      }
-      svg:hover {
-        color: $color-accent;
-        border: 1px solid $color-accent;  
-      }
+    svg:hover {
+      color: $color-accent;
+      border: 1px solid $color-accent;  
     }
   }
 }
 
 @media screen and (max-width: 768px) {
   .container {
-    > .header {
-      > div:nth-child(2) {
-        position: relative;
-      }
+    > div:nth-child(2) {
+      position: relative;
     }
   }
 }

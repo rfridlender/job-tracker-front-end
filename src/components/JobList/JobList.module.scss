@@ -36,6 +36,8 @@ $color-shadow: #6c757d;
       color: $color-text-primary;
     }
     > .searchBar {
+      width: 100%;
+      max-width: 20rem;
       height: 100%;
       display: flex;
       justify-content: center;
@@ -56,6 +58,8 @@ $color-shadow: #6c757d;
       }
     }
     > .builderFilter {
+      width: 100%;
+      max-width: 20rem;
       height: 100%;
       display: flex;
       justify-content: center;
@@ -112,10 +116,10 @@ $color-shadow: #6c757d;
       flex-flow: column;
       height: 9rem;
       > .searchBar {
-        width: 100%;
+        max-width: none;
       }
       > .builderFilter {
-        width: 100%;
+        max-width: none;
       }
     }
   }

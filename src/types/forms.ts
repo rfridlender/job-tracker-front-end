@@ -40,18 +40,18 @@ export interface WorkLogFormData {
   keyNumber: string;
 }
 
-/* ---------===== auth forms =====--------- */
-
-export interface LoginFormData {
-  email: string;
-  password: string;
-}
-
 export interface UserFormData {
   id: number;
   name: string;
   email: string;
   role: Role;
+}
+
+/* ---------===== auth forms =====--------- */
+
+export interface LoginFormData {
+  email: string;
+  password: string;
 }
 
 export interface ChangePasswordFormData {

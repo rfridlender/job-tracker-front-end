@@ -43,7 +43,6 @@ export interface WorkLog {
   completed: boolean;
   incompleteItems: string;
   keyNumber: string;
-  submittedAt: Date;
 }
 
 export interface PhotoResponse {

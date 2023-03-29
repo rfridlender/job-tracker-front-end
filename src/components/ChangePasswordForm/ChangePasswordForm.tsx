@@ -5,7 +5,6 @@ import styles from './ChangePasswordForm.module.scss';
 import { AuthFormProps } from '../../types/props';
 import { ChangePasswordFormData } from '../../types/forms';
 import { handleErrMsg } from '../../types/validators';
-import logo from '../../assets/icons/logo.png';
 
 const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
   const { handleAuthEvt } = props;

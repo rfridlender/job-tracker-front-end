@@ -13,7 +13,6 @@ export interface Contractor {
   contactName: string;
   phoneNumber: string;
   email: string;
-  createdAt: Date;
 }
 
 export interface Job {
@@ -30,7 +29,6 @@ export interface Job {
   takeoffTwo: string;
   jobSiteAccess: string;
   createdBy: string;
-  createdAt: Date;
 }
 
 export interface WorkLog {

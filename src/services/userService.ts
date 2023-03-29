@@ -18,6 +18,7 @@ async function index(): Promise<User[]> {
 }
 
 async function create(formData: UserFormData): Promise<User> {
+  console.log(formData);
   try {
     const res = await fetch(BASE_URL, {
       method: 'POST',

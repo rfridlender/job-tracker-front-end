@@ -10,87 +10,91 @@ $color-shadow: #6c757d;
 
 .container {
   width: 100%;
-  height: 3rem;
+  max-width: 320px;
   display: flex;
+  flex-flow: column;
   justify-content: flex-start;
   align-items: center;
-  gap: .5rem;
+  gap: 2rem;
   background-color: $color-primary;
-  box-shadow: 0 .25rem .25rem 0 $color-shadow;
-  padding: 0 .5rem;
+  box-shadow: 0 0 .25rem 0 $color-shadow;
+  padding: 2rem;
   border-radius: .25rem;
-  > .inputContainer {
+  > input, > select {
     width: 100%;
-    min-width: 14rem;
     height: 2rem;
+    min-height: 2rem;
     border: none;
     outline: none;
     background-color: $color-primary;
-    border-bottom: .125rem solid $color-text-primary;
+    border-bottom: 1px solid $color-text-primary;
     transition: all .25s;
     font-size: 1rem;
     color: $color-text-primary;
   }
-  > .inputContainer:hover {
-    border-bottom: .125rem solid $color-accent;
+  > select {
+    cursor: pointer;
   }
-  > .inputContainer::placeholder {
+  > input:first-child {
+    font-weight: bold;
+  }
+  > input:hover, > select:hover {
+    border-bottom: 1px solid $color-accent;
+  }
+  > input::placeholder {
     color: $color-text-secondary;
     transition: all .25s;
   }
-  > .inputContainer:hover::placeholder {
+  > input:first-child::placeholder {
+    font-weight: bold;
+  }
+  > input:hover::placeholder {
     color: $color-accent;
   }
-  > #nameInputContainer {
-    min-width: 12rem;
-  }
-  > #roleInputContainer {
-    min-width: 6rem;
-  }
   > .buttonContainer {
-    width: fit-content;
+    width: 100%;
     height: 100%;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
-    gap: .5rem;
+    gap: 1rem;
     > button, > div {
-      width: 2rem;
-      height: 2rem;
-      color: $color-text-primary;
-      border: .125rem solid $color-text-primary;
+      width: 100%;
+      height: 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: .5rem;
+      color: $color-primary;
+      border: none;
       border-radius: .25rem;
       cursor: pointer;
+      font-size: 1rem;
       transition: all .25s;
       svg {
-        width: 100%;
-        height: 100%;
+        width: fit-content;
+        height: 50%;
       }
     }
-    > button:hover, > div:hover {
-      color: $color-accent;
-      border: .125rem solid $color-accent;  
+    > button {
+      background-color: $color-accent;
+    }
+    > div {
+      background-color: $color-text-secondary;
+    }
+    > button:hover {
+      background-color: $color-accent-shadow;
+    }
+    > div:hover {
+      background-color: $color-text-primary;
     }
     > button:disabled {
-      color: $color-text-secondary;
-      border: .125rem solid $color-text-secondary;
+      opacity: 50%;
     }
     > button:disabled:hover {
-      color: $color-text-secondary;
-      border: .125rem solid $color-text-secondary;
       cursor: inherit;
+      color: $color-primary;
+      background-color: $color-accent;
     }
-  }
-}
-
-@media screen and (max-width: 1024px) {
-  .container {
-    border-radius: 0;
-  }
-}
-
-@media screen and (max-width: 624px) {
-  .container {
-    width: fit-content;
   }
 }

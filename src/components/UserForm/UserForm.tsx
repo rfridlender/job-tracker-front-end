@@ -6,17 +6,16 @@ import { Role } from '../../types/enums';
 import { User } from '../../types/models';
 import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { TiCancel, TiPlus } from 'react-icons/ti';
+import { TbEraser } from 'react-icons/tb';
 
 interface UserFormProps {
-  setIsUserFormOpen?: (boolean: boolean) => void;
   user?: User;
   setIsBeingEdited?: (boolean: boolean) => void;
-  handleScroll: () => void;
 }
 
 const UserForm = (props: UserFormProps): JSX.Element => {
-  const { setIsUserFormOpen, user, setIsBeingEdited, handleScroll } = props;
-
+  const { user, setIsBeingEdited } = props;
+  
   const queryClient = useQueryClient();
 
   const createUser = useMutation({
@@ -35,6 +34,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     },
     onSettled: () => {
       queryClient.invalidateQueries(['users']);
+      handleClear();
     },
   });
 
@@ -72,11 +72,9 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
-    // handleScroll();
     try {
       if (!user) {
         createUser.mutate(formData);
-        setIsUserFormOpen && setIsUserFormOpen(false);
       } else {
         updateUser?.mutate(formData);
         setIsBeingEdited && setIsBeingEdited(false);
@@ -86,14 +84,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     }
   }
 
-  const handleCancelFunctions = () => {
-    handleScroll();
-    if (!user) {
-      setIsUserFormOpen && setIsUserFormOpen(false);
-    } else {
-      setIsBeingEdited && setIsBeingEdited(false);
-    }
-  }
+  const handleClear = () => setFormData({ id: 0, name: '', email: '', role: Role.USER });
 
   const { name, email, role} = formData;
 
@@ -103,20 +94,15 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <input
-        className={styles.inputContainer} type="text" id={styles.nameInputContainer} 
-        value={name} name="name" onChange={handleChange}
-        autoComplete="off" placeholder="Name"
+      <input 
+        type="text" value={name} name="name" 
+        onChange={handleChange} autoComplete="off" placeholder="Name"
       />
-      <input
-        className={styles.inputContainer} type="email" id="email" 
-        value={email} name="email" onChange={handleChange}
-        autoComplete="off" placeholder="Email"
+      <input 
+        type="email" value={email} name="email" 
+        onChange={handleChange} autoComplete="off" placeholder="Email"
       />
-      <select 
-        className={styles.inputContainer} name="role" id={styles.roleInputContainer} 
-        onChange={handleChange} value={role}
-      >
+      <select name="role" onChange={handleChange} value={role}>
         {Object.values(Role).map(role => (
           <option key={role} value={role}>{role}</option>
         ))}
@@ -124,10 +110,19 @@ const UserForm = (props: UserFormProps): JSX.Element => {
       <div className={styles.buttonContainer}>
         <button disabled={isFormInvalid()}>
           <TiPlus />
+          <span>Save</span>
         </button>
-        <div>
-          <TiCancel onClick={handleCancelFunctions} />
-        </div>
+        {!user || !setIsBeingEdited ?
+          <div onClick={handleClear}>
+            <TbEraser />
+            <span>Clear</span>
+          </div>
+          :
+          <div onClick={() => setIsBeingEdited(false)}>
+            <TiCancel />
+            <span>Cancel</span>
+          </div>
+        }
       </div>
     </form>
   );

@@ -33,11 +33,12 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     },
     onSettled: () => {
       queryClient.invalidateQueries(['contractors']);
+      handleClear();
     },
   });
 
   const updateContractor = useMutation({
-    mutationFn: () => contractorService.update(formData.id, formData),
+    mutationFn: (formData) => contractorService.update(formData.id, formData),
     onMutate: async (updatedContractor: ContractorFormData) => {
       await queryClient.cancelQueries(['contractors']);
       const previousContractors = queryClient.getQueryData<Contractor[]>(['contractors']);
@@ -74,7 +75,6 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     try {
       if (!contractor) {
         createContractor.mutate(formData);
-        handleClear();
       } else {
         updateContractor?.mutate(formData);
         setIsBeingEdited && setIsBeingEdited(false);

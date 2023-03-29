@@ -59,17 +59,6 @@ $color-shadow: #6c757d;
       }
     }
   }
-  > .scrollContainer {
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: flex-start;
-    gap: 1rem;
-    padding: 1rem;
-    overflow-x: scroll;
-  }
 }
 
 @media screen and (max-width: 744px) {

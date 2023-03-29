@@ -8,11 +8,10 @@ import UserForm from '../UserForm/UserForm';
 
 interface UserCardProps {
   user: User;
-  handleScroll: () => void;
 }
 
 const UserCard = (props: UserCardProps) => {
-  const { user, handleScroll } = props;
+  const { user } = props;
   
   const queryClient = useQueryClient();
 
@@ -38,13 +37,7 @@ const UserCard = (props: UserCardProps) => {
     },
   });
 
-  const handleEditUser = () => {
-    setIsBeingEdited(true);
-    handleScroll();
-  }
-
   const handleDelete = () => {
-    handleScroll();
     try {
       deleteUser.mutate();
       setIsBeingDeleted(false);
@@ -55,20 +48,23 @@ const UserCard = (props: UserCardProps) => {
 
   if (isBeingEdited) {
     return (
-      <UserForm 
-        user={user} setIsBeingEdited={setIsBeingEdited} 
-        handleScroll={handleScroll} 
-      />
+      <UserForm user={user} setIsBeingEdited={setIsBeingEdited} />
     );
   } else {
     return (
       <article className={styles.container}>
-        <div className={styles.nameContainer}>{user.name}</div>
+        <div>{user.name}</div>
         <a href={`mailto:${user.email}`}>{user.email}</a>
-        <div className={styles.roleContainer}>{user.role}</div>
+        <div>{user.role}</div>
         <div className={styles.buttonContainer}>
-            <TiEdit onClick={handleEditUser} />
-            <TiMinus onClick={() => setIsBeingDeleted(true)} />
+          <button onClick={() => setIsBeingEdited(true)}>
+            <TiEdit />
+            <span>Edit</span>
+          </button>
+          <div onClick={() => setIsBeingDeleted(true)}>
+            <TiMinus />
+            <span>Delete</span>
+          </div>
         </div>
         {isBeingDeleted &&
             <div className={styles.deleteOptions}>

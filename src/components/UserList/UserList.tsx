@@ -1,5 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useRef, useState } from 'react';
+import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
 import { TiPlus } from 'react-icons/ti';
 import * as userService from '../../services/userService';
 import UserCard from '../UserCard/UserCard';
@@ -11,46 +12,37 @@ const UserList = () => {
 
   const { data, isLoading } = useQuery(['users'], userService.index);
 
-  const [isUserFormOpen, setIsUserFormOpen] = useState(false);
+  const [search, setSearch] = useState('');
 
-  const scrollContainer = useRef<HTMLDivElement>(null);
-
-  const handleScroll = () => {
-    if (scrollContainer.current) {
-      scrollContainer.current.scrollTo({ left: 0, behavior: 'smooth' });
-    }
+  const handleSearch = (evt: React.ChangeEvent<HTMLInputElement>): void => {
+    setSearch(evt.target.value);
   }
 
-  const handleOpenUserForm = () => {
-    setIsUserFormOpen(true);
-    handleScroll();
-  }
-
-  const users = data?.sort((a, b) => a.name > b.name ? 1 : -1);;
+  const searchedUsers = data?.filter(user => 
+    user.name.toLowerCase().includes(search.toLowerCase()) ||
+    user.email.toLowerCase().includes(search.toLowerCase())
+  );
+  const users = searchedUsers?.sort((a, b) => a.name > b.name ? 1 : -1);;
 
   return (
     <section className={styles.container}>
-      <h2>Users</h2>
-      <div 
-        className={styles.scrollContainer} 
-        ref={scrollContainer} 
-      >
-        {!isUserFormOpen ?
-          <header>
-            <div className={styles.nameContainer}>Name</div>
-            <div>Email</div>
-            <div className={styles.roleContainer}>Role</div>
-            <div className={styles.buttonContainer}>
-              <TiPlus onClick={handleOpenUserForm} />
-            </div>
-          </header>
-          :
-          <UserForm setIsUserFormOpen={setIsUserFormOpen} handleScroll={handleScroll} />
-        }
-        {users?.map(user => (
-          <UserCard key={user.id} user={user} handleScroll={handleScroll} />
-        ))}
+      <div className={styles.filters}>
+        <div className={styles.searchBar}>
+          <input 
+            type="text" placeholder="Search" 
+            value={search} onChange={handleSearch} 
+          />
+          {!search ?
+            <AiOutlineSearch />
+            :
+            <AiOutlineClose onClick={() => setSearch('')}/>
+          }
+        </div>
       </div>
+      {!search && <UserForm />}
+      {users?.map(user => (
+        <UserCard key={user.id} user={user} />
+      ))}
     </section>
   );
 }

@@ -102,16 +102,16 @@ const JobCard = (props: JobCardProps) => {
               />
             </div>
           }
-          {job.lockStatus !== 'Done' ? 
+          {job.lockStatus.toLowerCase() !== 'done' ? 
             <div>{job.lockStatus}</div> : <span>{job.lockStatus}</span>
           }
-          {job.shelvingStatus !== 'Done' ? 
+          {job.shelvingStatus.toLowerCase() !== 'done' ? 
             <div>{job.shelvingStatus}</div> : <span>{job.shelvingStatus}</span>
           }
-          {job.showerStatus !== 'Done' ? 
+          {job.showerStatus.toLowerCase() !== 'done' ? 
             <div>{job.showerStatus}</div> : <span>{job.showerStatus}</span>
           }
-          {job.mirrorStatus !== 'Done' ? 
+          {job.mirrorStatus.toLowerCase() !== 'done' ? 
             <div>{job.mirrorStatus}</div> : <span>{job.mirrorStatus}</span>
           }
           <div 

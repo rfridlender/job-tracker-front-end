@@ -19,21 +19,10 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
 
   const createContractor = useMutation({
     mutationFn: () => contractorService.create(formData),
-    onMutate: async (newContractor: ContractorFormData) => {
-      await queryClient.cancelQueries(['contractors']);
-      const previousContractors = queryClient.getQueryData<Contractor[]>(['contractors']);
-      previousContractors && queryClient.setQueryData(
-        ['contractors'], 
-        [newContractor, ...previousContractors]
-      );
-      return previousContractors;
-    },
-    onError: (err, newContractor, context) => {
-      queryClient.setQueryData(['contractors'], context);
-    },
     onSettled: () => {
       queryClient.invalidateQueries(['contractors']);
       handleClear();
+      setIsBeingSubmitted(false);
     },
   });
 
@@ -65,6 +54,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     phoneNumber: contractor ? contractor.phoneNumber : '',
     email: contractor ? contractor.email : '',
   });
+  const [isBeingSubmitted, setIsBeingSubmitted] = useState(false);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -72,15 +62,18 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
+    if (isBeingSubmitted) return;
     try {
       if (!contractor) {
-        createContractor.mutate(formData);
+        setIsBeingSubmitted(true);
+        createContractor.mutate();
       } else {
-        updateContractor?.mutate(formData);
         setIsBeingEdited && setIsBeingEdited(false);
+        updateContractor?.mutate(formData);
       }
     } catch (err) {
       console.log(err);
+      setIsBeingSubmitted(false);
     }
   }
 
@@ -114,9 +107,9 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
         onChange={handleChange}  autoComplete="off" placeholder="Email"
       />
       <div className={styles.buttonContainer}>
-        <button disabled={isFormInvalid()}>
-          <TiPlus />
-          <span>Save</span>
+        <button disabled={isFormInvalid() || isBeingSubmitted}>
+          {!isBeingSubmitted && <TiPlus />}
+          <span>{!isBeingSubmitted ? 'Save' : 'Saving...'}</span>
         </button>
         {!contractor || !setIsBeingEdited ?
           <div onClick={handleClear}>

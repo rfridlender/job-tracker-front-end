@@ -20,21 +20,10 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   const createUser = useMutation({
     mutationFn: () => userService.create(formData),
-    onMutate: async (newUser: UserFormData) => {
-      await queryClient.cancelQueries(['users']);
-      const previousUsers = queryClient.getQueryData<User[]>(['users']);
-      previousUsers && queryClient.setQueryData(
-        ['users'], 
-        [newUser, ...previousUsers]
-      );
-      return previousUsers;
-    },
-    onError: (err, newUser, context) => {
-      queryClient.setQueryData(['users'], context);
-    },
     onSettled: () => {
       queryClient.invalidateQueries(['users']);
       handleClear();
+      setIsBeingSubmitted(false);
     },
   });
 
@@ -65,6 +54,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     email: user ? user.email : '',
     role: user ? user.role : Role.USER,
   });
+  const [isBeingSubmitted, setIsBeingSubmitted] = useState(false);
 
   const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [evt.target.name]: evt.target.value });
@@ -72,14 +62,17 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
+    if (isBeingSubmitted) return;
     try {
       if (!user) {
-        createUser.mutate(formData);
+        setIsBeingSubmitted(true);
+        createUser.mutate();
       } else {
-        updateUser?.mutate(formData);
         setIsBeingEdited && setIsBeingEdited(false);
+        updateUser?.mutate(formData);
       }
     } catch (err) {
+      setIsBeingSubmitted(false);
       console.log(err);
     }
   }
@@ -108,9 +101,9 @@ const UserForm = (props: UserFormProps): JSX.Element => {
         ))}
       </select>
       <div className={styles.buttonContainer}>
-        <button disabled={isFormInvalid()}>
-          <TiPlus />
-          <span>Save</span>
+        <button disabled={isFormInvalid() || isBeingSubmitted}>
+          {!isBeingSubmitted && <TiPlus />}
+          <span>{!isBeingSubmitted ? 'Save' : 'Saving...'}</span>
         </button>
         {!user || !setIsBeingEdited ?
           <div onClick={handleClear}>

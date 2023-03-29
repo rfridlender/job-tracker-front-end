@@ -88,38 +88,55 @@ $color-shadow: #6c757d;
     z-index: 4;
     > section {
       width: 20rem;
-      padding: 1rem;
+      padding: 2rem;
       display: flex;
       flex-flow: column;
       justify-content: center;
       align-items: center;
-      gap: 1rem;
+      gap: 2rem;
       background-color: $color-primary;
       box-shadow: 0 .25rem .25rem 0 $color-shadow;
       border-radius: .25rem;
       font-size: 1rem;
       > div {
         width: 100%;
-        height: 2rem;
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 1rem;
         text-align: center;
-        button {
+        > button {
           width: 100%;
-          height: 2rem;
-          color: $color-text-primary;
-          background-color: $color-primary;
-          border: 1px solid $color-text-primary;
+          height: 3rem;
+          color: $color-primary;
+          border: none;
           border-radius: .25rem;
+          font-size: 1rem;
           cursor: pointer;
           transition: all .25s;
         }
-        button:hover {
-          color: $color-accent;
-          border: 1px solid $color-accent;  
+        > button:first-child {
+          background-color: $color-accent;
         }
+        > button:last-child {
+          background-color: $color-text-secondary;
+        }
+        > button:first-child:hover {
+          background-color: $color-accent-shadow;
+        }
+        > button:last-child:hover {
+          background-color: $color-text-primary;
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 320px) {
+  .container {
+    .deleteOptions {
+      section {
+        border-radius: 0;
       }
     }
   }

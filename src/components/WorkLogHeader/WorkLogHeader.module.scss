@@ -21,6 +21,7 @@ $color-shadow: #6c757d;
     justify-content: flex-start;
     align-items: center;
     padding: 0 .5rem;
+    border-right: 1px solid $color-text-primary;
     font-weight: bold;
     transition: all .25s;
   }
@@ -56,6 +57,7 @@ $color-shadow: #6c757d;
     justify-content: flex-start;
     align-items: center;
     gap: .5rem;
+    border-right: none;
     svg {
       width: 2rem;
       height: 2rem;

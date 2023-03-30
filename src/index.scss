@@ -24,12 +24,13 @@ $color-shadow: #6c757d;
 
 :root {
   @include expand();
-  background-color: $color-primary-shadow;
+  background-color: $color-primary;
   body {
     @include expand();
     #root {
       @include expand();
       color: $color-text-primary;
+      background-color: $color-primary-shadow;
     }
   }
 }

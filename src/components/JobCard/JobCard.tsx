@@ -9,6 +9,7 @@ import { HiDocumentText } from 'react-icons/hi2';
 import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import JobForm from '../JobForm/JobForm';
 import { Role } from '../../types/enums';
+import DeleteOverlay from '../DeleteOverlay/DeleteOverlay';
 
 interface JobCardProps {
   contractors: Contractor[] | undefined;
@@ -35,7 +36,7 @@ const JobCard = (props: JobCardProps) => {
       const previousJobs = queryClient.getQueryData<Job[]>(['jobs']);
       previousJobs && queryClient.setQueryData(
         ['jobs'], 
-        previousJobs.filter(previousJob => previousJob.id !== job.id ? true : false)
+        job && previousJobs.filter(previousJob => previousJob.id !== job.id ? true : false)
       );
       return previousJobs;
     },
@@ -131,15 +132,9 @@ const JobCard = (props: JobCardProps) => {
             {user.role === Role.ADMIN && <TiMinus onClick={() => setIsBeingDeleted(true)} />}
           </div>
           {isBeingDeleted &&
-            <div className={styles.deleteOptions}>
-              <section>
-                <div>Are you sure you want to delete {job.address}?</div>
-                <div>
-                  <button onClick={handleDelete}>Delete</button>
-                  <button onClick={() => setIsBeingDeleted(false)}>Cancel</button>
-                </div>
-              </section>
-            </div>
+            <DeleteOverlay 
+              setIsBeingDeleted={setIsBeingDeleted} handleDelete={handleDelete} job={job} 
+            />
           }
         </div>
         {areBuilderDetailsOpen &&

@@ -5,6 +5,7 @@ import styles from './UserCard.module.scss';
 import * as userService from '../../services/userService';
 import { TiEdit, TiMinus } from 'react-icons/ti';
 import UserForm from '../UserForm/UserForm';
+import DeleteOverlay from '../DeleteOverlay/DeleteOverlay';
 
 interface UserCardProps {
   user: User;
@@ -66,17 +67,10 @@ const UserCard = (props: UserCardProps) => {
             <span>Delete</span>
           </div>
         </div>
-        {isBeingDeleted &&
-            <div className={styles.deleteOptions}>
-              <section>
-                <div>Are you sure you want to fire {user.name}?</div>
-                <div>
-                  <button onClick={handleDelete}>Fire</button>
-                  <button onClick={() => setIsBeingDeleted(false)}>Cancel</button>
-                </div>
-              </section>
-            </div>
-          }
+        {isBeingDeleted && 
+          <DeleteOverlay 
+            setIsBeingDeleted={setIsBeingDeleted} handleDelete={handleDelete} user={user} 
+          />}
       </article>
     );
   }

@@ -6,17 +6,17 @@ import * as workLogService from '../../services/workLogService';
 import WorkLogForm from '../WorkLogForm/WorkLogForm';
 import { TiEdit, TiMinus } from 'react-icons/ti';
 import { twentyFourToTwelveConvertor } from '../../services/helpers';
+import DeleteOverlay from '../DeleteOverlay/DeleteOverlay';
 
 interface WorkLogCardProps {
   jobId: number;
   workLog: WorkLog;
   user: User;
-  setIsWorkLogFormOpen: (boolean: boolean) => void;
   handleScroll: () => void;
 }
 
 const WorkLogCard = (props: WorkLogCardProps) => {
-  const { jobId, workLog, user, setIsWorkLogFormOpen, handleScroll } = props;
+  const { jobId, workLog, user, handleScroll } = props;
 
   const queryClient = useQueryClient();
   
@@ -77,15 +77,9 @@ const WorkLogCard = (props: WorkLogCardProps) => {
           </div>
         }
         {isBeingDeleted &&
-          <div className={styles.deleteOptions}>
-            <section>
-              <div>Are you sure you want to delete this work log from {workLog.workDate}?</div>
-              <div>
-                <button onClick={handleDelete}>Delete</button>
-                <button onClick={() => setIsBeingDeleted(false)}>Cancel</button>
-              </div>
-            </section>
-          </div>
+          <DeleteOverlay 
+            setIsBeingDeleted={setIsBeingDeleted} workLog={workLog} handleDelete={handleDelete} 
+          />
         }
       </div>
     );

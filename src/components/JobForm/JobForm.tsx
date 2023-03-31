@@ -140,12 +140,8 @@ const JobForm = (props: JobFormProps): JSX.Element => {
           <div className={styles.inputContainer}>{job?.status}</div>
           <div className={styles.inputContainer}>{job?.address}</div>
           <div className={styles.inputContainer} id={styles.takeoffContainer}>
-            {job?.takeoffOne ? 
-              <HiDocumentText /> : <div />
-            }
-            {job?.takeoffTwo ? 
-              <HiDocumentText /> : <div />
-            }
+            {job?.takeoffOne && <HiDocumentText />}
+            {job?.takeoffTwo && <HiDocumentText />}
           </div>
         </>
         :

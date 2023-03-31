@@ -4,6 +4,7 @@ import { Contractor } from '../../types/models';
 import styles from './ContractorCard.module.scss';
 import { TiEdit } from 'react-icons/ti';
 import ContractorForm from '../ContractorForm/ContractorForm';
+import BigButton from '../BigButton/BigButton';
 
 interface ContractorCardProps {
   contractor: Contractor;
@@ -29,10 +30,7 @@ const ContractorCard = (props: ContractorCardProps) => {
           {contractor.phoneNumber}
         </a>
         <a href={`mailto:${contractor.email}`}>{contractor.email}</a>
-        <button onClick={() => setIsBeingEdited(true)}>
-          <TiEdit />
-          <span>Edit</span>
-        </button>
+        <BigButton onClick={() => setIsBeingEdited(true)} icon={<TiEdit />} content="Edit" accent />
       </article>
     );
   }

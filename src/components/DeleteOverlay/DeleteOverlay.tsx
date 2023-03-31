@@ -1,8 +1,6 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { Job, User, WorkLog } from '../../types/models';
+import { Job, WorkLog, User } from '../../types/models';
+import BigButton from '../BigButton/BigButton';
 import styles from './DeleteOverlay.module.scss';
-import * as jobService from '../../services/jobService';
-import * as workLogService from '../../services/workLogService';
 
 interface DeleteOverlayProps {
   setIsBeingDeleted: (boolean: boolean) => void;
@@ -26,8 +24,8 @@ const DeleteOverlay = (props: DeleteOverlayProps) => {
         }
         </div>
         <div>
-          <button onClick={handleDelete}>Delete</button>
-          <button onClick={() => setIsBeingDeleted(false)}>Cancel</button>
+          <BigButton onClick={handleDelete} content="Delete" accent/>
+          <BigButton onClick={() => setIsBeingDeleted(false)} content="Cancel" />
         </div>
       </section>
     </div>

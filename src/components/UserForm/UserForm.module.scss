@@ -58,43 +58,5 @@ $color-shadow: #6c757d;
     justify-content: space-between;
     align-items: center;
     gap: 1rem;
-    > button, > div {
-      width: 100%;
-      height: 3rem;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: .5rem;
-      color: $color-primary;
-      border: none;
-      border-radius: .25rem;
-      cursor: pointer;
-      font-size: 1rem;
-      transition: all .25s;
-      svg {
-        width: 1.5rem;
-        height: 1.5rem;
-      }
-    }
-    > button {
-      background-color: $color-accent;
-    }
-    > div {
-      background-color: $color-text-secondary;
-    }
-    > button:hover {
-      background-color: $color-accent-shadow;
-    }
-    > div:hover {
-      background-color: $color-text-primary;
-    }
-    > button:disabled {
-      opacity: 50%;
-    }
-    > button:disabled:hover {
-      cursor: inherit;
-      color: $color-primary;
-      background-color: $color-accent;
-    }
   }
 }

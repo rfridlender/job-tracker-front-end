@@ -5,9 +5,11 @@ import styles from './ChangePasswordForm.module.scss';
 import { AuthFormProps } from '../../types/props';
 import { ChangePasswordFormData } from '../../types/forms';
 import { handleErrMsg } from '../../types/validators';
+import BigButton from '../BigButton/BigButton';
 
 const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
   const { handleAuthEvt } = props;
+
   const navigate = useNavigate();
 
   const [formData, setFormData] = useState<ChangePasswordFormData>({
@@ -45,22 +47,20 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
       <h2>Change password</h2>
       {message && <div className={styles.message}>{message}</div>}
       <input 
-        className={styles.inputContainer} type="password" id="oldPassword" 
-        value={oldPassword} name="oldPassword" onChange={handleChange} 
-        placeholder="Current Password"
+        type="password" value={oldPassword} name="oldPassword" 
+        onChange={handleChange} placeholder="Current Password"
       />
       <input 
-        className={styles.inputContainer} type="password" id="newPassword" 
-        value={newPassword} name="newPassword" onChange={handleChange} 
-        placeholder="New Password"
+        type="password" value={newPassword} name="newPassword" 
+        onChange={handleChange} placeholder="New Password"
       />
       <input 
-        className={styles.inputContainer} type="password" id="newPasswordConf" 
-        value={newPasswordConf} name="newPasswordConf" onChange={handleChange} placeholder="Confirm New Password"
+        type="password" value={newPasswordConf} name="newPasswordConf" 
+        onChange={handleChange} placeholder="Confirm New Password"
       />
       <div className={styles.buttonContainer}>
-        <button disabled={isFormInvalid()}>Apply</button>
-        <div><Link to="/portal/jobs">Cancel</Link></div>
+        <BigButton disabled={isFormInvalid()} content="Apply" accent />
+        <BigButton onClick={() => navigate('/portal/jobs')} content="Cancel" />
       </div>
     </form>
   );

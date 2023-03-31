@@ -6,6 +6,7 @@ import { AuthFormProps } from '../../types/props';
 import { LoginFormData } from '../../types/forms';
 import { handleErrMsg } from '../../types/validators';
 import logo from '../../assets/icons/white-icon.png';
+import BigButton from '../BigButton/BigButton';
 
 const LoginForm = (props: AuthFormProps): JSX.Element => {
   const { handleAuthEvt } = props;
@@ -45,18 +46,20 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
       <h2>Log in</h2>
       {message && <div className={styles.message}>{message}</div>}
       <input
-        className={styles.inputContainer} type="email" id="email" 
-        value={email} name="email" onChange={handleChange} placeholder="Email"
+        type="email" value={email} name="email" 
+        onChange={handleChange} placeholder="Email"
       />
       <input
-        className={styles.inputContainer} type="password" id="password" 
-        value={password} name="password" onChange={handleChange} placeholder="Password"
+        type="password" value={password} name="password" 
+        onChange={handleChange} placeholder="Password"
       />
       <div className={styles.buttonContainer}>
-        <button disabled={isFormInvalid()}>
-          <img src={logo} alt="Door2Door Logo" />
-          <span>Log In</span>
-        </button>
+        <BigButton 
+          disabled={isFormInvalid()} 
+          icon={<img src={logo} alt="Door2Door Logo" />} 
+          content="Log In"
+          accent
+        />
       </div>
     </form>
   );

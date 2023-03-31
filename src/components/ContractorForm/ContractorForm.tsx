@@ -6,6 +6,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { Contractor } from '../../types/models';
 import { TiCancel, TiPlus } from 'react-icons/ti';
 import { TbEraser } from 'react-icons/tb';
+import BigButton from '../BigButton/BigButton';
 
 interface ContractorFormProps {
   contractor?: Contractor;
@@ -107,20 +108,16 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
         onChange={handleChange}  autoComplete="off" placeholder="Email"
       />
       <div className={styles.buttonContainer}>
-        <button disabled={isFormInvalid() || isBeingSubmitted}>
-          {!isBeingSubmitted && <TiPlus />}
-          <span>{!isBeingSubmitted ? 'Save' : 'Saving...'}</span>
-        </button>
+        <BigButton 
+          disabled={isFormInvalid() || isBeingSubmitted} 
+          icon={!isBeingSubmitted && <TiPlus />} 
+          content={!isBeingSubmitted ? 'Save' : 'Saving...'}
+          accent 
+        />
         {!contractor || !setIsBeingEdited ?
-          <div onClick={handleClear}>
-            <TbEraser />
-            <span>Clear</span>
-          </div>
+          <BigButton onClick={handleClear} icon={<TbEraser />} content="Clear" /> 
           :
-          <div onClick={() => setIsBeingEdited(false)}>
-            <TiCancel />
-            <span>Cancel</span>
-          </div>
+          <BigButton onClick={() => setIsBeingEdited(false)} icon={<TiCancel />} content="Cancel" />
         }
       </div>
     </form>

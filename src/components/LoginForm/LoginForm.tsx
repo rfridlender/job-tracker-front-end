@@ -28,7 +28,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
     try {
       await authService.login(formData);
       handleAuthEvt();
-      navigate('/portal/jobs');
+      navigate('/jobs');
     } catch (err) {
       console.log(err);
       handleErrMsg(err, setMessage);

@@ -29,7 +29,7 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
     try {
       await authService.changePassword(formData);
       handleAuthEvt();
-      navigate('/portal/jobs');
+      navigate('/jobs');
     } catch (err) {
       console.log(err);
       handleErrMsg(err, setMessage);
@@ -60,7 +60,7 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
       />
       <div className={styles.buttonContainer}>
         <BigButton disabled={isFormInvalid()} content="Apply" accent />
-        <BigButton onClick={() => navigate('/portal/jobs')} content="Cancel" />
+        <BigButton onClick={() => navigate('/jobs')} content="Cancel" />
       </div>
     </form>
   );

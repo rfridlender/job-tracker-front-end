@@ -19,13 +19,10 @@ const LoginPage = (props: LoginPageProps): JSX.Element => {
     );
   } else {
     return (
-      <>
-        <NavBar />
-        <main className={styles.container}>
-          <img src={logo} alt="Door2Door Logo" />
-          <LoginForm handleAuthEvt={handleAuthEvt} />
-        </main>
-      </>
+      <main className={styles.container}>
+        <img src={logo} alt="Door2Door Logo" />
+        <LoginForm handleAuthEvt={handleAuthEvt} />
+      </main>
     );
   }
 }

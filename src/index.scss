@@ -29,8 +29,16 @@ $color-shadow: #6c757d;
     @include expand();
     #root {
       @include expand();
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
       color: $color-text-primary;
       background-color: $color-primary-shadow;
+      #container {
+        @include expand();
+        min-width: calc(100% - 12rem);
+        max-width: calc(100%);
+      }
     }
   }
 }

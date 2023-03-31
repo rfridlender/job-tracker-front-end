@@ -15,13 +15,13 @@ const SideBar = (props: SideBarProps): JSX.Element => {
   const { user } = props;
   
   return (
-    <nav className={styles.container}>
+    <aside className={styles.container}>
       <img className={styles.logo} src={logo} alt="Door2Door Logo" />
       <img className={styles.icon} src={icon} alt="Door2Door Icon" />
       <div className={styles.links}>
         <NavLink 
           className={({ isActive }) => isActive ? styles.active : ''}
-          to="/portal/jobs"
+          to="/jobs"
         >
           <div className={styles.spacer} />
           <div className={styles.link}>
@@ -33,7 +33,7 @@ const SideBar = (props: SideBarProps): JSX.Element => {
           <>
             <NavLink 
               className={({ isActive }) => isActive ? styles.active : ''}
-              to="/portal/builders"
+              to="/builders"
             >
               <div className={styles.spacer} />
               <div className={styles.link}>
@@ -43,7 +43,7 @@ const SideBar = (props: SideBarProps): JSX.Element => {
             </NavLink>
             <NavLink 
               className={({ isActive }) => isActive ? styles.active : ''}
-              to="/portal/users"
+              to="/users"
             >
               <div className={styles.spacer} />
               <div className={styles.link}>
@@ -54,7 +54,7 @@ const SideBar = (props: SideBarProps): JSX.Element => {
           </>
         } 
       </div>
-    </nav>
+    </aside>
   );
 }
 

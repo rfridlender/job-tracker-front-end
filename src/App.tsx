@@ -40,33 +40,25 @@ const App = (): JSX.Element => {
         />
         <Routes>
           <Route path="/" element={<Login user={user} handleAuthEvt={handleAuthEvt} />} />
-          <Route
-            path="/change-password"
-            element={
+          <Route path="/change-password" element={
               <ProtectedRoute user={user}>
                 {user && <ChangePassword handleAuthEvt={handleAuthEvt} />}
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/jobs"
-            element={
+          <Route path="/jobs" element={
               <ProtectedRoute user={user}>
                 {user && <JobList user={user} />}
               </ProtectedRoute>
             }
           />
-          <Route
-            path="/builders"
-            element={
+          <Route path="/builders" element={
               <AdminRoute user={user}>
                 {user?.role === Role.ADMIN && <ContractorList />}
               </AdminRoute>
             }
           />
-          <Route
-            path="/users"
-            element={
+          <Route path="/users" element={
               <AdminRoute user={user}>
                 {user?.role === Role.ADMIN && <UserList />}
               </AdminRoute>

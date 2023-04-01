@@ -10,6 +10,7 @@ import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import JobForm from '../JobForm/JobForm';
 import { Role } from '../../types/enums';
 import DeleteOverlay from '../DeleteOverlay/DeleteOverlay';
+import SmallButton from '../SmallButton/SmallButton';
 
 interface JobCardProps {
   contractors: Contractor[] | undefined;
@@ -92,8 +93,16 @@ const JobCard = (props: JobCardProps) => {
             }
           </div>
           <div id={styles.takeoffContainer}>
-            {job.takeoffOne && <HiDocumentText onClick={() => setIsTakeoffOpen(1)} />}
-            {job.takeoffTwo && <HiDocumentText onClick={() => setIsTakeoffOpen(2)} />}
+            {job.takeoffOne && 
+              <SmallButton 
+                onClick={() => setIsTakeoffOpen(1)} icon={<HiDocumentText />} 
+              />
+            }
+            {job.takeoffTwo && 
+              <SmallButton 
+                onClick={() => setIsTakeoffOpen(2)} icon={<HiDocumentText />} 
+              />
+            }
           </div>
           {!!isTakeoffOpen && 
             <div className={styles.takeoffOverlay} onClick={() => setIsTakeoffOpen(0)}>
@@ -128,8 +137,11 @@ const JobCard = (props: JobCardProps) => {
           </div>
           <div id={styles.accessContainer}>{job.jobSiteAccess}</div>
           <div className={styles.buttonContainer}>
-            <TiEdit onClick={handleEditJob} />
-            {user.role === Role.ADMIN && <TiMinus onClick={() => setIsBeingDeleted(true)} />}
+            <SmallButton onClick={handleEditJob} icon={<TiEdit />} />
+            {user.role === Role.ADMIN && 
+              <SmallButton 
+                onClick={() => setIsBeingDeleted(true)} icon={<TiMinus />} 
+              />}
           </div>
           {isBeingDeleted &&
             <DeleteOverlay 

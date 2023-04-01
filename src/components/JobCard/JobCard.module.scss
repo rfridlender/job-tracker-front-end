@@ -93,19 +93,6 @@ $color-retired: #212529;
     > #takeoffContainer {
       width: 5.5rem;
       min-width: 5.5rem;
-      svg, div {
-        width: 2rem;
-        height: 2rem;
-        color: $color-text-primary;
-        border: 1px solid $color-text-primary;
-        border-radius: .25rem;
-        cursor: pointer;
-        transition: all .25s;
-      }
-      svg:hover {
-        color: $color-accent;
-        border: 1px solid $color-accent;  
-      }
     }
     > #accessContainer {
       width: 10rem;
@@ -119,19 +106,6 @@ $color-retired: #212529;
       justify-content: flex-start;
       align-items: center;
       gap: .5rem;
-      svg {
-        width: 2rem;
-        height: 2rem;
-        color: $color-text-primary;
-        border: 1px solid $color-text-primary;
-        border-radius: .25rem;
-        cursor: pointer;
-        transition: all .25s;
-      }
-      svg:hover {
-        color: $color-accent;
-        border: 1px solid $color-accent;  
-      }
     }
     .takeoffOverlay {
       width: 100%;

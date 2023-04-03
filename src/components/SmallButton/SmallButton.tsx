@@ -2,7 +2,7 @@ import styles from './SmallButton.module.scss';
 
 interface SmallButtonProps {
   onClick?: () => void;
-  disabled?: boolean;
+  disabled: boolean;
   icon: JSX.Element | boolean;
 }
 

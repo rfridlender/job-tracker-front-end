@@ -48,13 +48,6 @@ $color-shadow: #6c757d;
   > input:hover::placeholder {
     color: $color-accent;
   }
-  > .buttonContainer {
-    width: 100%;
-    height: 3rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
 }
 
 @media screen and (max-width: 320px) {

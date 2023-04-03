@@ -7,13 +7,18 @@ import logo from '../../assets/icons/white-icon.png';
 import BigButton from '../BigButton/BigButton';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ErrorContainer from '../ErrorContainer/ErrorContainer';
+import ErrorOverlay from '../ErrorOverlay/ErrorOverlay';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
 
 const LoginForm = (props: AuthFormProps): JSX.Element => {
   const { handleAuthEvt } = props;
 
   const navigate = useNavigate();
+
+  const [isErrorOverlayOpen, setIsErrorOverlayOpen] = useState<boolean>(false);
+  const [message, setMessage] = useState<string>('');
 
   const formSchema = z.object({
     email: z.string().min(1, "Email is required").email("Email is invalid"),
@@ -29,7 +34,9 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
       await authService.login(data);
       handleAuthEvt();
       navigate('/jobs');
-    } catch (err) {
+    } catch (err: any) {
+      setIsErrorOverlayOpen(true);
+      setMessage(err.message);
       console.log(err);
     }
   };
@@ -41,14 +48,15 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
       <input placeholder="Email" {...register("email")} />
       {errors.password?.message && <ErrorContainer content={errors.password.message} />}
       <input type="password" placeholder="Password" {...register("password")} />
-      <div className={styles.buttonContainer}>
-        <BigButton 
-          disabled={isSubmitting}
-          icon={<img src={logo} alt="Door2Door Logo" />} 
-          content={!isSubmitting ? "Log In" : "Logging in..."}
-          accent
-        />
-      </div>
+      <BigButton 
+        disabled={isSubmitting}
+        icon={<img src={logo} alt="Door2Door Logo" />} 
+        content={!isSubmitting ? "Log In" : "Logging in..."}
+        accent
+      />
+      {isErrorOverlayOpen && !!message && <ErrorOverlay 
+        setIsErrorOverlayOpen={setIsErrorOverlayOpen} content={message} 
+      />}
     </form>
   );
 }

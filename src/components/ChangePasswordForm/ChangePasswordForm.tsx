@@ -4,7 +4,6 @@ import * as authService from '../../services/authService';
 import styles from './ChangePasswordForm.module.scss';
 import { AuthFormProps } from '../../types/props';
 import { ChangePasswordFormData } from '../../types/forms';
-import { handleErrMsg } from '../../types/validators';
 import BigButton from '../BigButton/BigButton';
 
 const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
@@ -32,7 +31,6 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
       navigate('/jobs');
     } catch (err) {
       console.log(err);
-      handleErrMsg(err, setMessage);
     }
   }
 

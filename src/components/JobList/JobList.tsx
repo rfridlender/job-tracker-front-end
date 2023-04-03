@@ -1,13 +1,12 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { Contractor, Job, User } from '../../types/models';
+import { Job, User } from '../../types/models';
 import * as contractorService from '../../services/contractorService';
 import * as jobService from '../../services/jobService';
 import styles from './JobList.module.scss'
 import JobForm from '../JobForm/JobForm';
 import JobCard from '../JobCard/JobCard';
-import { Role, Status } from '../../types/enums';
+import { Status } from '../../types/enums';
 import { useRef, useState } from 'react';
-import { TiPlus } from 'react-icons/ti';
 import { AiOutlineClose, AiOutlineSearch, AiOutlineFilter } from 'react-icons/ai';
 import JobHeader from '../JobHeader/JobHeader';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';

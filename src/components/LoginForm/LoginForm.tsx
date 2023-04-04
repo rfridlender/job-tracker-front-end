@@ -17,7 +17,6 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
 
   const navigate = useNavigate();
 
-  const [isErrorOverlayOpen, setIsErrorOverlayOpen] = useState<boolean>(false);
   const [message, setMessage] = useState<string>('');
 
   const formSchema = z.object({
@@ -35,7 +34,6 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
       handleAuthEvt();
       navigate('/jobs');
     } catch (err: any) {
-      setIsErrorOverlayOpen(true);
       setMessage(err.message);
       console.log(err);
     }
@@ -54,9 +52,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
         content={!isSubmitting ? "Log In" : "Logging in..."}
         accent
       />
-      {isErrorOverlayOpen && !!message && <ErrorOverlay 
-        setIsErrorOverlayOpen={setIsErrorOverlayOpen} content={message} 
-      />}
+      {message && <ErrorOverlay setMessage={setMessage} content={message} />}
     </form>
   );
 }

@@ -9,6 +9,11 @@ import { TiCancel, TiPlus } from 'react-icons/ti';
 import { TbEraser } from 'react-icons/tb';
 import Button from '../Button/Button';
 import ButtonContainer from '../ButtonContainer/ButtonContainer';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { z } from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
+import ErrorOverlay from '../ErrorOverlay/ErrorOverlay';
+import ErrorContainer from '../ErrorContainer/ErrorContainer';
 
 interface UserFormProps {
   user?: User;
@@ -21,16 +26,15 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   const queryClient = useQueryClient();
 
   const createUser = useMutation({
-    mutationFn: () => userService.create(formData),
+    mutationFn: (data: UserFormData) => userService.create(data),
     onSettled: () => {
       queryClient.invalidateQueries(['users']);
       handleClear();
-      setIsBeingSubmitted(false);
     },
   });
 
   const updateUser = useMutation({
-    mutationFn: () => userService.update(formData.id, formData),
+    mutationFn: (data: UserFormData) => userService.update(data.id, data),
     onMutate: async (updatedUser: UserFormData) => {
       await queryClient.cancelQueries(['users']);
       const previousUsers = queryClient.getQueryData<User[]>(['users']);
@@ -50,63 +54,57 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     },
   });
 
-  const [formData, setFormData] = useState<UserFormData>({
-    id: user ? user.id : 0,
-    name: user ? user.name : '',
-    email: user ? user.email : '',
-    role: user ? user.role : Role.USER,
+  const [message, setMessage] = useState<string>('');
+
+  const formSchema = z.object({
+    id: z.number(),
+    name: z.string().min(1, "Name is required"),
+    email: z.string().min(1, "Email is required").email("Email is invalid"),
+    role: z.nativeEnum(Role),
   });
-  const [isBeingSubmitted, setIsBeingSubmitted] = useState(false);
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [evt.target.name]: evt.target.value });
-  }
+  const { register, reset, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserFormData>({
+    defaultValues: {
+      id: user ? user.id : 0,
+      name: user ? user.name : '',
+      email: user ? user.email : '',
+      role: user ? user.role : Role.USER,
+    },
+    resolver: zodResolver(formSchema),
+  });
 
-  const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
-    evt.preventDefault();
-    if (isBeingSubmitted) return;
+  const onSubmit: SubmitHandler<UserFormData> = async data => {
     try {
       if (!user) {
-        setIsBeingSubmitted(true);
-        createUser.mutate();
+        createUser.mutate(data);
       } else {
         setIsBeingEdited && setIsBeingEdited(false);
-        updateUser?.mutate(formData);
+        updateUser.mutate(data);
       }
-    } catch (err) {
-      setIsBeingSubmitted(false);
+    } catch (err: any) {
+      setMessage(err.message);
       console.log(err);
     }
   }
 
-  const handleClear = () => setFormData({ id: 0, name: '', email: '', role: Role.USER });
-
-  const { name, email, role} = formData;
-
-  const isFormInvalid = (): boolean => {
-    return !(name && email && role);
-  }
+  const handleClear = () => reset();
 
   return (
-    <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <input 
-        type="text" value={name} name="name" 
-        onChange={handleChange} autoComplete="off" placeholder="Name"
-      />
-      <input 
-        type="email" value={email} name="email" 
-        onChange={handleChange} autoComplete="off" placeholder="Email"
-      />
-      <select name="role" onChange={handleChange} value={role}>
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={styles.container}>
+      {errors.name?.message && <ErrorContainer content={errors.name.message} />}
+      <input placeholder="Name" {...register("name")} />
+      {errors.email?.message && <ErrorContainer content={errors.email.message} />}
+      <input placeholder="Email" {...register("email")} />
+      <select {...register("role")}>
         {Object.values(Role).map(role => (
           <option key={role} value={role}>{role}</option>
         ))}
       </select>
       <ButtonContainer>
         <Button 
-          disabled={isFormInvalid() || isBeingSubmitted} 
-          icon={!isBeingSubmitted && <TiPlus />}
-          content={!isBeingSubmitted ? 'Save' : 'Saving...'}
+          disabled={isSubmitting} 
+          icon={!isSubmitting && <TiPlus />}
+          content={!isSubmitting ? 'Save' : 'Saving...'}
           accent 
         />
         {!user || !setIsBeingEdited ?
@@ -115,6 +113,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
           <Button onClick={() => setIsBeingEdited(false)} icon={<TiCancel />} content="Cancel" />
         }
       </ButtonContainer>
+      {message && <ErrorOverlay setMessage={setMessage} content={message} />}
     </form>
   );
 }

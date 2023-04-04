@@ -7,6 +7,7 @@ import { TiEdit, TiMinus } from 'react-icons/ti';
 import UserForm from '../UserForm/UserForm';
 import DeleteOverlay from '../DeleteOverlay/DeleteOverlay';
 import Button from '../Button/Button';
+import ButtonContainer from '../ButtonContainer/ButtonContainer';
 
 interface UserCardProps {
   user: User;
@@ -58,10 +59,10 @@ const UserCard = (props: UserCardProps) => {
         <div>{user.name}</div>
         <a href={`mailto:${user.email}`}>{user.email}</a>
         <div>{user.role}</div>
-        <div className={styles.buttonContainer}>
+        <ButtonContainer>
           <Button onClick={() => setIsBeingEdited(true)} icon={<TiEdit />} content="Edit" accent />
           <Button onClick={() => setIsBeingDeleted(true)} icon={<TiMinus />} content="Delete" />
-        </div>
+        </ButtonContainer>
         {isBeingDeleted && 
           <DeleteOverlay 
             setIsBeingDeleted={setIsBeingDeleted} handleDelete={handleDelete} user={user} 

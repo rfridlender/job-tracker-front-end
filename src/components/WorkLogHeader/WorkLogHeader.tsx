@@ -1,6 +1,7 @@
 import { TiPlus } from 'react-icons/ti';
 import styles from './WorkLogHeader.module.scss';
 import Button from '../Button/Button';
+import ButtonContainer from '../ButtonContainer/ButtonContainer';
 
 interface WorkLogHeaderProps {
   handleOpenWorkLogForm: () => void;
@@ -21,9 +22,9 @@ const WorkLogHeader = (props: WorkLogHeaderProps) => {
       <div className={styles.completedContainer}>Completed</div>
       <div>Incomplete Items</div>
       <div className={styles.keyContainer}>Key Number</div>
-      <div className={styles.buttonContainer}>
+      <ButtonContainer small>
         <Button onClick={handleOpenWorkLogForm} icon={<TiPlus />} />
-      </div>
+      </ButtonContainer>
   </header>
   );
 }

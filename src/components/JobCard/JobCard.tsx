@@ -11,6 +11,7 @@ import JobForm from '../JobForm/JobForm';
 import { Role } from '../../types/enums';
 import DeleteOverlay from '../DeleteOverlay/DeleteOverlay';
 import Button from '../Button/Button';
+import ButtonContainer from '../ButtonContainer/ButtonContainer';
 
 interface JobCardProps {
   contractors: Contractor[] | undefined;
@@ -136,13 +137,12 @@ const JobCard = (props: JobCardProps) => {
             }
           </div>
           <div id={styles.accessContainer}>{job.jobSiteAccess}</div>
-          <div className={styles.buttonContainer}>
+          <ButtonContainer small>
             <Button onClick={handleEditJob} icon={<TiEdit />} />
             {user.role === Role.ADMIN && 
-              <Button 
-                onClick={() => setIsBeingDeleted(true)} icon={<TiMinus />} 
-              />}
-          </div>
+              <Button onClick={() => setIsBeingDeleted(true)} icon={<TiMinus />} />
+            }
+          </ButtonContainer>
           {isBeingDeleted &&
             <DeleteOverlay 
               setIsBeingDeleted={setIsBeingDeleted} handleDelete={handleDelete} job={job} 

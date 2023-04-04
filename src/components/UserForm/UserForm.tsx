@@ -8,6 +8,7 @@ import { useQueryClient, useMutation } from '@tanstack/react-query';
 import { TiCancel, TiPlus } from 'react-icons/ti';
 import { TbEraser } from 'react-icons/tb';
 import Button from '../Button/Button';
+import ButtonContainer from '../ButtonContainer/ButtonContainer';
 
 interface UserFormProps {
   user?: User;
@@ -101,7 +102,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
           <option key={role} value={role}>{role}</option>
         ))}
       </select>
-      <div className={styles.buttonContainer}>
+      <ButtonContainer>
         <Button 
           disabled={isFormInvalid() || isBeingSubmitted} 
           icon={!isBeingSubmitted && <TiPlus />}
@@ -113,7 +114,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
           :
           <Button onClick={() => setIsBeingEdited(false)} icon={<TiCancel />} content="Cancel" />
         }
-      </div>
+      </ButtonContainer>
     </form>
   );
 }

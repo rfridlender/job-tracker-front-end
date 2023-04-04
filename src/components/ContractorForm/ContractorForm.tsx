@@ -7,6 +7,7 @@ import { Contractor } from '../../types/models';
 import { TiCancel, TiPlus } from 'react-icons/ti';
 import { TbEraser } from 'react-icons/tb';
 import Button from '../Button/Button';
+import ButtonContainer from '../ButtonContainer/ButtonContainer';
 
 interface ContractorFormProps {
   contractor?: Contractor;
@@ -107,7 +108,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
         type="email" value={email} name="email" 
         onChange={handleChange}  autoComplete="off" placeholder="Email"
       />
-      <div className={styles.buttonContainer}>
+      <ButtonContainer>
         <Button 
           disabled={isFormInvalid() || isBeingSubmitted} 
           icon={!isBeingSubmitted && <TiPlus />} 
@@ -119,7 +120,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
           :
           <Button onClick={() => setIsBeingEdited(false)} icon={<TiCancel />} content="Cancel" />
         }
-      </div>
+      </ButtonContainer>
     </form>
   );
 }

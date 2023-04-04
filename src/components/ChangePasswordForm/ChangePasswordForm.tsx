@@ -5,6 +5,7 @@ import styles from './ChangePasswordForm.module.scss';
 import { AuthFormProps } from '../../types/props';
 import { ChangePasswordFormData } from '../../types/forms';
 import Button from '../Button/Button';
+import ButtonContainer from '../ButtonContainer/ButtonContainer';
 
 const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
   const { handleAuthEvt } = props;
@@ -56,10 +57,10 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
         type="password" value={newPasswordConf} name="newPasswordConf" 
         onChange={handleChange} placeholder="Confirm New Password"
       />
-      <div className={styles.buttonContainer}>
+      <ButtonContainer>
         <Button disabled={isFormInvalid()} content="Apply" accent />
         <Button onClick={() => navigate('/jobs')} content="Cancel" />
-      </div>
+      </ButtonContainer>
     </form>
   );
 }

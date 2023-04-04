@@ -8,6 +8,7 @@ import { TiEdit, TiMinus } from 'react-icons/ti';
 import { twentyFourToTwelveConvertor } from '../../services/helpers';
 import DeleteOverlay from '../DeleteOverlay/DeleteOverlay';
 import Button from '../Button/Button';
+import ButtonContainer from '../ButtonContainer/ButtonContainer';
 
 interface WorkLogCardProps {
   jobId: number;
@@ -69,14 +70,14 @@ const WorkLogCard = (props: WorkLogCardProps) => {
         <div className={styles.completedContainer}>{workLog.completed ? 'Yes' : 'No'}</div>
         <div>{workLog.incompleteItems}</div>
         <div className={styles.keyContainer}>{workLog.keyNumber}</div>
-        <div className={styles.buttonContainer}>
-          {user.name == workLog.employeeName && 
+        <ButtonContainer small>
+          {user.name === workLog.employeeName && 
             <>
               <Button onClick={handleEditWorkLog} icon={<TiEdit />}/>
               <Button onClick={() => setIsBeingDeleted(true)} icon={<TiMinus />}/>
             </>
           }
-        </div>
+        </ButtonContainer>
         {isBeingDeleted &&
           <DeleteOverlay 
             setIsBeingDeleted={setIsBeingDeleted} workLog={workLog} handleDelete={handleDelete} 

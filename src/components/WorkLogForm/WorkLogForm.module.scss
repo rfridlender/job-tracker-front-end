@@ -126,32 +126,5 @@ $color-shadow: #6c757d;
     justify-content: center;
     align-items: center;
     gap: .5rem;
-    > button, > div {
-      width: 2rem;
-      height: 2rem;
-      color: $color-text-primary;
-      background-color: inherit;
-      border: 1px solid $color-text-primary;
-      border-radius: .25rem;
-      cursor: pointer;
-      transition: all .25s;
-      svg {
-        width: 100%;
-        height: 100%;
-      }
-    }
-    > button:hover, > div:hover {
-      color: $color-accent;
-      border: 1px solid $color-accent;  
-    }
-    > button:disabled {
-      color: $color-text-secondary;
-      border: 1px solid $color-text-secondary;
-    }
-    > button:disabled:hover {
-      color: $color-text-secondary;
-      border: 1px solid $color-text-secondary;
-      cursor: inherit;
-    }
   }
 }

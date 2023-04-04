@@ -63,7 +63,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
     evt.preventDefault();
-    // if (isBeingSubmitted) return;
+    if (isBeingSubmitted) return;
     try {
       if (!user) {
         setIsBeingSubmitted(true);

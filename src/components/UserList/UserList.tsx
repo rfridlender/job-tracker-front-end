@@ -1,7 +1,6 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { useRef, useState } from 'react';
+import { useState } from 'react';
 import { AiOutlineClose, AiOutlineSearch } from 'react-icons/ai';
-import { TiPlus } from 'react-icons/ti';
 import * as userService from '../../services/userService';
 import UserCard from '../UserCard/UserCard';
 import UserForm from '../UserForm/UserForm';

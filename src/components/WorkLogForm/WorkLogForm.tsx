@@ -7,6 +7,7 @@ import { Category } from '../../types/enums';
 import { User, WorkLog } from '../../types/models';
 import { hourDifferenceCalculator } from '../../services/helpers';
 import { TiCancel, TiPlus } from 'react-icons/ti';
+import Button from '../Button/Button';
 
 interface WorkLogFormProps {
   jobId: number;
@@ -155,12 +156,8 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
         />
       }
       <div className={styles.buttonContainer}>
-        <button disabled={isFormInvalid()}>
-          <TiPlus />
-        </button>
-        <div>
-          <TiCancel onClick={handleCancelFunctions} />
-        </div>
+        <Button icon={<TiPlus />} disabled={isFormInvalid()}/>
+        <Button onClick={handleCancelFunctions} icon={<TiCancel />} />
       </div>
     </form>
   );

@@ -34,8 +34,7 @@ const WorkLogList = (props: WorkLogListProps) => {
       {!!job.workLogs.length && <div className={styles.divider} />}
       {job.workLogs?.map(workLog => (
         <WorkLogCard 
-          key={workLog.id} jobId={job.id} workLog={workLog} user={user} 
-          setIsWorkLogFormOpen={setIsWorkLogFormOpen} handleScroll={handleScroll}
+          key={workLog.id} jobId={job.id} workLog={workLog} user={user} handleScroll={handleScroll}
         />
       ))}
     </div>

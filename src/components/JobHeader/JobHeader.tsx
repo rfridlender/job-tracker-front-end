@@ -2,7 +2,7 @@ import { TiPlus } from 'react-icons/ti';
 import { Role } from '../../types/enums';
 import { User } from '../../types/models';
 import styles from './JobHeader.module.scss';
-import SmallButton from '../SmallButton/SmallButton';
+import Button from '../Button/Button';
 
 interface JobHeaderProps {
   user: User;
@@ -24,9 +24,7 @@ const JobHeader = (props: JobHeaderProps) => {
       <div>Builder</div>
       <div id={styles.accessContainer}>Job Site Access</div>
       <div className={styles.buttonContainer}>
-        {user.role === Role.ADMIN &&
-          <SmallButton onClick={handleOpenJobForm} icon={<TiPlus />} />
-        }
+        {user.role === Role.ADMIN && <Button onClick={handleOpenJobForm} icon={<TiPlus />} />}
       </div>
     </header>
   );

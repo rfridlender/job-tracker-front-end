@@ -1,5 +1,5 @@
 import { Job, WorkLog, User } from '../../types/models';
-import BigButton from '../BigButton/BigButton';
+import Button from '../Button/Button';
 import styles from './DeleteOverlay.module.scss';
 
 interface DeleteOverlayProps {
@@ -24,8 +24,8 @@ const DeleteOverlay = (props: DeleteOverlayProps) => {
         }
         </div>
         <div>
-          <BigButton onClick={handleDelete} content="Delete" accent/>
-          <BigButton onClick={() => setIsBeingDeleted(false)} content="Cancel" />
+          <Button onClick={handleDelete} content="Delete" accent/>
+          <Button onClick={() => setIsBeingDeleted(false)} content="Cancel" />
         </div>
       </section>
     </div>

@@ -4,7 +4,7 @@ import * as authService from '../../services/authService';
 import styles from './ChangePasswordForm.module.scss';
 import { AuthFormProps } from '../../types/props';
 import { ChangePasswordFormData } from '../../types/forms';
-import BigButton from '../BigButton/BigButton';
+import Button from '../Button/Button';
 
 const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
   const { handleAuthEvt } = props;
@@ -57,8 +57,8 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
         onChange={handleChange} placeholder="Confirm New Password"
       />
       <div className={styles.buttonContainer}>
-        <BigButton disabled={isFormInvalid()} content="Apply" accent />
-        <BigButton onClick={() => navigate('/jobs')} content="Cancel" />
+        <Button disabled={isFormInvalid()} content="Apply" accent />
+        <Button onClick={() => navigate('/jobs')} content="Cancel" />
       </div>
     </form>
   );

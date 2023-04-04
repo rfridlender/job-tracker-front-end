@@ -6,7 +6,7 @@ import * as userService from '../../services/userService';
 import { TiEdit, TiMinus } from 'react-icons/ti';
 import UserForm from '../UserForm/UserForm';
 import DeleteOverlay from '../DeleteOverlay/DeleteOverlay';
-import BigButton from '../BigButton/BigButton';
+import Button from '../Button/Button';
 
 interface UserCardProps {
   user: User;
@@ -59,8 +59,8 @@ const UserCard = (props: UserCardProps) => {
         <a href={`mailto:${user.email}`}>{user.email}</a>
         <div>{user.role}</div>
         <div className={styles.buttonContainer}>
-          <BigButton onClick={() => setIsBeingEdited(true)} icon={<TiEdit />} content="Edit" accent />
-          <BigButton onClick={() => setIsBeingDeleted(true)} icon={<TiMinus />} content="Delete" />
+          <Button onClick={() => setIsBeingEdited(true)} icon={<TiEdit />} content="Edit" accent />
+          <Button onClick={() => setIsBeingDeleted(true)} icon={<TiMinus />} content="Delete" />
         </div>
         {isBeingDeleted && 
           <DeleteOverlay 

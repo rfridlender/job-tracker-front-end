@@ -4,13 +4,13 @@ import * as authService from '../../services/authService';
 import { AuthFormProps } from '../../types/props';
 import { LoginFormData } from '../../types/forms';
 import logo from '../../assets/icons/white-icon.png';
-import BigButton from '../BigButton/BigButton';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ErrorContainer from '../ErrorContainer/ErrorContainer';
 import ErrorOverlay from '../ErrorOverlay/ErrorOverlay';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
+import Button from '../Button/Button';
 
 const LoginForm = (props: AuthFormProps): JSX.Element => {
   const { handleAuthEvt } = props;
@@ -48,7 +48,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
       <input placeholder="Email" {...register("email")} />
       {errors.password?.message && <ErrorContainer content={errors.password.message} />}
       <input type="password" placeholder="Password" {...register("password")} />
-      <BigButton 
+      <Button 
         disabled={isSubmitting}
         icon={<img src={logo} alt="Door2Door Logo" />} 
         content={!isSubmitting ? "Log In" : "Logging in..."}

@@ -7,7 +7,7 @@ import { Contractor, Job, User } from '../../types/models';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import { TiPlus, TiCancel } from 'react-icons/ti';
 import { HiDocumentPlus, HiDocumentCheck, HiDocumentText } from 'react-icons/hi2';
-import SmallButton from '../SmallButton/SmallButton';
+import Button from '../Button/Button';
 
 interface JobFormProps {
   contractors: Contractor[] | undefined;
@@ -234,8 +234,8 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         </>
       }
       <div className={styles.buttonContainer}>
-        <SmallButton disabled={isFormInvalid()} icon={<TiPlus />} />
-        <SmallButton onClick={handleCancelFunctions} icon={<TiCancel />} />
+        <Button disabled={isFormInvalid()} icon={<TiPlus />} />
+        <Button onClick={handleCancelFunctions} icon={<TiCancel />} />
       </div>
     </form>
   );

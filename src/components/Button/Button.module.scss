@@ -1,0 +1,70 @@
+$color-primary: #f8f9fa;
+$color-primary-shadow: #dee2e6;
+$color-secondary: #ced4da;
+$color-secondary-shadow: #6c757d;
+$color-accent: #8b0500;
+$color-accent-shadow: #4b0500;
+$color-text-primary: #212529;
+$color-text-secondary: #6c757d;
+$color-shadow: #6c757d;
+
+.smallButton, .bigAccentButton, .bigButton {
+  border-radius: .25rem;
+  cursor: pointer;
+  transition: all .25s;
+}
+
+.smallButton {
+  width: 2rem;
+  height: 2rem;
+  color: $color-text-primary;
+  background-color: inherit;
+  border: 1px solid $color-secondary;
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+.bigAccentButton, .bigButton {
+  width: 100%;
+  height: 3rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: .5rem;
+  color: $color-primary;
+  border: none;
+  font-size: 1rem;
+  > svg, > img {
+    width: 1.5rem;
+    height: 1.5rem;
+    object-fit: contain;
+  }
+}
+
+.bigAccentButton {
+  background-color: $color-accent;
+}
+
+.bigButton {
+  background-color: $color-text-primary;
+}
+
+.smallButton:hover {
+  color: $color-accent;
+  border: 1px solid $color-accent;  
+}
+
+.bigAccentButton:hover {
+  background-color: $color-accent-shadow;
+}
+
+.bigButton:hover {
+  background-color: $color-text-secondary;
+}
+
+.smallButton:disabled, .bigAccentButton:disabled, .bigButton:disabled {
+  pointer-events: none;
+  opacity: 50%;
+}

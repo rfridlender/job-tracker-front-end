@@ -10,7 +10,7 @@ import { AiOutlineDown, AiOutlineUp } from 'react-icons/ai';
 import JobForm from '../JobForm/JobForm';
 import { Role } from '../../types/enums';
 import DeleteOverlay from '../DeleteOverlay/DeleteOverlay';
-import SmallButton from '../SmallButton/SmallButton';
+import Button from '../Button/Button';
 
 interface JobCardProps {
   contractors: Contractor[] | undefined;
@@ -94,12 +94,12 @@ const JobCard = (props: JobCardProps) => {
           </div>
           <div id={styles.takeoffContainer}>
             {job.takeoffOne && 
-              <SmallButton 
+              <Button 
                 onClick={() => setIsTakeoffOpen(1)} icon={<HiDocumentText />} 
               />
             }
             {job.takeoffTwo && 
-              <SmallButton 
+              <Button 
                 onClick={() => setIsTakeoffOpen(2)} icon={<HiDocumentText />} 
               />
             }
@@ -137,9 +137,9 @@ const JobCard = (props: JobCardProps) => {
           </div>
           <div id={styles.accessContainer}>{job.jobSiteAccess}</div>
           <div className={styles.buttonContainer}>
-            <SmallButton onClick={handleEditJob} icon={<TiEdit />} />
+            <Button onClick={handleEditJob} icon={<TiEdit />} />
             {user.role === Role.ADMIN && 
-              <SmallButton 
+              <Button 
                 onClick={() => setIsBeingDeleted(true)} icon={<TiMinus />} 
               />}
           </div>

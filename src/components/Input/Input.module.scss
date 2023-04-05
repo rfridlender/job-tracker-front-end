@@ -1,0 +1,34 @@
+$color-primary: #f8f9fa;
+$color-primary-shadow: #dee2e6;
+$color-secondary: #ced4da;
+$color-secondary-shadow: #6c757d;
+$color-accent: #8b0500;
+$color-accent-shadow: #4b0500;
+$color-text-primary: #212529;
+$color-text-secondary: #6c757d;
+$color-shadow: #6c757d;
+
+.container {
+  width: 100%;
+  height: 2rem;
+  padding: 0.5rem;
+  color: $color-text-primary;
+  background-color: $color-primary;
+  border: 1px solid $color-text-secondary;
+  outline: none;
+  border-radius: .25rem;
+  transition: all .25s;
+  font-size: 1rem;
+}
+
+.container:hover {
+  box-shadow: 0 0 .25rem 0 $color-shadow;
+}
+
+.container:focus {
+  border: 1px solid $color-accent;
+}
+
+.container::placeholder {
+  color: $color-text-secondary;
+}

@@ -27,26 +27,7 @@ $color-shadow: #6c757d;
     font-weight: normal;
   }
   > input {
-    width: 100%;
-    height: 2rem;
     margin-bottom: 2rem;
-    border: none;
-    outline: none;
-    color: $color-text-primary;
-    background-color: $color-primary;
-    border-bottom: 1px solid $color-text-primary;
-    transition: all .25s;
-    font-size: 1rem;
-  }
-  > input:hover {
-    border-bottom: 1px solid $color-accent;
-  }
-  > input::placeholder {
-    color: $color-text-secondary;
-    transition: all .25s;
-  }
-  > input:hover::placeholder {
-    color: $color-accent;
   }
 }
 

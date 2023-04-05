@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
 import Button from '../Button/Button';
+import Input from '../Input/Input';
 
 const LoginForm = (props: AuthFormProps): JSX.Element => {
   const { handleAuthEvt } = props;
@@ -24,9 +25,9 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
     password: z.string().min(1, "Password is required"),
   });
 
-  const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginFormData>({
-    resolver: zodResolver(formSchema),
-  });
+  const { 
+    register, handleSubmit, formState: { errors, isSubmitting, isDirty },
+  } = useForm<LoginFormData>({ resolver: zodResolver(formSchema) });
 
   const onSubmit: SubmitHandler<LoginFormData> = async data => {
     try {
@@ -43,11 +44,11 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={styles.container}>
       <h2>Log in</h2>
       {errors.email?.message && <ErrorContainer content={errors.email.message} />}
-      <input placeholder="Email" {...register("email")} />
+      <Input name="email" register={register} placeholder="Email" />
       {errors.password?.message && <ErrorContainer content={errors.password.message} />}
-      <input type="password" placeholder="Password" {...register("password")} />
+      <Input type="password" name="password" register={register} placeholder="Password" />
       <Button 
-        disabled={isSubmitting}
+        disabled={!isDirty || isSubmitting}
         icon={<img src={logo} alt="Door2Door Logo" />} 
         content={!isSubmitting ? "Log In" : "Logging in..."}
         accent

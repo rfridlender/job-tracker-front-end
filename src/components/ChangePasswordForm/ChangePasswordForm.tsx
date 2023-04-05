@@ -11,6 +11,7 @@ import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ErrorOverlay from '../ErrorOverlay/ErrorOverlay';
 import ErrorContainer from '../ErrorContainer/ErrorContainer';
+import Input from '../Input/Input';
 
 const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
   const { handleAuthEvt } = props;
@@ -29,7 +30,7 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
       });
 
   const { 
-    register, handleSubmit, formState: { errors, isSubmitting } 
+    register, handleSubmit, formState: { errors, isSubmitting, isDirty },
   } = useForm<ChangePasswordFormData>({ resolver: zodResolver(formSchema) });
 
   const [message, setMessage] = useState('');
@@ -49,13 +50,13 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit)}  className={styles.container}>
       <h2>Change password</h2>
       {errors.oldPassword?.message && <ErrorContainer content={errors.oldPassword.message} />}
-      <input type="password" placeholder="Current Password" {...register("oldPassword")} />
+      <Input type="password" name="oldPassword" register={register} placeholder="Current Password" />
       {errors.newPassword?.message && <ErrorContainer content={errors.newPassword.message} />}
-      <input type="password" placeholder="New Password" {...register("newPassword")} />
+      <Input type="password" name="newPassword" register={register} placeholder="New Password" />
       {errors.newPasswordConf?.message && <ErrorContainer content={errors.newPasswordConf.message} />}
-      <input type="password" placeholder="Confirm Password" {...register("newPasswordConf")} />
+      <Input type="password" name="newPasswordConf" register={register} placeholder="Confirm Password" />
       <ButtonContainer>
-        <Button disabled={isSubmitting} content={!isSubmitting ? 'Apply' : 'Applying...'} accent />
+        <Button disabled={!isDirty || isSubmitting} content={!isSubmitting ? 'Apply' : 'Applying...'} accent />
         <Button onClick={() => navigate('/jobs')} content="Cancel" />
       </ButtonContainer>
       {message && <ErrorOverlay setMessage={setMessage} content={message} />}

@@ -1,0 +1,85 @@
+$color-primary: #f8f9fa;
+$color-primary-shadow: #dee2e6;
+$color-secondary: #ced4da;
+$color-secondary-shadow: #6c757d;
+$color-accent: #8b0500;
+$color-accent-shadow: #4b0500;
+$color-text-primary: #212529;
+$color-text-secondary: #6c757d;
+$color-shadow: #6c757d;
+
+.container {
+  width: 100%;
+  height: 2rem;
+  margin-bottom: 2rem;
+  [class$="-control"] {
+    width: 100%;
+    height: 2rem;
+    min-height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid $color-text-secondary;
+    border-radius: .25rem;
+    cursor: pointer;
+    [class$="-ValueContainer2"] {
+      height: 100%;
+      padding: 0;
+      [class$="-placeholder"], [class$="-singleValue"] {
+        min-height: 100%;
+        display: flex;
+        align-items: center;
+        padding: 0 .5rem;
+        line-height: 100%;
+      }
+      [class$="-placeholder"] {
+        color: $color-text-secondary;
+      }
+    }
+    [class$="-Input2"] {
+      height: 100%;
+      padding: 0 .5rem;
+      margin: 0;
+    }
+    [class$="-IndicatorsContainer2"] {
+      height: 100%;
+      [class$="-indicatorSeparator"] {
+        background-color: $color-text-secondary;
+      }
+      [class$="-indicatorContainer"] {
+        > svg {
+          width: 2rem;
+          color: $color-text-secondary;
+        }
+      }
+    }
+  }
+  [class$="-control"]:hover {
+    box-shadow: 0 0 .25rem 0 $color-shadow;
+  }
+  [class$="-menu"] {
+    margin-top: .25rem;
+    [class$="-MenuList2"] {
+      background-color: $color-primary;
+      border: 1px solid $color-text-secondary;
+      box-shadow: 0 0 .25rem 0 $color-shadow;
+      border-radius: .25rem;
+      padding: .5rem 0;
+      background-color: $color-primary-shadow;
+      [class$="-option"] {
+        cursor: pointer;
+        padding: .5rem;
+        border-top: 1px solid $color-text-secondary;
+        transition: all .25s;
+        background-color: $color-primary;
+      }
+      [class$="-option"]:last-child {
+        border-bottom: 1px solid $color-text-secondary;
+      }
+      [class$="-option"]:hover {
+        color: $color-primary;
+        background-color: $color-accent;
+      }
+    }
+  }
+}

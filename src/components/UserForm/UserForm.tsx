@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import * as userService from '../../services/userService';
 import styles from './UserForm.module.scss';
+import selectStyles from '../Select/Select.module.scss';
 import { UserFormData } from '../../types/forms';
 import { Role } from '../../types/enums';
 import { User } from '../../types/models';
@@ -9,11 +10,14 @@ import { TiCancel, TiPlus } from 'react-icons/ti';
 import { TbEraser } from 'react-icons/tb';
 import Button from '../Button/Button';
 import ButtonContainer from '../ButtonContainer/ButtonContainer';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useController, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import ErrorOverlay from '../ErrorOverlay/ErrorOverlay';
 import ErrorContainer from '../ErrorContainer/ErrorContainer';
+import Input from '../Input/Input';
+import Select, { SingleValue } from 'react-select';
+import { SelectOption } from '../../types/props';
 
 interface UserFormProps {
   user?: User;
@@ -63,7 +67,9 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     role: z.nativeEnum(Role),
   });
 
-  const { register, reset, handleSubmit, formState: { errors, isSubmitting } } = useForm<UserFormData>({
+  const { 
+    register, reset, handleSubmit, control, formState: { errors, isSubmitting, isDirty }
+  } = useForm<UserFormData>({
     defaultValues: {
       id: user ? user.id : 0,
       name: user ? user.name : '',
@@ -73,36 +79,55 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     resolver: zodResolver(formSchema),
   });
 
+  const { 
+    field: { value: roleValue, onChange: roleOnChange } 
+  } = useController({ name: 'role', control});
+
   const onSubmit: SubmitHandler<UserFormData> = async data => {
-    try {
-      if (!user) {
-        createUser.mutate(data);
-      } else {
-        setIsBeingEdited && setIsBeingEdited(false);
-        updateUser.mutate(data);
-      }
-    } catch (err: any) {
-      setMessage(err.message);
-      console.log(err);
-    }
+    console.log(data);
+    // try {
+    //   if (!user) {
+    //     createUser.mutate(data);
+    //   } else {
+    //     setIsBeingEdited && setIsBeingEdited(false);
+    //     updateUser.mutate(data);
+    //   }
+    // } catch (err: any) {
+    //   setMessage(err.message);
+    //   console.log(err);
+    // }
   }
+
+  const options = Object.values(Role).map(role => {
+    const obj: SelectOption = { value: '', label: ''};
+    obj.value = role;
+    obj.label = role;
+    return obj;
+  });
 
   const handleClear = () => reset();
 
   return (
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={styles.container}>
       {errors.name?.message && <ErrorContainer content={errors.name.message} />}
-      <input placeholder="Name" {...register("name")} />
+      <Input name="name" register={register} placeholder="Name" />
       {errors.email?.message && <ErrorContainer content={errors.email.message} />}
-      <input placeholder="Email" {...register("email")} />
-      <select {...register("role")}>
-        {Object.values(Role).map(role => (
-          <option key={role} value={role}>{role}</option>
-        ))}
-      </select>
+      <Input name="email" register={register} placeholder="Email" />
+      <Controller name="role" control={control} render={() => (
+          <Select 
+            className={selectStyles.container}
+            isSearchable={false}
+            options={options} 
+            value={roleValue ? options.find(option => option.value === roleValue) : roleValue}
+            onChange={(option: SingleValue<any>) => roleOnChange(option ? option.value : option)}
+            placeholder="ROLE"
+            unstyled
+          />
+        )}
+      />
       <ButtonContainer>
         <Button 
-          disabled={isSubmitting} 
+          disabled={!isDirty || isSubmitting} 
           icon={!isSubmitting && <TiPlus />}
           content={!isSubmitting ? 'Save' : 'Saving...'}
           accent 

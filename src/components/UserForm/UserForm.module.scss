@@ -20,10 +20,12 @@ $color-shadow: #6c757d;
   padding: 2rem;
   border-radius: .25rem;
   > input, > select {
+    margin-bottom: 2rem;
+  }
+  > select {
     width: 100%;
     height: 2rem;
     min-height: 2rem;
-    margin-bottom: 2rem;
     border: none;
     outline: none;
     background-color: $color-primary;
@@ -34,21 +36,5 @@ $color-shadow: #6c757d;
   }
   > select {
     cursor: pointer;
-  }
-  > input:first-child {
-    font-weight: bold;
-  }
-  > input:hover, > select:hover {
-    border-bottom: 1px solid $color-accent;
-  }
-  > input::placeholder {
-    color: $color-text-secondary;
-    transition: all .25s;
-  }
-  > input:first-child::placeholder {
-    font-weight: bold;
-  }
-  > input:hover::placeholder {
-    color: $color-accent;
   }
 }

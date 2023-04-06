@@ -44,7 +44,7 @@ export interface UserFormData {
   id: number;
   name: string;
   email: string;
-  role: Role;
+  role: Role | {};
 }
 
 /* ---------===== auth forms =====--------- */

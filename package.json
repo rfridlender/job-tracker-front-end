@@ -19,6 +19,7 @@
     "react-icons": "^4.8.0",
     "react-router": "^6.8.1",
     "react-router-dom": "^6.8.1",
+    "react-select": "^5.7.2",
     "react-spinners": "^0.13.8",
     "sass": "^1.59.3",
     "zod": "^3.21.4"

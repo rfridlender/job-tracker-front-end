@@ -15,37 +15,11 @@ $color-shadow: #6c757d;
   flex-flow: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 2rem;
   background-color: $color-primary;
   box-shadow: 0 0 .25rem 0 $color-shadow;
   padding: 2rem;
   border-radius: .25rem;
   > input {
-    width: 100%;
-    height: 2rem;
-    min-height: 2rem;
-    border: none;
-    outline: none;
-    background-color: $color-primary;
-    border-bottom: 1px solid $color-text-primary;
-    transition: all .25s;
-    font-size: 1rem;
-    color: $color-text-primary;
-  }
-  > input:first-child {
-    font-weight: bold;
-  }
-  > input:hover {
-    border-bottom: 1px solid $color-accent;
-  }
-  > input::placeholder {
-    color: $color-text-secondary;
-    transition: all .25s;
-  }
-  > input:first-child::placeholder {
-    font-weight: bold;
-  }
-  > input:hover::placeholder {
-    color: $color-accent;
+    margin-bottom: 2rem;
   }
 }

@@ -9,7 +9,7 @@ import ButtonContainer from '../ButtonContainer/ButtonContainer';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import ErrorOverlay from '../ErrorOverlay/ErrorOverlay';
+import MessageOverlay from '../MessageOverlay/MessageOverlay';
 import ErrorContainer from '../ErrorContainer/ErrorContainer';
 import Input from '../Input/Input';
 
@@ -59,7 +59,7 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
         <Button disabled={!isDirty || isSubmitting} content={!isSubmitting ? 'Apply' : 'Applying...'} accent />
         <Button onClick={() => navigate('/jobs')} content="Cancel" />
       </ButtonContainer>
-      {message && <ErrorOverlay setMessage={setMessage} content={message} />}
+      {message && <MessageOverlay setMessage={setMessage} content={message} error />}
     </form>
   );
 }

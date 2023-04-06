@@ -4,13 +4,15 @@ $color-secondary: #ced4da;
 $color-secondary-shadow: #6c757d;
 $color-accent: #8b0500;
 $color-accent-shadow: #4b0500;
+$color-accent-light: #eee3e3;
+$color-success: #006400;
+$color-success-light: #e1ebe3;
 $color-text-primary: #212529;
 $color-text-secondary: #6c757d;
 $color-shadow: #6c757d;
 
-.container {
+.container, .errorContainer {
   width: 20rem;
-  height: 3rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -18,11 +20,8 @@ $color-shadow: #6c757d;
   position: absolute;
   top: 15%;
   left: calc(50% - 10rem);
-  padding: 0 1rem;
+  padding: 1rem;
   padding-left: .75rem;
-  color: $color-accent;
-  background-color: $color-primary;
-  border-left: .25rem solid $color-accent;
   box-shadow: 0 0 .25rem 0 $color-shadow;
   font-size: 1.25rem;
   cursor: pointer;
@@ -36,6 +35,18 @@ $color-shadow: #6c757d;
   }
 }
 
-.container:hover {
-  background-color: $color-primary-shadow;
+.container {
+  color: $color-success;
+  background-color: $color-success-light;
+  border-left: .25rem solid $color-success;
+}
+
+.errorContainer {
+  color: $color-accent;
+  background-color: $color-accent-light;
+  border-left: .25rem solid $color-accent;
+}
+
+.container:hover, .errorContainer:hover {
+  background-color: $color-primary;
 }

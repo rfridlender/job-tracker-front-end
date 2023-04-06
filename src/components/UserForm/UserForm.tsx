@@ -13,7 +13,7 @@ import ButtonContainer from '../ButtonContainer/ButtonContainer';
 import { Controller, SubmitHandler, useController, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
-import ErrorOverlay from '../ErrorOverlay/ErrorOverlay';
+import MessageOverlay from '../MessageOverlay/MessageOverlay';
 import ErrorContainer from '../ErrorContainer/ErrorContainer';
 import Input from '../Input/Input';
 import Select, { SingleValue } from 'react-select';
@@ -31,6 +31,12 @@ const UserForm = (props: UserFormProps): JSX.Element => {
 
   const createUser = useMutation({
     mutationFn: (data: UserFormData) => userService.create(data),
+    onError: () => {
+      setMessage('Error creating user');
+    },
+    onSuccess: () => {
+      setMessage('Successfully created user');
+    },
     onSettled: () => {
       queryClient.invalidateQueries(['users']);
       handleClear();
@@ -68,7 +74,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   });
 
   const { 
-    register, reset, handleSubmit, control, formState: { errors, isSubmitting, isDirty }
+    register, reset, handleSubmit, control, formState: { errors, isSubmitted, isDirty }
   } = useForm<UserFormData>({
     defaultValues: {
       id: user ? user.id : 0,
@@ -84,18 +90,17 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   } = useController({ name: 'role', control});
 
   const onSubmit: SubmitHandler<UserFormData> = async data => {
-    console.log(data);
-    // try {
-    //   if (!user) {
-    //     createUser.mutate(data);
-    //   } else {
-    //     setIsBeingEdited && setIsBeingEdited(false);
-    //     updateUser.mutate(data);
-    //   }
-    // } catch (err: any) {
-    //   setMessage(err.message);
-    //   console.log(err);
-    // }
+    try {
+      if (!user) {
+        createUser.mutate(data);
+      } else {
+        setIsBeingEdited && setIsBeingEdited(false);
+        updateUser.mutate(data);
+      }
+    } catch (err: any) {
+      setMessage(err.message);
+      console.log(err);
+    }
   }
 
   const options = Object.values(Role).map(role => {
@@ -127,9 +132,9 @@ const UserForm = (props: UserFormProps): JSX.Element => {
       />
       <ButtonContainer>
         <Button 
-          disabled={!isDirty || isSubmitting} 
-          icon={!isSubmitting && <TiPlus />}
-          content={!isSubmitting ? 'Save' : 'Saving...'}
+          disabled={!isDirty || isSubmitted} 
+          icon={!isSubmitted && <TiPlus />}
+          content={!isSubmitted ? 'Save' : 'Saving...'}
           accent 
         />
         {!user || !setIsBeingEdited ?
@@ -138,7 +143,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
           <Button onClick={() => setIsBeingEdited(false)} icon={<TiCancel />} content="Cancel" />
         }
       </ButtonContainer>
-      {message && <ErrorOverlay setMessage={setMessage} content={message} />}
+      {message && <MessageOverlay setMessage={setMessage} content={message} />}
     </form>
   );
 }

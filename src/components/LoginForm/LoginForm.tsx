@@ -6,7 +6,7 @@ import { LoginFormData } from '../../types/forms';
 import logo from '../../assets/icons/white-icon.png';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import ErrorContainer from '../ErrorContainer/ErrorContainer';
-import ErrorOverlay from '../ErrorOverlay/ErrorOverlay';
+import MessageOverlay from '../MessageOverlay/MessageOverlay';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useState } from 'react';
@@ -53,7 +53,7 @@ const LoginForm = (props: AuthFormProps): JSX.Element => {
         content={!isSubmitting ? "Log In" : "Logging in..."}
         accent
       />
-      {message && <ErrorOverlay setMessage={setMessage} content={message} />}
+      {message && <MessageOverlay setMessage={setMessage} content={message} error />}
     </form>
   );
 }

@@ -8,6 +8,12 @@ import { TiCancel, TiPlus } from 'react-icons/ti';
 import { TbEraser } from 'react-icons/tb';
 import Button from '../Button/Button';
 import ButtonContainer from '../ButtonContainer/ButtonContainer';
+import { isValid, z } from 'zod';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Input from '../Input/Input';
+import ErrorContainer from '../ErrorContainer/ErrorContainer';
+import MessageOverlay from '../MessageOverlay/MessageOverlay';
 
 interface ContractorFormProps {
   contractor?: Contractor;
@@ -20,16 +26,21 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
   const queryClient = useQueryClient();
 
   const createContractor = useMutation({
-    mutationFn: () => contractorService.create(formData),
+    mutationFn: (data: ContractorFormData) => contractorService.create(data),
+    onError: () => {
+      setMessage('Error creating builder');
+    },
+    onSuccess: () => {
+      setMessage('Successfully created builder');
+    },
     onSettled: () => {
       queryClient.invalidateQueries(['contractors']);
       handleClear();
-      setIsBeingSubmitted(false);
     },
   });
 
   const updateContractor = useMutation({
-    mutationFn: (formData) => contractorService.update(formData.id, formData),
+    mutationFn: (data: ContractorFormData) => contractorService.update(data.id, data),
     onMutate: async (updatedContractor: ContractorFormData) => {
       await queryClient.cancelQueries(['contractors']);
       const previousContractors = queryClient.getQueryData<Contractor[]>(['contractors']);
@@ -49,70 +60,60 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     },
   });
 
-  const [formData, setFormData] = useState<ContractorFormData>({
-    id: contractor ? contractor.id : 0,
-    companyName: contractor ? contractor.companyName : '',
-    contactName: contractor ? contractor.contactName : '',
-    phoneNumber: contractor ? contractor.phoneNumber : '',
-    email: contractor ? contractor.email : '',
+  const [message, setMessage] = useState<string>('');
+
+  const formSchema = z.object({
+    id: z.number(),
+    companyName: z.string().min(1, "Company name is required"),
+    contactName: z.string().min(1, "Contact name is required"),
+    phoneNumber: z.string().regex(new RegExp('[0-9]{3}.[0-9]{3}.[0-9]{4}'), "Invalid format: 000.000.0000"),
+    email: z.string().min(1, "Email is required").email("Email is invalid"),
   });
-  const [isBeingSubmitted, setIsBeingSubmitted] = useState(false);
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    setFormData({ ...formData, [evt.target.name]: evt.target.value });
-  }
+  const { 
+    register, reset, handleSubmit, control, formState: { errors, isSubmitted, isDirty, isSubmitting }
+  } = useForm<ContractorFormData>({
+    defaultValues: {
+      id: contractor ? contractor.id : 0,
+      companyName: contractor ? contractor.companyName : '',
+      contactName: contractor ? contractor.contactName : '',
+      phoneNumber: contractor ? contractor.phoneNumber : '',
+      email: contractor ? contractor.email : '',
+    },
+    resolver: zodResolver(formSchema),
+  });
 
-  const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
-    evt.preventDefault();
-    if (isBeingSubmitted) return;
+  const onSubmit: SubmitHandler<ContractorFormData> = async data => {
     try {
       if (!contractor) {
-        setIsBeingSubmitted(true);
-        createContractor.mutate();
+        createContractor.mutate(data);
       } else {
         setIsBeingEdited && setIsBeingEdited(false);
-        updateContractor?.mutate(formData);
+        updateContractor.mutate(data);
       }
-    } catch (err) {
+    } catch (err: any) {
+      setMessage(err.message)
       console.log(err);
-      setIsBeingSubmitted(false);
     }
   }
 
-  const handleClear = () => setFormData({ 
-    id: 0, companyName: '', contactName: '', phoneNumber: '', email: ''
-  });
-
-  const { companyName, contactName, phoneNumber, email } = formData;
-
-  const isFormInvalid = (): boolean => {
-    return !(companyName && contactName && phoneNumber && email);
-  }
+  const handleClear = () => reset();
 
   return (
-    <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <input 
-        type="text" value={companyName} name="companyName" 
-        onChange={handleChange} autoComplete="off" placeholder="Company Name"
-      />
-      <input 
-        type="text" value={contactName} name="contactName" 
-        onChange={handleChange}  autoComplete="off" placeholder="Contact Name"
-      />
-      <input 
-        type="tel" value={phoneNumber} name="phoneNumber" 
-        onChange={handleChange}  autoComplete="off" placeholder="000.000.0000" 
-        pattern="[0-9]{3}.[0-9]{3}.[0-9]{4}"
-      />
-      <input 
-        type="email" value={email} name="email" 
-        onChange={handleChange}  autoComplete="off" placeholder="Email"
-      />
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={styles.container}>
+      {errors.companyName?.message && <ErrorContainer content={errors.companyName.message} />}
+      <Input name="companyName" register={register} placeholder="Company Name" />
+      {errors.contactName?.message && <ErrorContainer content={errors.contactName.message} />}
+      <Input name="contactName" register={register} placeholder="Contact Name" />
+      {errors.phoneNumber?.message && <ErrorContainer content={errors.phoneNumber.message} />}
+      <Input name="phoneNumber" register={register} placeholder="000.000.0000" />
+      {errors.email?.message && <ErrorContainer content={errors.email.message} />}
+      <Input name="email" register={register} placeholder="Email" />
       <ButtonContainer>
         <Button 
-          disabled={isFormInvalid() || isBeingSubmitted} 
-          icon={!isBeingSubmitted && <TiPlus />} 
-          content={!isBeingSubmitted ? 'Save' : 'Saving...'}
+          disabled={!isDirty || isSubmitted} 
+          icon={(!isSubmitted || isSubmitted) && <TiPlus />} 
+          content={(!isSubmitted || isSubmitted) ? 'Save' : 'Saving...'}
           accent 
         />
         {!contractor || !setIsBeingEdited ?
@@ -121,6 +122,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
           <Button onClick={() => setIsBeingEdited(false)} icon={<TiCancel />} content="Cancel" />
         }
       </ButtonContainer>
+      {message && <MessageOverlay setMessage={setMessage} content={message} />}
     </form>
   );
 }

@@ -25,6 +25,9 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
 
   const queryClient = useQueryClient();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<string>('');
+
   const createContractor = useMutation({
     mutationFn: (data: ContractorFormData) => contractorService.create(data),
     onError: () => {
@@ -36,6 +39,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     onSettled: () => {
       queryClient.invalidateQueries(['contractors']);
       handleClear();
+      setIsSubmitting(false);
     },
   });
 
@@ -60,8 +64,6 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     },
   });
 
-  const [message, setMessage] = useState<string>('');
-
   const formSchema = z.object({
     id: z.number(),
     companyName: z.string().min(1, "Company name is required"),
@@ -71,7 +73,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
   });
 
   const { 
-    register, reset, handleSubmit, control, formState: { errors, isSubmitted, isDirty, isSubmitting }
+    register, reset, handleSubmit, control, formState: { errors, isDirty }
   } = useForm<ContractorFormData>({
     defaultValues: {
       id: contractor ? contractor.id : 0,
@@ -84,8 +86,10 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
   });
 
   const onSubmit: SubmitHandler<ContractorFormData> = async data => {
+    if (isSubmitting) return;
     try {
       if (!contractor) {
+        setIsSubmitting(true);
         createContractor.mutate(data);
       } else {
         setIsBeingEdited && setIsBeingEdited(false);
@@ -111,9 +115,9 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
       <Input name="email" register={register} placeholder="Email" />
       <ButtonContainer>
         <Button 
-          disabled={!isDirty || isSubmitted} 
-          icon={(!isSubmitted || isSubmitted) && <TiPlus />} 
-          content={(!isSubmitted || isSubmitted) ? 'Save' : 'Saving...'}
+          disabled={!isDirty || isSubmitting} 
+          icon={!isSubmitting && <TiPlus />} 
+          content={!isSubmitting ? 'Save' : 'Saving...'}
           accent 
         />
         {!contractor || !setIsBeingEdited ?

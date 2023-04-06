@@ -29,6 +29,9 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   
   const queryClient = useQueryClient();
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [message, setMessage] = useState<string>('');
+
   const createUser = useMutation({
     mutationFn: (data: UserFormData) => userService.create(data),
     onError: () => {
@@ -40,6 +43,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     onSettled: () => {
       queryClient.invalidateQueries(['users']);
       handleClear();
+      setIsSubmitting(false);
     },
   });
 
@@ -64,8 +68,6 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     },
   });
 
-  const [message, setMessage] = useState<string>('');
-
   const formSchema = z.object({
     id: z.number(),
     name: z.string().min(1, "Name is required"),
@@ -74,7 +76,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   });
 
   const { 
-    register, reset, handleSubmit, control, formState: { errors, isSubmitted, isDirty }
+    register, reset, handleSubmit, control, formState: { errors, isDirty }
   } = useForm<UserFormData>({
     defaultValues: {
       id: user ? user.id : 0,
@@ -90,8 +92,10 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   } = useController({ name: 'role', control});
 
   const onSubmit: SubmitHandler<UserFormData> = async data => {
+    if (isSubmitting) return;
     try {
       if (!user) {
+        setIsSubmitting(true);
         createUser.mutate(data);
       } else {
         setIsBeingEdited && setIsBeingEdited(false);
@@ -132,9 +136,9 @@ const UserForm = (props: UserFormProps): JSX.Element => {
       />
       <ButtonContainer>
         <Button 
-          disabled={!isDirty || isSubmitted} 
-          icon={!isSubmitted && <TiPlus />}
-          content={!isSubmitted ? 'Save' : 'Saving...'}
+          disabled={!isDirty || isSubmitting} 
+          icon={!isSubmitting && <TiPlus />}
+          content={!isSubmitting ? 'Save' : 'Saving...'}
           accent 
         />
         {!user || !setIsBeingEdited ?

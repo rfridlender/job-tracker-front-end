@@ -3,7 +3,7 @@ import { MoonLoader } from 'react-spinners';
 const LoadingSpinner = () => {
   return (
     <MoonLoader
-      color="#283618"
+      color="#8b0500"
       size={80}
     />
   );

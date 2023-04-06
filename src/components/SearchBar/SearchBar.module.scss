@@ -1,0 +1,40 @@
+$color-primary: #f8f9fa;
+$color-primary-shadow: #dee2e6;
+$color-secondary: #ced4da;
+$color-secondary-shadow: #6c757d;
+$color-accent: #8b0500;
+$color-accent-shadow: #4b0500;
+$color-text-primary: #212529;
+$color-text-secondary: #6c757d;
+$color-shadow: #6c757d;
+
+.container {
+  width: 100%;
+  max-width: 20rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: $color-primary;
+  box-shadow: 0 0 .25rem 0 $color-shadow;
+  border-radius: .25rem;
+  > input {
+    width: 100%;
+    height: 100%;
+    padding: 0 1rem;
+    background-color: $color-primary;
+    color: $color-text-primary;
+    border: none;
+    outline: none;
+    border-radius: .25rem;
+    font-size: 1rem;
+  }
+  > svg {
+    width: 3rem;
+    height: 100%;
+    padding: .75rem;
+    color: $color-text-primary;
+    border-left: 1px solid $color-text-secondary;
+    cursor: pointer;
+  }
+}

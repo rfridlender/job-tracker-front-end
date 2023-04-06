@@ -6,6 +6,7 @@ import * as contractorService from '../../services/contractorService';
 import ContractorCard from '../ContractorCard/ContractorCard';
 import ContractorForm from '../ContractorForm/ContractorForm';
 import styles from './ContractorList.module.scss';
+import SearchBar from '../SearchBar/SearchBar';
 
 const ContractorList = () => {
   const queryClient = useQueryClient();
@@ -31,17 +32,7 @@ const ContractorList = () => {
   return (
     <section className={styles.container}>
       <div className={styles.filters}>
-        <div className={styles.searchBar}>
-          <input 
-            type="text" placeholder="Search" 
-            value={search} onChange={handleSearch} 
-          />
-          {!search ?
-            <AiOutlineSearch />
-            :
-            <AiOutlineClose onClick={() => setSearch('')}/>
-          }
-        </div>
+        <SearchBar search={search} setSearch={setSearch} placeholder="Search" />
       </div>
       {!search && <ContractorForm />}
       {contractors?.map(contractor => (

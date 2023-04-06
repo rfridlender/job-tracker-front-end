@@ -5,6 +5,7 @@ import * as userService from '../../services/userService';
 import UserCard from '../UserCard/UserCard';
 import UserForm from '../UserForm/UserForm';
 import styles from './UserList.module.scss';
+import SearchBar from '../SearchBar/SearchBar';
 
 const UserList = () => {
   const queryClient = useQueryClient();
@@ -26,17 +27,7 @@ const UserList = () => {
   return (
     <section className={styles.container}>
       <div className={styles.filters}>
-        <div className={styles.searchBar}>
-          <input 
-            type="text" placeholder="Search" 
-            value={search} onChange={handleSearch} 
-          />
-          {!search ?
-            <AiOutlineSearch />
-            :
-            <AiOutlineClose onClick={() => setSearch('')}/>
-          }
-        </div>
+        <SearchBar search={search} setSearch={setSearch} placeholder="Search" />
       </div>
       {!search && <UserForm />}
       {users?.map(user => (

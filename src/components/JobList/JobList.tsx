@@ -10,6 +10,7 @@ import { useRef, useState } from 'react';
 import { AiOutlineClose, AiOutlineSearch, AiOutlineFilter } from 'react-icons/ai';
 import JobHeader from '../JobHeader/JobHeader';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
+import SearchBar from '../SearchBar/SearchBar';
 
 interface JobListProps {
   user: User;
@@ -88,17 +89,7 @@ const JobList = (props: JobListProps) => {
   return (
     <main className={styles.container}>
       <div className={styles.filters}>
-        <div className={styles.searchBar}>
-          <input 
-            type="text" placeholder="Search by address" 
-            value={search} onChange={handleSearch} 
-          />
-          {!search ?
-            <AiOutlineSearch />
-            :
-            <AiOutlineClose onClick={() => setSearch('')}/>
-          }
-        </div>
+        <SearchBar search={search} setSearch={setSearch} placeholder="Search by address" />
         <div className={styles.builderFilter}>
           <select onChange={handleBuilderFilter} value={builderFilter}>
               <option value="">Filter by builder</option>

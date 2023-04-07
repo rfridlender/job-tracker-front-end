@@ -1,0 +1,21 @@
+.container, .noPaddingContainer {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 1rem;
+}
+
+.container {
+  padding: 1rem;
+}
+
+.noPaddingContainer {
+  padding: 0;
+}
+
+@media screen and (max-width: 743px) {
+  .container, .noPaddingContainer {
+    flex-flow: column;
+  }
+}

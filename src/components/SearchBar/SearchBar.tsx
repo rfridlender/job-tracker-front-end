@@ -14,6 +14,7 @@ const SearchBar = (props: SearchBarProps) => {
   return (
     <div className={styles.container}>
       <input placeholder={placeholder} value={search} onChange={(e) => setSearch(e.target.value)} />
+      <div />
       {!search ? <AiOutlineSearch /> : <AiOutlineClose onClick={() => setSearch('')}/>}
     </div>
   );

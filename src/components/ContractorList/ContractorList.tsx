@@ -7,6 +7,7 @@ import ContractorCard from '../ContractorCard/ContractorCard';
 import ContractorForm from '../ContractorForm/ContractorForm';
 import styles from './ContractorList.module.scss';
 import SearchBar from '../SearchBar/SearchBar';
+import BarContainer from '../BarContainer/BarContainer';
 
 const ContractorList = () => {
   const queryClient = useQueryClient();
@@ -31,9 +32,9 @@ const ContractorList = () => {
 
   return (
     <section className={styles.container}>
-      <div className={styles.filters}>
+      <BarContainer noPadding>
         <SearchBar search={search} setSearch={setSearch} placeholder="Search" />
-      </div>
+      </BarContainer>
       {!search && <ContractorForm />}
       {contractors?.map(contractor => (
         <ContractorCard key={contractor.id} contractor={contractor} />

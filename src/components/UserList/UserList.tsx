@@ -6,6 +6,7 @@ import UserCard from '../UserCard/UserCard';
 import UserForm from '../UserForm/UserForm';
 import styles from './UserList.module.scss';
 import SearchBar from '../SearchBar/SearchBar';
+import BarContainer from '../BarContainer/BarContainer';
 
 const UserList = () => {
   const queryClient = useQueryClient();
@@ -26,9 +27,9 @@ const UserList = () => {
 
   return (
     <section className={styles.container}>
-      <div className={styles.filters}>
+      <BarContainer noPadding>
         <SearchBar search={search} setSearch={setSearch} placeholder="Search" />
-      </div>
+      </BarContainer>
       {!search && <UserForm />}
       {users?.map(user => (
         <UserCard key={user.id} user={user} />

@@ -13,6 +13,7 @@ import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import SearchBar from '../SearchBar/SearchBar';
 import { SelectOption } from '../../types/props';
 import FilterBar from '../FilterBar/FilterBar';
+import BarContainer from '../BarContainer/BarContainer';
 
 interface JobListProps {
   user: User;
@@ -93,12 +94,12 @@ const JobList = (props: JobListProps) => {
 
   return (
     <main className={styles.container}>
-      <div className={styles.filters}>
+      <BarContainer>
         <SearchBar search={search} setSearch={setSearch} placeholder="Search by address" />
         <FilterBar 
           filter={filter} setFilter={setFilter} options={options} placeholder="Filter by builder" 
         />
-      </div>
+      </BarContainer>
       <div 
         className={styles.scrollContainer} 
         ref={scrollContainer} 

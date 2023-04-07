@@ -19,22 +19,11 @@ $color-shadow: #6c757d;
   gap: 1rem;
   padding: 1rem;
   overflow-y: scroll;
-  > .filters {
-    width: 100%;
-    height: 3rem;
-    max-height: 3rem;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-  }
 }
 
-@media screen and (max-width: 744px) {
+@media screen and (max-width: 743px) {
   .container {
     justify-content: center;
-    > .filters {
-      justify-content: center;
-    }
   }
 }
 

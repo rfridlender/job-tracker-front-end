@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './JobForm.module.scss';
+import selectStyles from '../../UI/Select/Select.module.scss';
 import * as jobService from '../../../services/jobService';
 import { JobFormData, PhotoFormData } from '../../../types/forms';
 import { Role, Status } from '../../../types/enums';
@@ -9,6 +10,12 @@ import { TiPlus, TiCancel } from 'react-icons/ti';
 import { HiDocumentPlus, HiDocumentCheck, HiDocumentText } from 'react-icons/hi2';
 import Button from '../../UI/Button/Button';
 import ButtonContainer from '../../UI/ButtonContainer/ButtonContainer';
+import { z } from 'zod';
+import { Controller, SubmitHandler, useController, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Input from '../../UI/Input/Input';
+import { SelectOption } from '../../../types/props';
+import Select, { SingleValue } from 'react-select';
 
 interface JobFormProps {
   contractors: Contractor[] | undefined;
@@ -28,7 +35,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
   const queryClient = useQueryClient();
 
   const createJob = useMutation({
-    mutationFn: () => jobService.create(formData, photoData),
+    mutationFn: (data: JobFormData) => jobService.create(data, photoData),
     onMutate: async (newJob: JobFormData) => {
       await queryClient.cancelQueries(['jobs']);
       const previousJobs = queryClient.getQueryData<Job[]>(['jobs']);
@@ -44,7 +51,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
   });
 
   const updateJob = useMutation({
-    mutationFn: () => jobService.update(formData.id, formData, photoData),
+    mutationFn: (data: JobFormData) => jobService.update(data.id, data, photoData),
     onMutate: async (updatedJob: JobFormData) => {
       await queryClient.cancelQueries(['jobs']);
       const previousJobs = queryClient.getQueryData<Job[]>(['jobs']);
@@ -62,37 +69,50 @@ const JobForm = (props: JobFormProps): JSX.Element => {
     },
   });
 
-  const [formData, setFormData] = useState<JobFormData>({
-    id: job ? job.id : 0,
-    address: job ? job.address : '',
-    status: job ? job.status : Status.UPCOMING,
-    lockStatus: job ? job.lockStatus : '',
-    shelvingStatus: job ? job.shelvingStatus : '',
-    showerStatus: job ? job.showerStatus : '',
-    mirrorStatus: job ? job.mirrorStatus : '',
-    contractor: job ? job.contractor : undefined,
-    jobSiteAccess: job ? job.jobSiteAccess : '',
+  const formSchema = z.object({
+    id: z.number(),
+    address: z.string().min(1),
+    status: z.nativeEnum(Status),
+    lockStatus: z.string(),
+    shelvingStatus: z.string(),
+    showerStatus: z.string(),
+    mirrorStatus: z.string(),
+    contractor: z.object({
+      id: z.number(),
+      companyName: z.string().min(1),
+      contactName: z.string().min(1),
+      phoneNumber: z.string().regex(new RegExp('[0-9]{3}.[0-9]{3}.[0-9]{4}')),
+      email: z.string().min(1).email(),
+    }),
+    jobSiteAccess: z.string(),
   });
-  const [contractorFormData, setContractorFormData] = useState<string>(
-    job ? job.contractor.id.toString() : ''
-  );
+
+  const { register, handleSubmit, control, formState: { isValid } } = useForm<JobFormData>({
+    defaultValues: {
+      id: job ? job.id : 0,
+      address: job ? job.address : '',
+      status: job ? job.status : Status.UPCOMING,
+      lockStatus: job ? job.lockStatus : '',
+      shelvingStatus: job ? job.shelvingStatus : '',
+      showerStatus: job ? job.showerStatus : '',
+      mirrorStatus: job ? job.mirrorStatus : '',
+      contractor: job ? job.contractor : undefined,
+      jobSiteAccess: job ? job.jobSiteAccess : '',
+    },
+    resolver: zodResolver(formSchema),
+  });
+
+  const { field: { value: statusValue, onChange: onStatusChange } } = useController({ 
+    name: 'status', control 
+  });
+
+  const { field: { value: contractorValue, onChange: onContractorChange } } = useController({ 
+    name: 'contractor', control
+  });
+
   const [photoData, setPhotoData] = useState<PhotoFormData>({ 
     takeoffOne: null, takeoffTwo:null 
   });
-  
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    if (evt.target.name !== 'contractor') {
-      setFormData({ ...formData, [evt.target.name]: evt.target.value });
-    } else {
-      setContractorFormData(evt.target.value);
-      setFormData({ 
-        ...formData, 
-        contractor: contractors?.find(
-          contractor => contractor.id === parseInt(evt.target.value)
-        ), 
-      });
-    }
-  }
 
   const handleChangePhoto = (evt: React.ChangeEvent<HTMLInputElement>) => {
     evt.target.files && setPhotoData({ 
@@ -100,15 +120,14 @@ const JobForm = (props: JobFormProps): JSX.Element => {
     });
   }
 
-  const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
-    evt.preventDefault();
+  const onSubmit: SubmitHandler<JobFormData> = async data => {
     handleScroll();
     try {
       if (!job) {
-        createJob.mutate(formData);
+        createJob.mutate(data);
         setIsJobFormOpen && setIsJobFormOpen(false);
       } else {
-        updateJob?.mutate(formData);
+        updateJob?.mutate(data);
         setIsBeingEdited && setIsBeingEdited(false);
       }
     } catch (err) {
@@ -125,18 +144,22 @@ const JobForm = (props: JobFormProps): JSX.Element => {
     }
   }
 
-  const { 
-    address, status, 
-    lockStatus, shelvingStatus, showerStatus, mirrorStatus, 
-    contractor, jobSiteAccess
-  } = formData;
+  const statusOptions = Object.values(Status).map(role => {
+    const obj: SelectOption = { value: '', label: ''};
+    obj.value = role;
+    obj.label = role;
+    return obj;
+  });
 
-  const isFormInvalid = (): boolean => {
-    return !(address && status && contractor);
-  }
+  const contractorOptions = contractors?.map(contractor => {
+    const obj: SelectOption = { value: '', label: ''};
+    obj.value = contractor.companyName;
+    obj.label = contractor.companyName;
+    return obj;
+  });
 
   return (
-    <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={styles.container}>
       {user.role !== Role.ADMIN ?
         <>
           <div className={styles.inputContainer}>{job?.status}</div>
@@ -148,19 +171,18 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         </>
         :
         <>
-          <select 
-            className={styles.inputContainer} name="status" id="status" 
-            onChange={handleChange} value={status}
-          >
-            {Object.values(Status).map(status => (
-              <option key={status} value={status}>{status}</option>
-            ))}
-          </select>
-          <input
-            className={styles.inputContainer} type="text" id="address" 
-            value={address} name="address" onChange={handleChange} 
-            placeholder="Address"
+          <Controller name="status" control={control} render={() => (
+              <Select 
+                className={selectStyles.mediumContainer}
+                options={statusOptions} 
+                value={statusOptions.find(option => option.value === statusValue)}
+                onChange={(option: SingleValue<any>) => onStatusChange(option.value)}
+                placeholder="STATUS"
+                unstyled
+              />
+            )}
           />
+          <Input name="address" register={register} placeholder="Address" width={15} />
           <div className={styles.inputContainer} id={styles.takeoffContainer}>
             <label 
               htmlFor="takeoffOne" className={photoData.takeoffOne?.name && styles.active}
@@ -187,26 +209,10 @@ const JobForm = (props: JobFormProps): JSX.Element => {
           </div>
         </>
       }
-      <input
-        className={styles.inputContainer} type="text" id="lockStatus" 
-        value={lockStatus} name="lockStatus" onChange={handleChange} 
-        placeholder="Lock Status"
-      />
-      <input
-        className={styles.inputContainer} type="text" id="shelvingStatus" 
-        value={shelvingStatus} name="shelvingStatus" onChange={handleChange} 
-        placeholder="Shelving Status"
-      />
-      <input
-        className={styles.inputContainer} type="text" id="showerStatus" 
-        value={showerStatus} name="showerStatus" onChange={handleChange} 
-        placeholder="Shower Status"
-      />
-      <input
-        className={styles.inputContainer} type="text" id="mirrorStatus" 
-        value={mirrorStatus} name="mirrorStatus" onChange={handleChange} 
-        placeholder="Mirror Status"
-      />
+      <Input name="lockStatus" register={register} placeholder="Lock Status" width={15} />
+      <Input name="shelvingStatus" register={register} placeholder="Shelving Status" width={15} />
+      <Input name="showerStatus" register={register} placeholder="Shower Status" width={15} />
+      <Input name="mirrorStatus" register={register} placeholder="Mirror Status" width={15} />
       {user.role !== Role.ADMIN ?
         <>
           <div className={styles.inputContainer}>{job?.contractor.companyName}</div>
@@ -216,26 +222,27 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         </>
         :
         <>
-          <select 
-            className={styles.inputContainer} name="contractor" id="contractor" 
-            onChange={handleChange} value={contractorFormData}
-          >
-              <option value="">Builder</option>
-            {contractors?.map(contractor => (
-              <option key={contractor.id} value={contractor.id}>
-                {contractor.companyName}
-              </option>
-            ))}
-          </select>
-          <input
-            className={styles.inputContainer} type="text" id={styles.accessContainer}
-            value={jobSiteAccess} name="jobSiteAccess" onChange={handleChange} 
-            placeholder="Job Site Access"
+          <Controller name="contractor" control={control} render={() => (
+              <Select 
+                className={selectStyles.largeContainer}
+                isSearchable
+                options={contractorOptions} 
+                value={
+                  contractorOptions?.find(option => option.value === contractorValue?.companyName)
+                }
+                onChange={(option: SingleValue<any>) => onContractorChange(
+                  contractors?.find(contractor => contractor.companyName === option.value)
+                )}
+                placeholder="Builder"
+                unstyled
+              />
+            )}
           />
+          <Input name="jobSiteAccess" register={register} placeholder="Job Site Access" width={9} />
         </>
       }
       <ButtonContainer small>
-        <Button disabled={isFormInvalid()} icon={<TiPlus />} />
+        <Button disabled={!isValid} icon={<TiPlus />} />
         <Button onClick={handleCancelFunctions} icon={<TiCancel />} />
       </ButtonContainer>
     </form>

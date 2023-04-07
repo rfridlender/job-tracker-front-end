@@ -8,10 +8,9 @@ $color-text-primary: #212529;
 $color-text-secondary: #6c757d;
 $color-shadow: #6c757d;
 
-.container {
+.container, .mediumContainer, .largeContainer {
   width: 100%;
   height: 2rem;
-  margin-bottom: 2rem;
   [class$="-control"] {
     width: 100%;
     height: 100%;
@@ -89,4 +88,16 @@ $color-shadow: #6c757d;
       }
     }
   }
+}
+
+.mediumContainer {
+  width: 7rem;
+  min-width: 7rem;
+  margin: 0 .5rem;
+}
+
+.largeContainer {
+  width: 15rem;
+  min-width: 15rem;
+  margin: 0 .5rem;
 }

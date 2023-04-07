@@ -66,7 +66,7 @@ const JobCard = (props: JobCardProps) => {
   }
 
   const handleDoubleClick = (evt: MouseEvent<HTMLElement>) => {
-    if (evt.detail === 2) setIsBeingEdited(true);
+    evt.detail === 2 && setIsBeingEdited(true);
   }
 
   if (isBeingEdited) {
@@ -97,18 +97,18 @@ const JobCard = (props: JobCardProps) => {
               <AiOutlineUp />
             }
           </div>
-          <div id={styles.takeoffContainer}>
-            {job.takeoffOne && 
-              <Button 
-                onClick={() => setIsTakeoffOpen(1)} icon={<HiDocumentText />} 
-              />
-            }
-            {job.takeoffTwo && 
-              <Button 
-                onClick={() => setIsTakeoffOpen(2)} icon={<HiDocumentText />} 
-              />
-            }
-          </div>
+          <ButtonContainer small>
+              {job.takeoffOne && 
+                <Button 
+                  onClick={() => setIsTakeoffOpen(1)} icon={<HiDocumentText />} 
+                />
+              }
+              {job.takeoffTwo && 
+                <Button 
+                  onClick={() => setIsTakeoffOpen(2)} icon={<HiDocumentText />} 
+                />
+              }
+          </ButtonContainer>
           {!!isTakeoffOpen && 
             <div className={styles.takeoffOverlay} onClick={() => setIsTakeoffOpen(0)}>
               <img 

@@ -19,34 +19,12 @@ $color-shadow: #6c757d;
   align-items: center;
   background-color: $color-primary;
   z-index: 3;
-  font-weight: bold;
   border-bottom: 1px solid $color-secondary;
-  > .inputContainer:first-child {
-    width: 8rem;
-    min-width: 8rem;
+  > * {
+    margin: 0 .5rem;
   }
-  > .inputContainer {
-    width: 16rem;
-    min-width: 16rem;
-    height: 2rem;
-    border: none;
-    outline: none;
-    padding: 0 .5rem;
-    background-color: $color-primary;
-    border-bottom: 1px solid $color-text-primary;
-    transition: all .25s;
-    font-size: 1rem;
-    color: $color-text-primary;
-  }
-  > .inputContainer:hover {
-    border-bottom: 1px solid $color-accent;
-  }
-  > .inputContainer::placeholder {
-    color: $color-text-secondary;
-    transition: all .25s;
-  }
-  > .inputContainer:hover::placeholder {
-    color: $color-accent;
+  > div:last-child {
+    margin: 0;
   }
   > div.inputContainer {
     border: none;
@@ -60,8 +38,8 @@ $color-shadow: #6c757d;
     border: none;
   }
   > #takeoffContainer {
-    width: 5.5rem;
-    min-width: 5.5rem;
+    width: 4.5rem;
+    min-width: 4.5rem;
     height: 100%;
     display: flex;
     justify-content: flex-start;
@@ -88,9 +66,5 @@ $color-shadow: #6c757d;
     > input {
       display: none;
     }
-  }
-  > #accessContainer {
-    width: 10rem;
-    min-width: 10rem;
   }
 }

@@ -22,4 +22,10 @@ $color-shadow: #6c757d;
   > input {
     margin-bottom: 2rem;
   }
+  > div {
+    margin-bottom: 2rem;
+  }
+  > div:last-child {
+    margin-bottom: 0;
+  }
 }

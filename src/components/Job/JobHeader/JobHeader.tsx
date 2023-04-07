@@ -1,4 +1,5 @@
 import { TiPlus } from 'react-icons/ti';
+import { MouseEvent } from 'react';
 import { Role } from '../../../types/enums';
 import { User } from '../../../types/models';
 import styles from './JobHeader.module.scss';
@@ -13,8 +14,12 @@ interface JobHeaderProps {
 const JobHeader = (props: JobHeaderProps) => {
   const { user, handleOpenJobForm }= props;
 
+  const handleDoubleClick = (evt: MouseEvent<HTMLElement>) => {
+    evt.detail === 2 && handleOpenJobForm();
+  }
+
   return (
-    <header className={styles.container}>
+    <header className={styles.container} onClick={handleDoubleClick}>
       <div>Status</div>
       <div>Address</div>
       <div id={styles.takeoffContainer}>Takeoff</div>

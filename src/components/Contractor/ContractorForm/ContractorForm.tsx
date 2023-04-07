@@ -72,9 +72,7 @@ const ContractorForm = (props: ContractorFormProps): JSX.Element => {
     email: z.string().min(1, "Email is required").email("Email is invalid"),
   });
 
-  const { 
-    register, reset, handleSubmit, control, formState: { errors, isDirty }
-  } = useForm<ContractorFormData>({
+  const { register, reset, handleSubmit, control, formState: { errors, isDirty } } = useForm<ContractorFormData>({
     defaultValues: {
       id: contractor ? contractor.id : 0,
       companyName: contractor ? contractor.companyName : '',

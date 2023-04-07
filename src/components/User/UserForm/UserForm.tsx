@@ -87,9 +87,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
     resolver: zodResolver(formSchema),
   });
 
-  const { 
-    field: { value, onChange } 
-  } = useController({ name: 'role', control});
+  const { field: { value, onChange } } = useController({ name: 'role', control});
 
   const onSubmit: SubmitHandler<UserFormData> = async data => {
     if (isSubmitting) return;
@@ -127,8 +125,8 @@ const UserForm = (props: UserFormProps): JSX.Element => {
             className={selectStyles.container}
             isSearchable={false}
             options={options} 
-            value={value ? options.find(option => option.value === value) : value}
-            onChange={(option: SingleValue<any>) => onChange(option ? option.value : option)}
+            value={options.find(option => option.value === value)}
+            onChange={(option: SingleValue<any>) => onChange(option.value)}
             placeholder="ROLE"
             unstyled
           />

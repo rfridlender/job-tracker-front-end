@@ -82,15 +82,14 @@ const JobList = (props: JobListProps) => {
   const filteredJobs = jobQuery.data?.filter(job => 
     job.contractor.companyName.includes(filter)
   );
+  
   const searchedJobs = filteredJobs?.filter(job => 
     job.address.toLowerCase().includes(search.toLowerCase())
   );
+  
   const jobs = searchedJobs?.sort((a, b) => {
     return a.contractor.companyName > b.contractor.companyName ? 1 : -1;
   });
-
-  console.log(filter);
-  
 
   return (
     <main className={styles.container}>

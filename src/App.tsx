@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
-import Login from './pages/Login/Login';
-import ChangePassword from './pages/ChangePassword/ChangePassword';
-import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute';
+import Login from './components/Login/Login/Login';
+import ChangePassword from './components/ChangePassword/ChangePassword/ChangePassword';
+import ProtectedRoute from './components/Route/ProtectedRoute/ProtectedRoute';
 import * as authService from './services/authService';
 import { User } from './types/models';
 import { Role } from './types/enums';
-import AdminRoute from './components/AdminRoute/AdminRoute';
-import JobList from './components/JobList/JobList';
-import ContractorList from './components/ContractorList/ContractorList';
-import UserList from './components/UserList/UserList';
-import NavBar from './components/NavBar/NavBar';
-import SideBar from './components/SideBar/SideBar';
+import AdminRoute from './components/Route/AdminRoute/AdminRoute';
+import JobList from './components/Job/JobList/JobList';
+import ContractorList from './components/Contractor/ContractorList/ContractorList';
+import UserList from './components/User/UserList/UserList';
+import NavBar from './components/UI/NavBar/NavBar';
+import SideBar from './components/UI/SideBar/SideBar';
 
 const App = (): JSX.Element => {
   const navigate = useNavigate();

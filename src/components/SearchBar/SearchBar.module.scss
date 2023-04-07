@@ -25,16 +25,17 @@ $color-shadow: #6c757d;
     background-color: $color-primary;
     color: $color-text-primary;
     border: none;
+    border-right: 1px solid $color-text-secondary;
     outline: none;
-    border-radius: .25rem;
+    border-radius: .25rem 0 0 .25rem;
     font-size: 1rem;
   }
   > svg {
     width: 3rem;
+    min-width: 3rem;
     height: 100%;
     padding: .75rem;
     color: $color-text-primary;
-    border-left: 1px solid $color-text-secondary;
     cursor: pointer;
   }
 }

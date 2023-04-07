@@ -23,42 +23,6 @@ $color-shadow: #6c757d;
     align-items: center;
     gap: 1rem;
     padding: 1rem;
-    select {
-      width: 100%;
-      height: 3rem;
-      padding: 0 1rem;
-      font-size: 1rem;
-      border: none;
-      outline: none;
-      border-radius: .25rem;
-      background-color: $color-primary;
-      color: $color-text-primary;
-    }
-    > .builderFilter {
-      width: 100%;
-      max-width: 20rem;
-      height: 100%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      background-color: $color-primary;
-      border-radius: .25rem;
-      box-shadow: 0 0 .25rem 0 $color-shadow;
-      cursor: pointer;
-      > select {
-        cursor: pointer;
-      }
-      > svg {
-        width: 3rem;
-        height: 100%;
-        padding: .75rem;
-        border-left: 1px solid $color-secondary;
-        transition: all .25s;
-      }
-      > svg:hover {
-        background-color: $color-secondary;
-      }
-    }
   }
   > .scrollContainer {
     width: 100%;

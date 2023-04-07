@@ -11,6 +11,8 @@ import { AiOutlineClose, AiOutlineSearch, AiOutlineFilter } from 'react-icons/ai
 import JobHeader from '../JobHeader/JobHeader';
 import LoadingSpinner from '../LoadingSpinner/LoadingSpinner';
 import SearchBar from '../SearchBar/SearchBar';
+import { SelectOption } from '../../types/props';
+import FilterBar from '../FilterBar/FilterBar';
 
 interface JobListProps {
   user: User;
@@ -25,21 +27,13 @@ const JobList = (props: JobListProps) => {
   const jobQuery = useQuery<Job[]>(['jobs'], jobService.index);
 
   const [search, setSearch] = useState('');
-  const [builderFilter, setBuilderFilter] = useState('');
+  const [filter, setFilter] = useState('');
   const [isJobFormOpen, setIsJobFormOpen] = useState(false);
   const [scrollState, setScrollState] = useState({ 
     isScrolling: false, clientX: 0, scrollX: 0,
   });
 
   const scrollContainer = useRef<HTMLDivElement>(null);
-
-  const handleSearch = (evt: React.ChangeEvent<HTMLInputElement>): void => {
-    setSearch(evt.target.value);
-  }
-
-  const handleBuilderFilter = (evt: React.ChangeEvent<HTMLSelectElement>): void => {
-    setBuilderFilter(evt.target.value);
-  }
 
   const handleScroll = () => {
     if (scrollContainer.current) {
@@ -74,10 +68,18 @@ const JobList = (props: JobListProps) => {
       scrollState.clientX = evt.clientX;
     }
   }
-  
+
   const contractors = contractorQuery.data;
+
+  const options = contractors?.map(contractor => {
+    const obj: SelectOption = { value: '', label: ''};
+    obj.value = contractor.companyName;
+    obj.label = contractor.companyName;
+    return obj;
+  });
+  
   const filteredJobs = jobQuery.data?.filter(job => 
-    job.contractor.companyName.includes(builderFilter)
+    job.contractor.companyName.includes(filter)
   );
   const searchedJobs = filteredJobs?.filter(job => 
     job.address.toLowerCase().includes(search.toLowerCase())
@@ -86,25 +88,16 @@ const JobList = (props: JobListProps) => {
     return a.contractor.companyName > b.contractor.companyName ? 1 : -1;
   });
 
+  console.log(filter);
+  
+
   return (
     <main className={styles.container}>
       <div className={styles.filters}>
         <SearchBar search={search} setSearch={setSearch} placeholder="Search by address" />
-        <div className={styles.builderFilter}>
-          <select onChange={handleBuilderFilter} value={builderFilter}>
-              <option value="">Filter by builder</option>
-            {contractors?.map(contractor => (
-              <option key={contractor.id} value={contractor.companyName}>
-                {contractor.companyName}
-              </option>
-            ))}
-          </select>
-          {!builderFilter ?
-            <AiOutlineFilter />
-            :
-            <AiOutlineClose onClick={() => setBuilderFilter('')}/>
-          }
-        </div>
+        <FilterBar 
+          filter={filter} setFilter={setFilter} options={options} placeholder="Filter by builder" 
+        />
       </div>
       <div 
         className={styles.scrollContainer} 

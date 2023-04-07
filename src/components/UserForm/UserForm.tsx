@@ -88,7 +88,7 @@ const UserForm = (props: UserFormProps): JSX.Element => {
   });
 
   const { 
-    field: { value: roleValue, onChange: roleOnChange } 
+    field: { value, onChange } 
   } = useController({ name: 'role', control});
 
   const onSubmit: SubmitHandler<UserFormData> = async data => {
@@ -127,8 +127,8 @@ const UserForm = (props: UserFormProps): JSX.Element => {
             className={selectStyles.container}
             isSearchable={false}
             options={options} 
-            value={roleValue ? options.find(option => option.value === roleValue) : roleValue}
-            onChange={(option: SingleValue<any>) => roleOnChange(option ? option.value : option)}
+            value={value ? options.find(option => option.value === value) : value}
+            onChange={(option: SingleValue<any>) => onChange(option ? option.value : option)}
             placeholder="ROLE"
             unstyled
           />

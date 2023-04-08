@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import styles from './WorkLogForm.module.scss';
+import selectStyles from '../../UI/Select/Select.module.scss';
 import * as workLogService from '../../../services/workLogService';
 import { WorkLogFormData } from '../../../types/forms';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
@@ -9,6 +10,13 @@ import { hourDifferenceCalculator } from '../../../services/helpers';
 import { TiCancel, TiPlus } from 'react-icons/ti';
 import Button from '../../UI/Button/Button';
 import ButtonContainer from '../../UI/ButtonContainer/ButtonContainer';
+import { z } from 'zod';
+import { Controller, SubmitHandler, useController, useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import Input from '../../UI/Input/Input';
+import TableCell from '../../UI/TableCell/TableCell';
+import { SelectOption } from '../../../types/props';
+import Select, { SingleValue } from 'react-select';
 
 interface WorkLogFormProps {
   jobId: number;
@@ -20,52 +28,64 @@ interface WorkLogFormProps {
 }
 
 const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
-  const { 
-    jobId, user, setIsWorkLogFormOpen, workLog, 
-    setIsBeingEdited, handleScroll 
-  } = props;
+  const { jobId, user, setIsWorkLogFormOpen, workLog, setIsBeingEdited, handleScroll } = props;
 
   const queryClient = useQueryClient();
 
   const createWorkLog = useMutation({
-    mutationFn: () => workLogService.create(jobId, formData),
+    mutationFn: (data: WorkLogFormData) => workLogService.create(jobId, data),
     onSettled: () => queryClient.invalidateQueries(['jobs']),
   });
 
   const updateWorkLog = useMutation({
-    mutationFn: () => workLogService.update(jobId, formData.id, formData),
+    mutationFn: (data: WorkLogFormData) => workLogService.update(jobId, data.id, data),
     onSettled: () => queryClient.invalidateQueries(['jobs']),
   });
 
-  const [formData, setFormData] = useState<WorkLogFormData>({
-    id: workLog ? workLog.id : 0, 
-    category: workLog ? workLog.category : Category.LOCKS, 
-    workDate: workLog ? workLog.workDate : new Date().toISOString().substring(0, 10), 
-    startTime: workLog ? workLog.startTime : '09:00',
-    endTime: workLog ? workLog.endTime : '17:00',
-    workCompleted: workLog ? workLog.workCompleted : '',
-    completed: workLog ? workLog.completed : false,
-    incompleteItems: workLog ? workLog.incompleteItems : '',
-    keyNumber: workLog ? workLog.keyNumber : '',
+  const formSchema = z.object({
+    id: z.number(),
+    category: z.nativeEnum(Category),
+    workDate: z.string().min(10).max(10),
+    startTime: z.string().min(5).max(5),
+    endTime: z.string().min(5).max(5),
+    workCompleted: z.string().min(1),
+    completed: z.boolean(),
+    incompleteItems: z.string(),
+    keyNumber: z.string(),
   });
 
-  const handleChange = (evt: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    if (evt.target.name !== 'completed') {
-      setFormData({ ...formData, [evt.target.name]: evt.target.value });
-    } else {
-      setFormData({ ...formData, completed: !completed, incompleteItems: '' });
-    }
-  }
+  const { 
+    register, getValues, handleSubmit, control, formState: { isValid } 
+  } = useForm<WorkLogFormData>({
+    defaultValues: {
+      id: workLog ? workLog.id : 0, 
+      category: workLog ? workLog.category : Category.LOCKS, 
+      workDate: workLog ? workLog.workDate : new Date().toISOString().substring(0, 10), 
+      startTime: workLog ? workLog.startTime.substring(0, 5) : '09:00',
+      endTime: workLog ? workLog.endTime.substring(0, 5) : '17:00',
+      workCompleted: workLog ? workLog.workCompleted : '',
+      completed: workLog ? workLog.completed : false,
+      incompleteItems: workLog ? workLog.incompleteItems : '',
+      keyNumber: workLog ? workLog.keyNumber : '',
+    },
+    resolver: zodResolver(formSchema),
+  });
 
-  const handleSubmit = async (evt: React.FormEvent): Promise<void> => {
-    evt.preventDefault();
+  const { field: { value: categoryValue, onChange: onCategoryChange } } = useController({ 
+    name: 'category', control 
+  });
+
+  const { field } = useController({ name: 'completed', control });
+
+  const onSubmit: SubmitHandler<WorkLogFormData> = async data => {
+    console.log(data);
     handleScroll();
     try {
       if (!workLog) {
-        createWorkLog.mutate();
+        createWorkLog.mutate(data);
         setIsWorkLogFormOpen && setIsWorkLogFormOpen(false);
       } else {
-        updateWorkLog?.mutate();
+        updateWorkLog?.mutate(data);
         setIsBeingEdited && setIsBeingEdited(false);
       }
     } catch (err) {
@@ -82,82 +102,54 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
     }
   }
 
-  const { 
-    category, workDate, startTime, endTime, 
-    workCompleted, completed, incompleteItems, keyNumber 
-  } = formData;
-
-  const isFormInvalid = (): boolean => {
-    return !(category && workDate && startTime && endTime && workCompleted);
-  }
+  const categoryOptions = Object.values(Category).map(role => {
+    const obj: SelectOption = { value: '', label: ''};
+    obj.value = role;
+    obj.label = role;
+    return obj;
+  });
 
   return (
-    <form autoComplete="off" onSubmit={handleSubmit} className={styles.container}>
-      <input 
-        className={styles.dateInputContainer} type="date" id="workDate"
-        value={workDate} name="workDate" onChange={handleChange}
-        autoComplete="off" max={new Date().toISOString().substring(0, 10)} 
+    <form autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={styles.container}>
+      <Input type="date" name="workDate" register={register} width={8.5} />
+      <TableCell content={user.name} width={12} />
+      <Controller name="category" control={control} render={() => (
+          <Select 
+            className={selectStyles.mediumContainer}
+            isSearchable={false}
+            options={categoryOptions} 
+            value={categoryOptions.find(option => option.value === categoryValue)}
+            onChange={(option: SingleValue<any>) => onCategoryChange(option.value)}
+            unstyled
+          />
+        )}
       />
-      <div className={styles.nameInputContainer}>{user.name}</div>
-      <select 
-        className={styles.categoryInputContainer} name="category" id="category" 
-        onChange={handleChange} value={category}
-      >
-        {Object.values(Category).map(category => (
-          <option key={category} value={category}>{category.replaceAll('_', ' ')}</option>
-        ))}
-      </select>
-      <input 
-        className={styles.dateInputContainer} type="time" id="startTime" 
-        value={startTime} name="startTime" onChange={handleChange} 
-        autoComplete="off"
+      <Input type="time" name="startTime" register={register} width={8} />
+      <Input type="time" name="endTime" register={register} width={8} />
+      <TableCell 
+        content={hourDifferenceCalculator(getValues('startTime'), getValues('endTime'))} width={5}
       />
-      <input 
-        className={styles.dateInputContainer} type="time" id="endTime" 
-        value={endTime} name="endTime" onChange={handleChange} 
-        autoComplete="off"
-      />
-      <div className={styles.hourInputContainer}>
-        {hourDifferenceCalculator(startTime, endTime)}
-      </div>
-      <input 
-        className={styles.inputContainer} type="text" id="workCompleted" 
-        value={workCompleted} name="workCompleted" onChange={handleChange} 
-        autoComplete="off" placeholder="Work Completed"
-      />
-      <div className={styles.completedInputContainer}>
-        <label 
-          className={!completed ? styles.incompletedContainer : styles.completedContainer} htmlFor="completed"
-        >
-          Completed
+      <Input name="workCompleted" register={register} placeholder="Work Completed" />
+      <TableCell status="completed" width={8} smallPadding>
+        <label htmlFor={`completed${workLog?.id}`}>
+          {!getValues('completed') ? 'Incomplete' : 'Complete'}
         </label>
-        <input 
-          type="checkbox" id="completed"
-          checked={completed} name="completed" onChange={handleChange} 
-          autoComplete="off"
-        />
-      </div>
-      {completed ?
-        <div className={styles.inputContainer} />
+        <input type="checkbox" id={`completed${workLog?.id}`} {...register('completed')} />
+      </TableCell>
+      {getValues('completed') ?
+        <TableCell width={28.75} />
         :
-        <input 
-          className={styles.inputContainer} type="text" id="incompleteItems" 
-          value={incompleteItems} name="incompleteItems" onChange={handleChange} 
-          autoComplete="off" placeholder="Incomplete Items"
+        <Input 
+          name="incompleteItems" register={register} placeholder="Incomplete Items" width={28.25} 
         />
       }
-      {category !== Category.LOCKS ? 
-        <div className={styles.keyInputContainer} />
+      {getValues('category') !== Category.LOCKS ? 
+        <TableCell width={8} />
         :
-        <input 
-          className={styles.keyInputContainer} type="text" id="keyNumber" 
-          value={keyNumber} name="keyNumber" onChange={handleChange} 
-          autoComplete="off" placeholder="Key Number"
-          pattern="[0-9]{5}"
-        />
+        <Input name="keyNumber" register={register} placeholder="Key Number" width={7.5} />
       }
       <ButtonContainer small>
-        <Button icon={<TiPlus />} disabled={isFormInvalid()}/>
+        <Button disabled={!isValid} icon={<TiPlus />} />
         <Button onClick={handleCancelFunctions} icon={<TiCancel />} />
       </ButtonContainer>
     </form>

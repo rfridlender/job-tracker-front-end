@@ -5,7 +5,7 @@ import * as jobService from '../../../services/jobService';
 import { JobFormData, PhotoFormData } from '../../../types/forms';
 import { Role, Status } from '../../../types/enums';
 import { Contractor, Job, User } from '../../../types/models';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { TiPlus, TiCancel } from 'react-icons/ti';
 import { HiDocumentPlus, HiDocumentCheck, HiDocumentText } from 'react-icons/hi2';
 import Button from '../../UI/Button/Button';
@@ -179,7 +179,6 @@ const JobForm = (props: JobFormProps): JSX.Element => {
                 options={statusOptions} 
                 value={statusOptions.find(option => option.value === statusValue)}
                 onChange={(option: SingleValue<any>) => onStatusChange(option.value)}
-                placeholder="STATUS"
                 unstyled
               />
             )}

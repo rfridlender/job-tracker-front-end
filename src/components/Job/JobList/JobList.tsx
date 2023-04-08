@@ -48,28 +48,28 @@ const JobList = (props: JobListProps) => {
     handleScroll();
   }
 
-  const onMouseDown = (evt: React.MouseEvent<HTMLDivElement>) => {
-    setScrollState({ ...scrollState, isScrolling: true, clientX: evt.clientX });
-    if (scrollContainer.current) {
-      scrollContainer.current.style.cursor = 'grabbing';
-    }
-  }
+  // const onMouseDown = (evt: React.MouseEvent<HTMLDivElement>) => {
+  //   setScrollState({ ...scrollState, isScrolling: true, clientX: evt.clientX });
+  //   if (scrollContainer.current) {
+  //     scrollContainer.current.style.cursor = 'grabbing';
+  //   }
+  // }
 
-  const onMouseUp = (evt: React.MouseEvent<HTMLDivElement>) => {
-    setScrollState({ ...scrollState, isScrolling: false });
-    if (scrollContainer.current) {
-      scrollContainer.current.style.cursor = 'default';
-    }
-  }
+  // const onMouseUp = (evt: React.MouseEvent<HTMLDivElement>) => {
+  //   setScrollState({ ...scrollState, isScrolling: false });
+  //   if (scrollContainer.current) {
+  //     scrollContainer.current.style.cursor = 'default';
+  //   }
+  // }
 
-  const onMouseMove = (evt: React.MouseEvent<HTMLDivElement>) => {
-    const { clientX, scrollX } = scrollState;
-    if (scrollState.isScrolling && scrollContainer.current) {
-      scrollContainer.current.scrollLeft = (scrollX + evt.clientX - clientX) * -1;
-      scrollState.scrollX = scrollX + evt.clientX - clientX;
-      scrollState.clientX = evt.clientX;
-    }
-  }
+  // const onMouseMove = (evt: React.MouseEvent<HTMLDivElement>) => {
+  //   const { clientX, scrollX } = scrollState;
+  //   if (scrollState.isScrolling && scrollContainer.current) {
+  //     scrollContainer.current.scrollLeft = (scrollX + evt.clientX - clientX) * -1;
+  //     scrollState.scrollX = scrollX + evt.clientX - clientX;
+  //     scrollState.clientX = evt.clientX;
+  //   }
+  // }
 
   const contractors = contractorQuery.data;
 
@@ -103,9 +103,9 @@ const JobList = (props: JobListProps) => {
       <div 
         className={styles.scrollContainer} 
         ref={scrollContainer} 
-        onMouseDown={onMouseDown} 
-        onMouseUp={onMouseUp} 
-        onMouseMove={onMouseMove} 
+        // onMouseDown={onMouseDown} 
+        // onMouseUp={onMouseUp} 
+        // onMouseMove={onMouseMove} 
       >
         {!isJobFormOpen ?
           <JobHeader user={user} handleOpenJobForm={handleOpenJobForm} />

@@ -48,7 +48,8 @@ const WorkLogCard = (props: WorkLogCardProps) => {
   if (isBeingEdited) {
     return (
       <WorkLogForm 
-        jobId={jobId} user={user} workLog={workLog} setIsBeingEdited={setIsBeingEdited} handleScroll={handleScroll}
+        jobId={jobId} user={user} workLog={workLog} 
+        setIsBeingEdited={setIsBeingEdited} handleScroll={handleScroll}
       />
     );
   } else {

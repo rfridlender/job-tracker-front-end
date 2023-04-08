@@ -18,6 +18,7 @@ $color-shadow: #6c757d;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: $color-primary;
     border: 1px solid $color-text-secondary;
     border-radius: .25rem;
     cursor: pointer;

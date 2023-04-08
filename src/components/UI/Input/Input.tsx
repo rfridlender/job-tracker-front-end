@@ -5,7 +5,7 @@ interface InputProps {
   type?: string;
   name: Path<any>;
   register: UseFormRegister<any>;
-  placeholder: string;
+  placeholder?: string;
   width?: number;
 }
 

@@ -14,7 +14,7 @@ $color-invoiced: #006400;
 $color-paid: #7209b7;
 $color-retired: #212529;
 
-.container, .clickableContainer {
+.container {
   width: 100%;
   height: 100%;
   display: flex;
@@ -25,7 +25,8 @@ $color-retired: #212529;
     width: 2rem;
     height: 2rem;
     color: $color-text-primary;
-    border: 1px solid $color-secondary;
+    background-color: $color-primary;
+    border: 1px solid $color-text-secondary;
     border-radius: .25rem;
     cursor: pointer;
     transition: all .25s;
@@ -79,4 +80,15 @@ $color-retired: #212529;
 
 #clickable:hover {
   color: $color-accent;
+}
+
+#completed {
+  height: 2rem;
+  > label {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
 }

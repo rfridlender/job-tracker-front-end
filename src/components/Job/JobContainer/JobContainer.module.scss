@@ -10,17 +10,12 @@ $color-shadow: #6c757d;
 
 .container {
   width: fit-content;
-  height: 3rem;
-  min-height: 3rem;
-  position: sticky;
-  top: 0;
   display: flex;
-  justify-content: flex-start;
+  flex-flow: column;
+  justify-content: center;
   align-items: center;
-  background-color: $color-primary;
-  z-index: 3;
-  border-bottom: 1px solid $color-secondary;
-  > input {
-    margin: 0 .25rem;
+  > #divider {
+    width: 100%;
+    border-bottom: 1px solid $color-text-primary;
   }
 }

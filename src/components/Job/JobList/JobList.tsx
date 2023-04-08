@@ -14,6 +14,7 @@ import SearchBar from '../../UI/SearchBar/SearchBar';
 import { SelectOption } from '../../../types/props';
 import FilterBar from '../../UI/FilterBar/FilterBar';
 import BarContainer from '../../UI/BarContainer/BarContainer';
+import JobContainer from '../JobContainer/JobContainer';
 
 interface JobListProps {
   user: User;
@@ -122,7 +123,7 @@ const JobList = (props: JobListProps) => {
           Object.values(Status).map(status => (
             <section key={status} id={styles[status.toLowerCase()]}>
               {jobs?.filter(job => job.status === status).map(job => (
-                <JobCard 
+                <JobContainer 
                   key={job.id} contractors={contractors} job={job} 
                   user={user} handleScroll={handleScroll}
                 />

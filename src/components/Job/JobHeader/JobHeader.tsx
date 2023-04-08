@@ -5,6 +5,7 @@ import { User } from '../../../types/models';
 import styles from './JobHeader.module.scss';
 import Button from '../../UI/Button/Button';
 import ButtonContainer from '../../UI/ButtonContainer/ButtonContainer';
+import TableCell from '../../UI/TableCell/TableCell';
 
 interface JobHeaderProps {
   user: User;
@@ -20,15 +21,15 @@ const JobHeader = (props: JobHeaderProps) => {
 
   return (
     <header className={styles.container} onClick={handleDoubleClick}>
-      <div>Status</div>
-      <div>Address</div>
-      <div id={styles.takeoffContainer}>Takeoff</div>
-      <div>Lock Status</div>
-      <div>Shelving Status</div>
-      <div>Shower Status</div>
-      <div>Mirror Status</div>
-      <div>Builder</div>
-      <div id={styles.accessContainer}>Job Site Access</div>
+      <TableCell content="Status" width={8.5}/>
+      <TableCell content="Address" width={16.5} />
+      <TableCell content="Takeoff" width={5} />
+      <TableCell content="Lock Status" width={16.5} />
+      <TableCell content="Shelving Status" width={16.5} />
+      <TableCell content="Shower Status" width={16.5} />
+      <TableCell content="Mirror Status" width={16.5} />
+      <TableCell content="Builder" width={16.5} />
+      <TableCell content="Job Site Access" width={12.5} />
       <ButtonContainer small>
         {user.role === Role.ADMIN && <Button onClick={handleOpenJobForm} icon={<TiPlus />} />}
       </ButtonContainer>

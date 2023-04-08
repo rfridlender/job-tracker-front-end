@@ -1,0 +1,82 @@
+$color-primary: #f8f9fa;
+$color-primary-shadow: #dee2e6;
+$color-secondary: #ced4da;
+$color-secondary-shadow: #6c757d;
+$color-accent: #8b0500;
+$color-accent-shadow: #4b0500;
+$color-text-primary: #212529;
+$color-text-secondary: #6c757d;
+$color-shadow: #6c757d;
+$color-upcoming: #6c757d;
+$color-incomplete: #8b0500;
+$color-complete: #38b000;
+$color-invoiced: #006400;
+$color-paid: #7209b7;
+$color-retired: #212529;
+
+.container, .clickableContainer {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: .5rem;
+  > label {
+    width: 2rem;
+    height: 2rem;
+    color: $color-text-primary;
+    border: 1px solid $color-secondary;
+    border-radius: .25rem;
+    cursor: pointer;
+    transition: all .25s;
+    > svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+  > label:hover {
+    color: $color-accent;
+    border: 1px solid $color-accent;  
+  }
+  > input {
+    display: none;
+  }
+}
+
+#upcoming {
+  color: $color-primary;
+  background-color: $color-upcoming;
+}
+
+#incomplete {
+  color: $color-primary;
+  background-color: $color-incomplete;
+}
+
+#complete {
+  color: $color-primary;
+  background-color: $color-complete;
+}
+
+#invoiced {
+  color: $color-primary;
+  background-color: $color-invoiced;
+}
+
+#paid {
+  color: $color-primary;
+  background-color: $color-paid;
+}
+
+#retired {
+  color: $color-primary;
+  background-color: $color-retired;
+}
+
+#clickable {
+  cursor: pointer;
+}
+
+#clickable:hover {
+  color: $color-accent;
+}

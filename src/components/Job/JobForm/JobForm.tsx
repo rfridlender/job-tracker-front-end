@@ -16,6 +16,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import Input from '../../UI/Input/Input';
 import { SelectOption } from '../../../types/props';
 import Select, { SingleValue } from 'react-select';
+import TableCell from '../../UI/TableCell/TableCell';
 
 interface JobFormProps {
   contractors: Contractor[] | undefined;
@@ -162,12 +163,13 @@ const JobForm = (props: JobFormProps): JSX.Element => {
     <form autoComplete="off" onSubmit={handleSubmit(onSubmit)} className={styles.container}>
       {user.role !== Role.ADMIN ?
         <>
-          <div className={styles.inputContainer}>{job?.status}</div>
-          <div className={styles.inputContainer}>{job?.address}</div>
-          <div className={styles.inputContainer} id={styles.takeoffContainer}>
+          <TableCell content={job?.status} width={8.5} />
+          <TableCell content={job?.address} width={16.5} />
+          <TableCell content={job?.address} width={16.5} />
+          <TableCell width={5} smallPadding>
             {job?.takeoffOne && <HiDocumentText />}
             {job?.takeoffTwo && <HiDocumentText />}
-          </div>
+          </TableCell>
         </>
         :
         <>
@@ -182,43 +184,27 @@ const JobForm = (props: JobFormProps): JSX.Element => {
               />
             )}
           />
-          <Input name="address" register={register} placeholder="Address" width={15} />
-          <div className={styles.inputContainer} id={styles.takeoffContainer}>
-            <label 
-              htmlFor="takeoffOne" className={photoData.takeoffOne?.name && styles.active}
-            >
+          <Input name="address" register={register} placeholder="Address" width={16} />
+          <TableCell width={5} smallPadding>
+            <label htmlFor="takeoffOne">
               {!photoData.takeoffOne ? <HiDocumentPlus /> : <HiDocumentCheck />}
             </label>
-            <input
-              type="file"
-              id="takeoffOne"
-              name="takeoffOne"
-              onChange={handleChangePhoto}
-            />
-            <label 
-              htmlFor="takeoffTwo" className={photoData.takeoffTwo?.name && styles.active}
-            >
+            <input type="file" id="takeoffOne" name="takeoffOne" onChange={handleChangePhoto} />
+            <label htmlFor="takeoffTwo">
               {!photoData.takeoffTwo ? <HiDocumentPlus /> : <HiDocumentCheck />}
             </label>
-            <input
-              type="file"
-              id="takeoffTwo"
-              name="takeoffTwo"
-              onChange={handleChangePhoto}
-            />
-          </div>
+            <input type="file" id="takeoffTwo" name="takeoffTwo" onChange={handleChangePhoto} />
+          </TableCell>
         </>
       }
-      <Input name="lockStatus" register={register} placeholder="Lock Status" width={15} />
-      <Input name="shelvingStatus" register={register} placeholder="Shelving Status" width={15} />
-      <Input name="showerStatus" register={register} placeholder="Shower Status" width={15} />
-      <Input name="mirrorStatus" register={register} placeholder="Mirror Status" width={15} />
+      <Input name="lockStatus" register={register} placeholder="Lock Status" width={16} />
+      <Input name="shelvingStatus" register={register} placeholder="Shelving Status" width={16} />
+      <Input name="showerStatus" register={register} placeholder="Shower Status" width={16} />
+      <Input name="mirrorStatus" register={register} placeholder="Mirror Status" width={16} />
       {user.role !== Role.ADMIN ?
         <>
-          <div className={styles.inputContainer}>{job?.contractor.companyName}</div>
-          <div className={styles.inputContainer} id={styles.accessContainer}>
-            {job?.jobSiteAccess}
-          </div>
+          <TableCell content={job?.contractor.companyName} width={16.5} />
+          <TableCell content={job?.jobSiteAccess} width={12.5} />
         </>
         :
         <>
@@ -238,7 +224,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
               />
             )}
           />
-          <Input name="jobSiteAccess" register={register} placeholder="Job Site Access" width={9} />
+          <Input name="jobSiteAccess" register={register} placeholder="Job Site Access" width={12} />
         </>
       }
       <ButtonContainer small>

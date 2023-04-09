@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { useState } from 'react';
+import { useState, MouseEvent } from 'react';
 import { User, WorkLog } from '../../../types/models';
 import styles from './WorkLogCard.module.scss';
 import * as workLogService from '../../../services/workLogService';
@@ -46,6 +46,10 @@ const WorkLogCard = (props: WorkLogCardProps) => {
     handleScroll();
   }
 
+  const handleDoubleClick = (evt: MouseEvent<HTMLElement>) => {
+    evt.detail === 2 && user.name === workLog.employeeName && setIsBeingEdited(true);
+  }
+
   if (isBeingEdited) {
     return (
       <WorkLogForm 
@@ -55,7 +59,7 @@ const WorkLogCard = (props: WorkLogCardProps) => {
     );
   } else {
     return (
-      <div className={styles.container}>
+      <div className={styles.container} onClick={handleDoubleClick}>
         <TableCell content={workLog.workDate} width={9} />
         <TableCell content={workLog.employeeName} width={12} />
         <TableCell content={workLog.category} width={8.5} />

@@ -1,4 +1,5 @@
 import { TiPlus } from 'react-icons/ti';
+import { MouseEvent } from 'react';
 import styles from './WorkLogHeader.module.scss';
 import Button from '../../UI/Button/Button';
 import ButtonContainer from '../../UI/ButtonContainer/ButtonContainer';
@@ -11,8 +12,12 @@ interface WorkLogHeaderProps {
 const WorkLogHeader = (props: WorkLogHeaderProps) => {
   const { handleOpenWorkLogForm } = props;
 
+  const handleDoubleClick = (evt: MouseEvent<HTMLElement>) => {
+    evt.detail === 2 && handleOpenWorkLogForm();
+  }
+
   return (
-    <header className={styles.container}>
+    <header className={styles.container} onClick={handleDoubleClick}>
       <TableCell content="Work Date" width={9} />
       <TableCell content="Name" width={12} />
       <TableCell content="Category" width={8.5} />

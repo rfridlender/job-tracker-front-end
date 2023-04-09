@@ -31,9 +31,9 @@ const JobList = (props: JobListProps) => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('');
   const [isJobFormOpen, setIsJobFormOpen] = useState(false);
-  const [scrollState, setScrollState] = useState({ 
-    isScrolling: false, clientX: 0, scrollX: 0,
-  });
+  // const [scrollState, setScrollState] = useState({ 
+  //   isScrolling: false, clientX: 0, scrollX: 0,
+  // });
 
   const scrollContainer = useRef<HTMLDivElement>(null);
 

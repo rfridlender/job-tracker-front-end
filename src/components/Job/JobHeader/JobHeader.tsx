@@ -16,7 +16,7 @@ const JobHeader = (props: JobHeaderProps) => {
   const { user, handleOpenJobForm }= props;
 
   const handleDoubleClick = (evt: MouseEvent<HTMLElement>) => {
-    evt.detail === 2 && handleOpenJobForm();
+    evt.detail === 2 && user.role === Role.ADMIN && handleOpenJobForm();
   }
 
   return (

@@ -165,10 +165,9 @@ const JobForm = (props: JobFormProps): JSX.Element => {
         <>
           <TableCell content={job?.status} width={8.5} />
           <TableCell content={job?.address} width={16.5} />
-          <TableCell content={job?.address} width={16.5} />
           <TableCell width={5} smallPadding>
-            {job?.takeoffOne && <HiDocumentText />}
-            {job?.takeoffTwo && <HiDocumentText />}
+            {job?.takeoffOne && <label><HiDocumentText /></label>}
+            {job?.takeoffTwo && <label><HiDocumentText /></label>}
           </TableCell>
         </>
         :

@@ -14,8 +14,8 @@ const TableCell = (props: TableCellProps) => {
   const { content, children, width, smallPadding, onClick, status } = props;
 
   const divStyle = {
-    width: `${width}rem`,
-    minWidth: `${width}rem`,
+    width: width ? `${width}rem` : '100%',
+    minWidth: width ? `${width}rem` : '',
     padding: !smallPadding ? '0 .75rem' : '0 .25rem',
   };
 

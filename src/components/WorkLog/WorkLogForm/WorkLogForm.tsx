@@ -137,10 +137,10 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
         <input type="checkbox" id={`completed${workLog?.id}`} {...register('completed')} />
       </TableCell>
       {getValues('completed') ?
-        <TableCell width={28.75} />
+        <TableCell width={28.5} />
         :
         <Input 
-          name="incompleteItems" register={register} placeholder="Incomplete Items" width={28.25} 
+          name="incompleteItems" register={register} placeholder="Incomplete Items" width={28} 
         />
       }
       {getValues('category') !== Category.LOCKS ? 

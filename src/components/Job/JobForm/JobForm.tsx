@@ -185,14 +185,20 @@ const JobForm = (props: JobFormProps): JSX.Element => {
           />
           <Input name="address" register={register} placeholder="Address" width={16} />
           <TableCell width={5} smallPadding>
-            <label htmlFor="takeoffOne">
+            <label htmlFor={`takeoffOne${job?.id}`}>
               {!photoData.takeoffOne ? <HiDocumentPlus /> : <HiDocumentCheck />}
             </label>
-            <input type="file" id="takeoffOne" name="takeoffOne" onChange={handleChangePhoto} />
-            <label htmlFor="takeoffTwo">
+            <input 
+              type="file" id={`takeoffOne${job?.id}`} 
+              name="takeoffOne" onChange={handleChangePhoto} 
+            />
+            <label htmlFor={`takeoffTwo${job?.id}`}>
               {!photoData.takeoffTwo ? <HiDocumentPlus /> : <HiDocumentCheck />}
             </label>
-            <input type="file" id="takeoffTwo" name="takeoffTwo" onChange={handleChangePhoto} />
+            <input 
+              type="file" id={`takeoffTwo${job?.id}`} 
+              name="takeoffTwo" onChange={handleChangePhoto} 
+            />
           </TableCell>
         </>
       }

@@ -13,8 +13,8 @@ const Input = (props: InputProps) => {
   const { type, name, register, placeholder, width } = props;
 
   const inputStyle = {
-    width: `${width}rem`,
-    minWidth: `${width}rem`,
+    width: width ? `${width}rem` : '100%',
+    minWidth: width ? `${width}rem` : '',
   }
 
   return ( 

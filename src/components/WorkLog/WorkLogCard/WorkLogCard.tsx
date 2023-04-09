@@ -9,6 +9,7 @@ import { twentyFourToTwelveConvertor } from '../../../services/helpers';
 import DeleteOverlay from '../../UI/DeleteOverlay/DeleteOverlay';
 import Button from '../../UI/Button/Button';
 import ButtonContainer from '../../UI/ButtonContainer/ButtonContainer';
+import TableCell from '../../UI/TableCell/TableCell';
 
 interface WorkLogCardProps {
   jobId: number;
@@ -55,22 +56,16 @@ const WorkLogCard = (props: WorkLogCardProps) => {
   } else {
     return (
       <div className={styles.container}>
-        <div className={styles.dateContainer}>{workLog.workDate}</div>
-        <div className={styles.nameContainer}>{workLog.employeeName}</div>
-        <div className={styles.categoryContainer}>{workLog.category}</div>
-        <div className={styles.dateContainer}>
-          {twentyFourToTwelveConvertor(workLog.startTime)}
-        </div>
-        <div className={styles.dateContainer}>
-          {twentyFourToTwelveConvertor(workLog.endTime)}
-        </div>
-        <div className={styles.hourContainer}>
-          {`${workLog.hourDifference.toFixed(2)}h`}
-        </div>
-        <div>{workLog.workCompleted}</div>
-        <div className={styles.completedContainer}>{workLog.completed ? 'Yes' : 'No'}</div>
-        <div>{workLog.incompleteItems}</div>
-        <div className={styles.keyContainer}>{workLog.keyNumber}</div>
+        <TableCell content={workLog.workDate} width={9} />
+        <TableCell content={workLog.employeeName} width={12} />
+        <TableCell content={workLog.category} width={8.5} />
+        <TableCell content={twentyFourToTwelveConvertor(workLog.startTime)} width={8.5} />
+        <TableCell content={twentyFourToTwelveConvertor(workLog.endTime)} width={8.5} />
+        <TableCell content={`${workLog.hourDifference.toFixed(2)}h`} width={5} />
+        <TableCell content={workLog.workCompleted} />
+        <TableCell content={workLog.completed ? 'Yes' : 'No'} width={8} />
+        <TableCell content={workLog.incompleteItems} width={28.5} />
+        <TableCell content={workLog.keyNumber} width={8} />
         <ButtonContainer small>
           {user.name === workLog.employeeName && 
             <>

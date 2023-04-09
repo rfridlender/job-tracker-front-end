@@ -20,14 +20,14 @@ $color-shadow: #6c757d;
   background-color: $color-primary;
   z-index: 3;
   font-weight: bold;
-  border-bottom: 1px solid $color-secondary;
+  border-bottom: 1px solid $color-text-secondary;
   > div:nth-child(2) {
     position: sticky;
     left: 0;
     background-color: $color-primary;
   }
   > div {
-    border-right: 1px solid $color-secondary;
+    border-right: 1px solid $color-text-secondary;
   }
 }
 

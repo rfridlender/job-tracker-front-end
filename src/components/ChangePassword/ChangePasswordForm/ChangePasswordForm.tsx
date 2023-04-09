@@ -53,7 +53,9 @@ const ChangePasswordForm = (props: AuthFormProps): JSX.Element => {
       <Input type="password" name="oldPassword" register={register} placeholder="Current Password" />
       {errors.newPassword?.message && <ErrorContainer content={errors.newPassword.message} />}
       <Input type="password" name="newPassword" register={register} placeholder="New Password" />
-      {errors.newPasswordConf?.message && <ErrorContainer content={errors.newPasswordConf.message} />}
+      {errors.newPasswordConf?.message && 
+        <ErrorContainer content={errors.newPasswordConf.message} />
+      }
       <Input type="password" name="newPasswordConf" register={register} placeholder="Confirm Password" />
       <ButtonContainer>
         <Button disabled={!isDirty || isSubmitting} content={!isSubmitting ? 'Apply' : 'Applying...'} accent />

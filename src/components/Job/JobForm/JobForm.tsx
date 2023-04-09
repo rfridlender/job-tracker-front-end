@@ -176,6 +176,7 @@ const JobForm = (props: JobFormProps): JSX.Element => {
           <Controller name="status" control={control} render={() => (
               <Select 
                 className={selectStyles.mediumContainer}
+                isSearchable={false}
                 options={statusOptions} 
                 value={statusOptions.find(option => option.value === statusValue)}
                 onChange={(option: SingleValue<any>) => onStatusChange(option.value)}

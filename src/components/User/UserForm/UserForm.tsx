@@ -127,7 +127,6 @@ const UserForm = (props: UserFormProps): JSX.Element => {
             options={options} 
             value={options.find(option => option.value === value)}
             onChange={(option: SingleValue<any>) => onChange(option.value)}
-            unstyled
           />
         )}
       />

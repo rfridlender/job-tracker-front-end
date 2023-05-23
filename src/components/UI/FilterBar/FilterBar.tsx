@@ -21,7 +21,6 @@ const FilterBar = (props: FilterBarProps) => {
         onChange={(option: SingleValue<any>) => setFilter(option ? option.value : '')}
         placeholder="Filter by builder"
         isClearable
-        unstyled 
       />
   );
 }

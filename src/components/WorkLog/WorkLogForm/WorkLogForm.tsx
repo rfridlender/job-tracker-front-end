@@ -120,7 +120,6 @@ const WorkLogForm = (props: WorkLogFormProps): JSX.Element => {
             options={categoryOptions} 
             value={categoryOptions.find(option => option.value === categoryValue)}
             onChange={(option: SingleValue<any>) => onCategoryChange(option.value)}
-            unstyled
           />
         )}
       />

@@ -179,7 +179,6 @@ const JobForm = (props: JobFormProps): JSX.Element => {
                 options={statusOptions} 
                 value={statusOptions.find(option => option.value === statusValue)}
                 onChange={(option: SingleValue<any>) => onStatusChange(option.value)}
-                unstyled
               />
             )}
           />
@@ -225,7 +224,6 @@ const JobForm = (props: JobFormProps): JSX.Element => {
                   contractors?.find(contractor => contractor.companyName === option.value)
                 )}
                 placeholder="Builder"
-                unstyled
               />
             )}
           />

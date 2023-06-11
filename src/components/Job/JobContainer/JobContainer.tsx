@@ -10,10 +10,11 @@ interface JobContainerProps {
   job: Job;
   user: User;
   handleScroll: () => void;
+  areWorkLogsOpen: boolean;
 }
 
 const JobContainer = (props: JobContainerProps) => {
-  const { contractors, job, user, handleScroll } = props;
+  const { contractors, job, user, handleScroll, areWorkLogsOpen } = props;
 
   const [areContractorDetailsOpen, setAreContractorDetailsOpen] = useState(false);
   const [areWorkLogDetailsOpen, setAreWorkLogDetailsOpen] = useState(false);
@@ -29,7 +30,7 @@ const JobContainer = (props: JobContainerProps) => {
       />
       {areContractorDetailsOpen && <ContractorDetails contractor={job.contractor} />}
       {areContractorDetailsOpen && areWorkLogDetailsOpen && <div id={styles.divider} />}
-      {areWorkLogDetailsOpen && <WorkLogList job={job} user={user} handleScroll={handleScroll} />}
+      {(areWorkLogDetailsOpen || (areWorkLogsOpen && !!job.workLogs.length)) && <WorkLogList job={job} user={user} handleScroll={handleScroll} />}
     </article>
   );
 }

@@ -15,6 +15,7 @@ import { SelectOption } from '../../../types/props';
 import FilterBar from '../../UI/FilterBar/FilterBar';
 import BarContainer from '../../UI/BarContainer/BarContainer';
 import JobContainer from '../JobContainer/JobContainer';
+import Button from '../../UI/Button/Button';
 
 interface JobListProps {
   user: User;
@@ -31,6 +32,7 @@ const JobList = (props: JobListProps) => {
   const [search, setSearch] = useState('');
   const [filter, setFilter] = useState('');
   const [isJobFormOpen, setIsJobFormOpen] = useState(false);
+  const [areWorkLogsOpen, setAreWorkLogsOpen] = useState(false);
   // const [scrollState, setScrollState] = useState({ 
   //   isScrolling: false, clientX: 0, scrollX: 0,
   // });
@@ -99,6 +101,11 @@ const JobList = (props: JobListProps) => {
         <FilterBar 
           filter={filter} setFilter={setFilter} options={options} placeholder="Filter by builder" 
         />
+        <Button 
+          content={areWorkLogsOpen ? 'Collapse Work Logs' : 'Expand Work Logs'}
+          accent 
+          onClick={() => setAreWorkLogsOpen(!areWorkLogsOpen)}
+        />
       </BarContainer>
       <div 
         className={styles.scrollContainer} 
@@ -125,7 +132,7 @@ const JobList = (props: JobListProps) => {
               {jobs?.filter(job => job.status === status).map(job => (
                 <JobContainer 
                   key={job.id} contractors={contractors} job={job} 
-                  user={user} handleScroll={handleScroll}
+                  user={user} handleScroll={handleScroll} areWorkLogsOpen={areWorkLogsOpen}
                 />
               ))}
             </section>
